@@ -52,7 +52,7 @@ export default function Home() {
       <div className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar */}
         <header className="flex justify-between items-center px-4 md:px-6 py-4 bg-gray-50 shadow-sm relative">
-            <h1 className="text-3xl font-bold  hidden md:block ">Dashboard</h1>
+            <h1 className="text-3xl text-gray-600 font-bold  hidden md:block ">Dashboard</h1>
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button onClick={() => setOpenSidebar(true)}>
