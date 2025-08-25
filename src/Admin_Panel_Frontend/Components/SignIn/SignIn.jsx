@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEmail, setPassword } from "../../Redux/Slice";
-import { NavLink } from "react-router-dom";
+import { login, setEmail, setPassword } from "../../Redux/Slice";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const email = useSelector((state) => state.app.email);
   const password = useSelector((state) => state.app.password);
   const dispatch = useDispatch();
+  const Navigate=useNavigate();
 
+  
   const [toggle, setToggle] = useState(true);
   const [errors, setErrors] = useState({});
 
@@ -34,6 +36,9 @@ export default function SignIn() {
 
     if (Object.keys(newErrors).length === 0) {
       console.log("SignIn Submitted:", { email, password });
+      dispatch(login());
+      Navigate('/dashboard');
+
     }
   };
 
@@ -41,7 +46,7 @@ export default function SignIn() {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 to-gray-300 px-4">
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         
-         {/* Left Side */}
+        
                <div className="bg-gradient-to-br from-gray-800 to-gray-900 text-white p-8 md:p-10 flex flex-col justify-center">
                  <h2 className="text-3xl font-bold mb-4">Aggarwal Samaj</h2>
                  <p className="mb-6 text-base md:text-lg">
@@ -67,14 +72,14 @@ export default function SignIn() {
                  </p>
                </div>
 
-        {/* Right Side (Sign In Form) */}
+      
         <div className="p-6 sm:p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
             Sign In to Your Account
           </h2>
           <form onSubmit={handleLogin} className="space-y-5">
             
-            {/* Email */}
+           
             <div>
               <label className="block text-base md:text-lg font-medium text-gray-700 mb-1">
                 Email Address
@@ -91,7 +96,7 @@ export default function SignIn() {
               )}
             </div>
 
-            {/* Password */}
+            
             <div className="relative">
               <label className="block text-base md:text-lg font-medium text-gray-700 mb-1">
                 Password
@@ -131,7 +136,7 @@ export default function SignIn() {
               )}
             </div>
 
-            {/* Submit */}
+         
             <button
               type="submit"
               className="w-full bg-gray-900 hover:bg-gray-700 text-white py-3 rounded-full font-semibold shadow-md hover:scale-98 transition-transform duration-700 text-base md:text-lg"
