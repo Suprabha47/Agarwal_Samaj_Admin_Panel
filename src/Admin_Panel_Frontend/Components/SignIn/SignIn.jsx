@@ -9,9 +9,9 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const Navigate=useNavigate();
 
-  
   const [toggle, setToggle] = useState(true);
   const [errors, setErrors] = useState({});
+  const [loading,setLoading]=useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -36,8 +36,12 @@ export default function SignIn() {
 
     if (Object.keys(newErrors).length === 0) {
       console.log("SignIn Submitted:", { email, password });
-      dispatch(login());
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        dispatch(login());
       Navigate('/dashboard');
+      }, 500);
 
     }
   };
@@ -141,7 +145,15 @@ export default function SignIn() {
               type="submit"
               className="w-full bg-gray-900 hover:bg-gray-700 text-white py-3 rounded-full font-semibold shadow-md hover:scale-98 transition-transform duration-700 text-base md:text-lg"
             >
-              Sign In
+              {
+                !loading?
+                 <h1> Sign In</h1>:
+                 <p className="size-10 border-t-transparent border-5 rounded-full border-orange-500 animate-spin ml-45">
+
+                 </p>
+
+              }
+             
             </button>
           </form>
         </div>

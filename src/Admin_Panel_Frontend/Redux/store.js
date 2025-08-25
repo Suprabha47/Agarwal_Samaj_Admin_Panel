@@ -7,9 +7,12 @@ const persistConfig = {
   key: "root",
   storage,
   version: 2,
+/*
   migrate: (state) => {
     return Promise.resolve(undefined); 
   },
+
+*/
 };
 
 const userReducer=combineReducers({

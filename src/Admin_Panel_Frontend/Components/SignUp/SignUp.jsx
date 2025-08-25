@@ -6,7 +6,7 @@ import {
   setPassword,
   setUsername,
 } from "../../Redux/Slice";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const username = useSelector((state) => state.app.username);
@@ -14,6 +14,7 @@ export default function SignUp() {
   const password = useSelector((state) => state.app.password);
   const confirm_password = useSelector((state) => state.app.confirm_password);
   const dispatch = useDispatch();
+  const Navigate=useNavigate();
 
   const [toggle, setToggle] = useState(true);
   const [toggle2, setToggle2] = useState(true);
@@ -51,6 +52,10 @@ export default function SignUp() {
         password,
         confirm_password,
       });
+      setTimeout(() => {
+        Navigate('/')
+      }, 500);
+
     }
   };
 
