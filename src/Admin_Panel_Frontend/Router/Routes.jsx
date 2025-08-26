@@ -9,7 +9,8 @@ import Member from "../Components/Members/Member";
 import Classified from "../Components/Classified/Classified";
 import Donation from "../Components/Donations/Donation";
 import MemberShip from "../Components/Membership/MemberShip";
-
+import CreateMember from "../Components/Members/CreateMember";
+import MemberOutlet from "../Components/Members/MemberOutlet";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -30,38 +31,47 @@ export default function Routes() {
       ),
     },
     {
-        path:"/members",
-        element:(
-            <ProtectedRoute>
-                <Member/>
-            </ProtectedRoute>
-        )
+      path: "/members",
+      element: (
+        <ProtectedRoute>
+          <MemberOutlet />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "createMember",
+          element: <CreateMember />,
+        },
+        {
+          index: true,
+          element: <Member />,
+        },
+      ],
     },
     {
-        path:"/classified",
-        element:(
-            <ProtectedRoute>
-                <Classified/>
-            </ProtectedRoute>
-        )
+      path: "/classified",
+      element: (
+        <ProtectedRoute>
+          <Classified />
+        </ProtectedRoute>
+      ),
     },
-     {
-        path:"/donations",
-        element:(
-            <ProtectedRoute>
-              <Donation/>
-            </ProtectedRoute>
-        )
+    {
+      path: "/donations",
+      element: (
+        <ProtectedRoute>
+          <Donation />
+        </ProtectedRoute>
+      ),
     },
-     {
-        path:"/membership",
-        element:(
-            <ProtectedRoute>
-              <MemberShip/>
-            </ProtectedRoute>
-        )
+    {
+      path: "/membership",
+      element: (
+        <ProtectedRoute>
+          <MemberShip />
+        </ProtectedRoute>
+      ),
     },
-
   ]);
 
   return <RouterProvider router={router} />;

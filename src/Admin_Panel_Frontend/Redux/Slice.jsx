@@ -1,4 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const MemberApi=createAsyncThunk('api',async()=>{
+    let response=await axios.get('./Member.json');
+    return response.data;
+})
 
 export const Slice=createSlice({
     name:"app",
@@ -7,7 +13,11 @@ export const Slice=createSlice({
         email:"",
         password:"",
         confirm_password:"",
-        isLoggedIn:false
+        isLoggedIn:false,
+        loading:false,
+        Members:[],
+        error:null
+
     },
     reducers:{
         setUsername:(state,action)=>{
@@ -31,6 +41,18 @@ export const Slice=createSlice({
       localStorage.setItem("auth", JSON.stringify(state));
     },
 
+    },
+    extraReducers:(boiler)=>{
+        boiler.addCase(MemberApi.pending,(state)=>{
+            state.loading=true
+        
+        }).addCase(MemberApi.fulfilled,(state,action)=>{
+            state.loading=false
+            state.Members=action.payload
+        }).addCase(MemberApi.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.payload.error
+        })
     }
 });
 

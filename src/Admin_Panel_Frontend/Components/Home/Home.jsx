@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Dashboard from "../Dashboard/Dashboard";
+import Sidebar from "../Sidebar/Sidebar";
 import {
   BellIcon,
   ArrowRightOnRectangleIcon,
@@ -18,16 +18,15 @@ import toast, { Toaster } from "react-hot-toast";
 export default function Home() {
   const [openMenu, setOpenMenu] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const email=useSelector((state)=>state.app.email);
-  const dispatch=useDispatch();
-  const Navigate=useNavigate();
+  const email = useSelector((state) => state.app.email);
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-
       {/* Sidebar - Desktop */}
       <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-lg">
-        <Dashboard />
+        <Sidebar />
       </div>
 
       {/* Sidebar - Mobile */}
@@ -44,15 +43,18 @@ export default function Home() {
           >
             <XMarkIcon className="h-7 w-7" />
           </button>
-          <Dashboard />
+          <Sidebar />
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar */}
-        <header className="flex justify-between items-center px-4 md:px-6 py-4 bg-gray-50 shadow-sm relative">
-            <h1 className="text-3xl text-gray-600 font-bold  hidden md:block ">Dashboard</h1>
+        <header className="fixed top-0 left-0 md:left-64 right-0 z-50 flex justify-between items-center px-4 md:px-6 py-4 bg-gray-50 shadow-sm">
+          <h1 className="text-3xl text-gray-600 font-bold hidden md:block">
+            Dashboard
+          </h1>
+
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button onClick={() => setOpenSidebar(true)}>
@@ -73,9 +75,9 @@ export default function Home() {
                 onClick={() => setOpenMenu(!openMenu)}
                 className="flex items-center space-x-2"
               >
-             <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg">
-            👤
-          </div>
+                <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg">
+                  👤
+                </div>
               </button>
 
               {openMenu && (
@@ -85,19 +87,21 @@ export default function Home() {
                     <p className="text-sm text-gray-500">{email}</p>
                   </div>
 
-                  <div
-                    to="/"
-                    className="flex items-center px-4 py-3 bg-gray-800 text-white hover:bg-gray-700 text-base"
-                  >
-                    <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" /> 
-                    <button onClick={()=>{
-                        toast.success("Logout Successfully")
-                     setTimeout(() => {
-                        dispatch(logout())
-                        Navigate('/')
-                     }, 1000);
-                        
-                    }}>Logout</button>
+                  <div className="flex items-center px-4 py-3 bg-gray-800 text-white hover:bg-gray-700 text-base">
+                    <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
+                    <button
+                      onClick={() => {
+                        toast.success("Logout Successfully");
+                        setTimeout(() => {
+                          localStorage.removeItem("token");
+                          console.log(localStorage.removeItem("token"));
+                          dispatch(logout());
+                          Navigate("/");
+                        }, 1000);
+                      }}
+                    >
+                      Logout
+                    </button>
                   </div>
                 </div>
               )}
@@ -106,9 +110,8 @@ export default function Home() {
         </header>
 
         {/* Dashboard Content */}
-        <main className="p-6">
+        <main className="p-6 mt-20">
           {/* Header Text */}
-         
           <h1 className="text-3xl font-bold mt-1">Welcome back, Admin</h1>
           <p className="text-lg text-gray-600 mb-6">
             Here's what's happening with your organization today.
@@ -180,9 +183,13 @@ export default function Home() {
                   <div>
                     <p className="text-gray-800">
                       New classified ad posted:{" "}
-                      <span className="font-medium">'Vintage Car for Sale'</span>
+                      <span className="font-medium">
+                        'Vintage Car for Sale'
+                      </span>
                     </p>
-                    <span className="text-sm text-gray-500">15 minutes ago</span>
+                    <span className="text-sm text-gray-500">
+                      15 minutes ago
+                    </span>
                   </div>
                 </li>
 
@@ -214,9 +221,7 @@ export default function Home() {
               <h2 className="text-xl font-semibold text-green-700 mb-4">
                 Quick Actions
               </h2>
-              <p className="text-gray-600 mb-4">
-                Common administrative tasks
-              </p>
+              <p className="text-gray-600 mb-4">Common administrative tasks</p>
 
               <ul className="space-y-4">
                 <li className="flex items-center space-x-3">
@@ -243,10 +248,7 @@ export default function Home() {
             </div>
           </div>
         </main>
-        <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
+        <Toaster position="top-center" reverseOrder={false} />
       </div>
     </div>
   );

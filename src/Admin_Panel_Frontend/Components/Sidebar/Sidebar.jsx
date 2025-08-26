@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-export default function Dashboard() {
-  const email=useSelector((state)=>state.app.email);
+export default function Sidebar() {
+  const email = useSelector((state) => state.app.email);
   return (
     <div className="h-full w-64 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg flex flex-col">
       {/* Header */}

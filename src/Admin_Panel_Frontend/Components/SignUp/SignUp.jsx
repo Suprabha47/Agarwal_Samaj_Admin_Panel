@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { Toaster, toast } from "react-hot-toast";
 import {
   setConfirmPassword,
   setEmail,
@@ -7,23 +9,24 @@ import {
   setUsername,
 } from "../../Redux/Slice";
 import { NavLink, useNavigate } from "react-router-dom";
-
+ 
 export default function SignUp() {
   const username = useSelector((state) => state.app.username);
   const email = useSelector((state) => state.app.email);
   const password = useSelector((state) => state.app.password);
   const confirm_password = useSelector((state) => state.app.confirm_password);
   const dispatch = useDispatch();
-  const Navigate=useNavigate();
-
+  const Navigate = useNavigate();
+ 
   const [toggle, setToggle] = useState(true);
   const [toggle2, setToggle2] = useState(true);
   const [errors, setErrors] = useState({});
-
+ 
   const handleCreate = async (e) => {
     e.preventDefault();
     let newErrors = {};
-
+ 
+    // 🔎 Validation
     if (!username.trim()) newErrors.username = "Username is required";
     if (!email.trim()) {
       newErrors.email = "Email is required";
@@ -39,26 +42,46 @@ export default function SignUp() {
     if (!confirm_password.trim()) {
       newErrors.confirm_password = "Confirm Password is required";
     } else if (password !== confirm_password) {
-      newErrors.confirm_password =
-        "Password and Confirm Password do not match";
+      newErrors.confirm_password = "Password and Confirm Password do not match";
     }
-
+ 
     setErrors(newErrors);
-
+ 
+    // 🚀 If no errors, call API
     if (Object.keys(newErrors).length === 0) {
-      console.log(" Submitted:", {
-        username,
-        email,
-        password,
-        confirm_password,
-      });
-      setTimeout(() => {
-        Navigate('/')
-      }, 500);
-
+      try {
+        const response = await axios.post(
+          "http://localhost:4005/api/auth/sign-up",
+          {
+            username,
+            email,
+            password,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+ 
+        console.log("✅ User created:", response.data);
+        toast.success("User created successfully!");
+ 
+        setTimeout(() => {
+          Navigate("/");
+        }, 500);
+      } catch (error) {
+        if (error.response) {
+          // Server responded with error status
+          console.error("❌ API Error:", error.response.data);
+          toast.error(error.response.data.error || "Failed to create user");
+        } else {
+          // Network or other error
+          console.error("❌ Network Error:", error.message);
+          toast.error("Something went wrong, please try again.");
+        }
+      }
     }
   };
-
+ 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 to-gray-300 px-4">
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
@@ -87,7 +110,7 @@ export default function SignUp() {
             </NavLink>
           </p>
         </div>
-
+ 
         {/* Right Side */}
         <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
@@ -109,7 +132,7 @@ export default function SignUp() {
                 <p className="text-red-500 text-base mt-1">{errors.username}</p>
               )}
             </div>
-
+ 
             {/* Email */}
             <div>
               <label className="block text-base md:text-lg font-medium text-gray-700 mb-1">
@@ -125,7 +148,7 @@ export default function SignUp() {
                 <p className="text-red-500 text-base mt-1">{errors.email}</p>
               )}
             </div>
-
+ 
             {/* Password */}
             <div className="relative">
               <label className="block text-base md:text-lg font-medium text-gray-700 mb-1">
@@ -162,12 +185,10 @@ export default function SignUp() {
                 Password must be at least 8 characters long
               </p>
               {errors.password && (
-                <p className="text-red-500 text-base mt-1">
-                  {errors.password}
-                </p>
+                <p className="text-red-500 text-base mt-1">{errors.password}</p>
               )}
             </div>
-
+ 
             {/* Confirm Password */}
             <div className="relative">
               <label className="block text-base md:text-lg font-medium text-gray-700 mb-1">
@@ -176,9 +197,7 @@ export default function SignUp() {
               <input
                 type={toggle2 ? "password" : "text"}
                 value={confirm_password}
-                onChange={(e) =>
-                  dispatch(setConfirmPassword(e.target.value))
-                }
+                onChange={(e) => dispatch(setConfirmPassword(e.target.value))}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-gray-800 pr-12"
               />
               <button
@@ -208,7 +227,7 @@ export default function SignUp() {
                 </p>
               )}
             </div>
-
+ 
             <button
               type="submit"
               className="w-full bg-gray-900 hover:bg-gray-700 text-white py-3 rounded-full font-semibold shadow-md hover:scale-98 transition-transform duration-700 text-base md:text-lg"
@@ -218,6 +237,7 @@ export default function SignUp() {
           </form>
         </div>
       </div>
+      <Toaster position="top-center" />
     </div>
   );
 }
