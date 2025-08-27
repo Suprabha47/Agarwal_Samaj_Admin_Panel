@@ -34,18 +34,43 @@ export default function Member() {
  const BasicMembers=Members.filter((users)=>users.subscription===0);
  const Premium_Membership=Members.filter((users)=>users.subscription===1);
 
-const filterData=filters==='All'?Members:Members.filter((user)=>user.subscription.toString()===filters);
+const filterData=filters==='All'?Members:Members.filter((user)=>
+(
+  user.subscription.toString()===filters||
+  user.manglik===filters
 
-const filterSearch=filterData.filter((user)=>{
-  return(
-    user.name.toLowerCase().includes(search.toLowerCase()) ||
-    user.gender.toLowerCase().includes(search.toLowerCase()) ||
-    user.gotra.toLowerCase().includes(search.toLowerCase()) ||
-    user.birth_place.toLowerCase().includes(search.toLowerCase()) ||
-    user.age.toString().includes(search)
-  )
-})
+)
+);
+const normalize = (str) => String(str || "").toLowerCase().replace(/\s+/g, "");
+// search 
+const filterSearch = filterData.filter((user) =>
 
+  [ 
+    user.name, 
+    user.gotra, 
+    new Date().getFullYear() - new Date(user.dob).getFullYear(), 
+    user.religion || "Hindu", // default fallback,
+    user.contact_no,
+    user.state,
+    user.candidate_gender,
+    user.status_of_family,
+    user.education,
+    user.father_name,
+    user.designation,
+    user.occupation,
+    user.body_type,
+    user.company_name,
+    user.address,
+    user.designation,
+    user.mother_name,
+    user.pin_code,
+    user.district,
+    user.native_place,
+    user.annual_income
+
+  ]
+  .some((field) => normalize(field).includes(normalize(search)))
+);
   const Navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -193,9 +218,11 @@ const filterSearch=filterData.filter((user)=>{
                 <select className="border-gray-200 border-2 rounded-lg px-3 py-2 text-base font-semibold"
                 value={filters} onChange={(e)=>setFilter(e.target.value)}
                 >
-                  <option value={'All'}>All Types</option>
+                  <option value={'All'}>All</option>
                   <option value={0}>Basic</option>
                   <option value={1}>Membership</option>
+                  <option value={'Yes'}>Manglik</option>
+
                 </select>
               </div>
             </div>

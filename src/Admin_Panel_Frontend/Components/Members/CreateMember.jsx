@@ -7,7 +7,7 @@ import Header from '../Header/Header';
 
 
 export default function CreateMember() {
-   
+  
       const [openSidebar, setOpenSidebar] = useState(false);
 
         const [step, setStep] = useState(1);
