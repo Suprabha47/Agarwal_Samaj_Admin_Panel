@@ -1,29 +1,16 @@
-import React, { useRef, useState } from 'react'
+import React, {  useState } from 'react'
 import Sidebar from '../Sidebar/Sidebar'
-import {
-  Bell, 
-  LogOut 
-} from "lucide-react";
 import * as Yup from 'yup';
-
-
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { logout } from '../../Redux/Slice';
-import toast from 'react-hot-toast';
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useFormik } from 'formik';
+import Header from '../Header/Header';
 
 
 export default function CreateMember() {
-      const [openMenu, setOpenMenu] = useState(false);
+   
       const [openSidebar, setOpenSidebar] = useState(false);
-       const email = useSelector((state) => state.app.email);
-        const [step, setStep] = useState(1);
 
-        const menuRef = useRef(null);
-        const Navigate = useNavigate();
-        const dispatch = useDispatch();
+        const [step, setStep] = useState(1);
 
         const formik=useFormik({
         initialValues:{
@@ -183,8 +170,8 @@ export default function CreateMember() {
       case 1:
         return (
     <div className="w-full max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-  <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-    Candidate Basic Information
+  <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+    Member Basic Information
   </h1>
 
   <div className="space-y-5">
@@ -198,7 +185,7 @@ export default function CreateMember() {
         name="name"
         value={formik.values.name}
         onChange={formik.handleChange}
-        className="w-full rounded-md border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full rounded-md border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
       />
       {formik.errors.name && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.name}</p>
@@ -215,7 +202,7 @@ export default function CreateMember() {
         name="dob"
         value={formik.values.dob}
         onChange={formik.handleChange}
-        className="w-full rounded-md border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full rounded-md border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
       />
       {formik.errors.dob && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.dob}</p>
@@ -232,7 +219,7 @@ export default function CreateMember() {
         name="birth_place"
         value={formik.values.birth_place}
         onChange={formik.handleChange}
-        className="w-full rounded-md border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full rounded-md border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
       />
       {formik.errors.birth_place && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.birth_place}</p>
@@ -248,7 +235,7 @@ export default function CreateMember() {
         name="candidate_gender"
         value={formik.values.candidate_gender}
         onChange={formik.handleChange}
-        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
       >
         <option value="">Select</option>
         <option value="Male">Male</option>
@@ -270,7 +257,7 @@ export default function CreateMember() {
         name="manglik"
         value={formik.values.manglik}
         onChange={formik.handleChange}
-        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
       >
         <option value="">Select</option>
         <option value="Yes">Yes</option>
@@ -291,7 +278,7 @@ export default function CreateMember() {
         name="gotra"
         value={formik.values.gotra}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.gotra && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.gotra}</p>
@@ -308,7 +295,7 @@ export default function CreateMember() {
         name="maternal_gotra"
         value={formik.values.maternal_gotra}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.maternal_gotra && (
         <p className="text-red-500 text-sm mt-1">
@@ -324,7 +311,7 @@ export default function CreateMember() {
       case 2:
         return (
          <div className="w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
-  <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+  <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
     Family Information
   </h1>
 
@@ -339,7 +326,7 @@ export default function CreateMember() {
         name="father_name"
         value={formik.values.father_name}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.father_name && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.father_name}</p>
@@ -356,7 +343,7 @@ export default function CreateMember() {
         name="father_mobile"
         value={formik.values.father_mobile}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.father_mobile && (
         <p className="text-red-500 text-sm mt-1">
@@ -375,7 +362,7 @@ export default function CreateMember() {
         name="father_occupation"
         value={formik.values.father_occupation}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.father_occupation && (
         <p className="text-red-500 text-sm mt-1">
@@ -394,7 +381,7 @@ export default function CreateMember() {
         name="father_annual_income"
         value={formik.values.father_annual_income}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.father_annual_income && (
         <p className="text-red-500 text-sm mt-1">
@@ -413,7 +400,7 @@ export default function CreateMember() {
         name="mother_name"
         value={formik.values.mother_name}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.mother_name && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.mother_name}</p>
@@ -430,7 +417,7 @@ export default function CreateMember() {
         name="mother_occupation"
         value={formik.values.mother_occupation}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.mother_occupation && (
         <p className="text-red-500 text-sm mt-1">
@@ -449,7 +436,7 @@ export default function CreateMember() {
         name="grandfather"
         value={formik.values.grandfather}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.grandfather && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.grandfather}</p>
@@ -466,7 +453,7 @@ export default function CreateMember() {
         name="native_place"
         value={formik.values.native_place}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.native_place && (
         <p className="text-red-500 text-sm mt-1">
@@ -485,7 +472,7 @@ export default function CreateMember() {
         name="nationality"
         value={formik.values.nationality}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.nationality && (
         <p className="text-red-500 text-sm mt-1">
@@ -504,7 +491,7 @@ export default function CreateMember() {
         name="status_of_family"
         value={formik.values.status_of_family}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.status_of_family && (
         <p className="text-red-500 text-sm mt-1">
@@ -520,7 +507,7 @@ export default function CreateMember() {
       case 3:
         return (
       <div className="w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
-  <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+  <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
     Contact Information
   </h2>
 
@@ -535,7 +522,7 @@ export default function CreateMember() {
         name="address"
         value={formik.values.address}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.address && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.address}</p>
@@ -552,7 +539,7 @@ export default function CreateMember() {
         name="country"
         value={formik.values.country}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.country && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.country}</p>
@@ -569,7 +556,7 @@ export default function CreateMember() {
         name="state"
         value={formik.values.state}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.state && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.state}</p>
@@ -586,7 +573,7 @@ export default function CreateMember() {
         name="district"
         value={formik.values.district}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.district && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.district}</p>
@@ -603,7 +590,7 @@ export default function CreateMember() {
         name="pin_code"
         value={formik.values.pin_code}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.pin_code && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.pin_code}</p>
@@ -620,7 +607,7 @@ export default function CreateMember() {
         name="phone"
         value={formik.values.phone}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.phone && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.phone}</p>
@@ -637,7 +624,7 @@ export default function CreateMember() {
         name="contact_no"
         value={formik.values.contact_no}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.contact_no && (
         <p className="text-red-500 text-sm mt-1">
@@ -656,7 +643,7 @@ export default function CreateMember() {
         name="email"
         value={formik.values.email}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.email && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
@@ -669,7 +656,7 @@ export default function CreateMember() {
 
       case 4:
         return <div className="w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
-  <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+  <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
     Physical Information
   </h2>
 
@@ -684,7 +671,7 @@ export default function CreateMember() {
         name="height"
         value={formik.values.height}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.height && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.height}</p>
@@ -701,7 +688,7 @@ export default function CreateMember() {
         name="body_type"
         value={formik.values.body_type}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.body_type && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.body_type}</p>
@@ -718,7 +705,7 @@ export default function CreateMember() {
         name="complexion"
         value={formik.values.complexion}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.complexion && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.complexion}</p>
@@ -735,7 +722,7 @@ export default function CreateMember() {
         name="blood_group"
         value={formik.values.blood_group}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.blood_group && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.blood_group}</p>
@@ -747,7 +734,7 @@ export default function CreateMember() {
 
       case 5:
         return <div className="w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
-  <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+  <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
     Education and Work
   </h2>
 
@@ -762,7 +749,7 @@ export default function CreateMember() {
         name="education_detail"
         value={formik.values.education_detail}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.education_detail && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.education_detail}</p>
@@ -779,7 +766,7 @@ export default function CreateMember() {
         name="education"
         value={formik.values.education}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.education && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.education}</p>
@@ -796,7 +783,7 @@ export default function CreateMember() {
         name="hobby"
         value={formik.values.hobby}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.hobby && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.hobby}</p>
@@ -813,7 +800,7 @@ export default function CreateMember() {
         name="occupation"
         value={formik.values.occupation}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.occupation && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.occupation}</p>
@@ -830,7 +817,7 @@ export default function CreateMember() {
         name="designation"
         value={formik.values.designation}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.designation && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.designation}</p>
@@ -847,7 +834,7 @@ export default function CreateMember() {
         name="annual_income"
         value={formik.values.annual_income}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.annual_income && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.annual_income}</p>
@@ -864,7 +851,7 @@ export default function CreateMember() {
         name="company_name"
         value={formik.values.company_name}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.company_name && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.company_name}</p>
@@ -881,7 +868,7 @@ export default function CreateMember() {
         name="company_city"
         value={formik.values.company_city}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.company_city && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.company_city}</p>
@@ -893,7 +880,7 @@ export default function CreateMember() {
 
       case 6:
         return <div className="w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
-  <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+  <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
     Siblings Information
   </h2>
 
@@ -908,7 +895,7 @@ export default function CreateMember() {
         name="no_unmarried_brother"
         value={formik.values.no_unmarried_brother}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.no_unmarried_brother && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.no_unmarried_brother}</p>
@@ -925,7 +912,7 @@ export default function CreateMember() {
         name="no_unmarried_sister"
         value={formik.values.no_unmarried_sister}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.no_unmarried_sister && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.no_unmarried_sister}</p>
@@ -942,7 +929,7 @@ export default function CreateMember() {
         name="no_married_brother"
         value={formik.values.no_married_brother}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.no_married_brother && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.no_married_brother}</p>
@@ -959,7 +946,7 @@ export default function CreateMember() {
         name="no_married_sister"
         value={formik.values.no_married_sister}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.no_married_sister && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.no_married_sister}</p>
@@ -971,7 +958,7 @@ export default function CreateMember() {
 
       case 7:
         return <div className="w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
-  <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+  <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
     Relative Information
   </h2>
 
@@ -984,7 +971,7 @@ export default function CreateMember() {
         name="relation"
         value={formik.values.relation}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.relation && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.relation}</p>
@@ -999,7 +986,7 @@ export default function CreateMember() {
         name="relative_name"
         value={formik.values.relative_name}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.relative_name && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.relative_name}</p>
@@ -1014,7 +1001,7 @@ export default function CreateMember() {
         name="relative_mobile_no"
         value={formik.values.relative_mobile_no}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.relative_mobile_no && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.relative_mobile_no}</p>
@@ -1029,7 +1016,7 @@ export default function CreateMember() {
         name="relative_city"
         value={formik.values.relative_city}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.relative_city && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.relative_city}</p>
@@ -1044,7 +1031,7 @@ export default function CreateMember() {
         name="relative_company_name"
         value={formik.values.relative_company_name}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.relative_company_name && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.relative_company_name}</p>
@@ -1059,7 +1046,7 @@ export default function CreateMember() {
         name="relative_designation"
         value={formik.values.relative_designation}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.relative_designation && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.relative_designation}</p>
@@ -1076,7 +1063,7 @@ export default function CreateMember() {
         name="relative_company_address"
         value={formik.values.relative_company_address}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.relative_company_address && (
         <p className="text-red-500 text-sm mt-1">
@@ -1089,7 +1076,7 @@ export default function CreateMember() {
 ;
       case 8:
         return <div className="w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
-  <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+  <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
     Miscellaneous
   </h2>
 
@@ -1104,7 +1091,7 @@ export default function CreateMember() {
         name="kundali_milana"
         value={formik.values.kundali_milana}
         onChange={formik.handleChange}
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       />
       {formik.errors.kundali_milana && (
         <p className="text-red-500 text-sm mt-1">
@@ -1123,7 +1110,7 @@ export default function CreateMember() {
         value={formik.values.about_me}
         onChange={formik.handleChange}
         rows="5"
-        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
       ></textarea>
       {formik.errors.about_me && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.about_me}</p>
@@ -1160,7 +1147,7 @@ export default function CreateMember() {
         name="subscription"
         checked={formik.values.subscription}
         onChange={formik.handleChange}
-        className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+        className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-gray-500"
       />
       <label
         htmlFor="subscription"
@@ -1204,59 +1191,7 @@ export default function CreateMember() {
         {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar - Fixed */}
-        <header className="flex justify-between items-center px-4 md:px-6 py-5 bg-white border-white shadow-sm sticky top-0 z-50">
-          {/* Left Side */}
-          <div className="flex items-center gap-3">
-            {/* Mobile Sidebar Button */}
-            <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
-              <Bars3Icon className="h-8 w-8 text-gray-700" />
-            </button>
-            <h1 className="text-3xl font-bold text-gray-800">Members</h1>
-          </div>
-
-          {/* Right Side */}
-          <div className="flex items-center gap-4">
-        
-
-            {/* Notification */}
-            <button className="relative">
-              <Bell className="h-6 w-6 text-gray-700" />
-              <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-            </button>
-
-            {/* User Dropdown */}
-            <div className="relative" ref={menuRef}>
-              <button
-                onClick={() => setOpenMenu(!openMenu)}
-                className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg"
-              >
-                👤
-              </button>
-
-              {openMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-50">
-                  <div className="p-3 border-b">
-                    <p className="font-medium text-base">Admin User</p>
-                    <p className="text-sm text-gray-500">{email}</p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      toast.success("Logout Successfully");
-                      setTimeout(() => {
-                        localStorage.removeItem("token");
-                        dispatch(logout());
-                        Navigate("/");
-                      }, 1000);
-                    }}
-                    className="flex items-center gap-2 px-4 py-3 w-full text-base bg-gray-600 text-left text-white hover:bg-gray-700"
-                  >
-                    <LogOut className="w-5 h-5" /> Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </header>
+        <Header  setOpenSidebar={setOpenSidebar} />
 
 
      <div className="flex justify-center px-4 py-8 mt-3">
@@ -1275,9 +1210,9 @@ export default function CreateMember() {
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="px-4 py-2 bg-gray-700 text-white  rounded"
+              className="px-4 py-2 bg-gray-700 text-white rounded"
             >
-              Previous
+            Previous
             </button>
           )}
 

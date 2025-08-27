@@ -11,6 +11,7 @@ import Donation from "../Components/Donations/Donation";
 import MemberShip from "../Components/Membership/MemberShip";
 import CreateMember from "../Components/Members/CreateMember";
 import MemberOutlet from "../Components/Members/MemberOutlet";
+import ViewMember from "../Components/Members/ViewMember";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -45,7 +46,13 @@ export default function Routes() {
         {
           index: true,
           element: <Member />,
+         
         },
+        {
+          path:"member/:id",
+          element:<ViewMember/>
+        }
+        
       ],
     },
     {

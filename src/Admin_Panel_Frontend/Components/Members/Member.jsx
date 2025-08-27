@@ -28,7 +28,7 @@ export default function Member() {
 
   const email = useSelector((state) => state.app.email);
   const Members = useSelector((state) => state.app.Members);
-  const [search, setSearch] = useState(""); // UI only, no filtering
+  const [search, setSearch] = useState("");
 
   const Navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,6 +51,7 @@ export default function Member() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  
   return (
     <div className="bg-gray-50 min-h-screen flex">
       {/* Sidebar - Desktop */}
@@ -233,7 +234,7 @@ export default function Member() {
                       </td>
                       <td className="py-4 px-5">
                         <NavLink
-                          to={`/members/${u.id}`}
+                          to={`member/${u.id}`}
                           className="px-4 py-2 bg-blue-600 text-white rounded-lg text-base hover:bg-blue-700"
                         >
                           View
@@ -287,7 +288,7 @@ export default function Member() {
 
 /* Card Component */
 const Card = ({ title, count, icon }) => (
-  <div className="bg-white p-6 rounded-xl shadow border-white flex justify-between items-center">
+  <div className="bg-white p-6 rounded-xl shadow border-white flex justify-between items-center hover:scale-105 transition-transform duration-1000">
     <div>
       <h3 className="text-lg text-gray-500">{title}</h3>
       <p className="text-3xl font-bold mt-2">{count}</p>

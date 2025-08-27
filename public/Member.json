@@ -52,7 +52,7 @@
     "relative_company_address": "Hinjewadi, Pune",
     "kundali_milana": "Yes",
     "about_me": "I am a simple, caring and ambitious person.",
-    "image_path": "/images/rohit.jpg",
+    "image_path": "https://i.pinimg.com/originals/fb/fd/32/fbfd32dea1acce0207d020d443c3586d.jpg",
     "subscription": 1
   },
   {
@@ -107,7 +107,7 @@
     "relative_company_address": "DLF Cyber City, Gurgaon",
     "kundali_milana": "Yes",
     "about_me": "I love learning new technologies and exploring new places.",
-    "image_path": "/images/priya.jpg",
+    "image_path": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/attachments/gen-images/public/indian-woman-professional-portrait-QX7Mj3VCPTCpxWCgEK3Mh8Y01fwZq1.png",
     "subscription": 1
   },
   {
@@ -162,7 +162,7 @@
     "relative_company_address": "Hazira, Surat",
     "kundali_milana": "No",
     "about_me": "Dedicated doctor with passion for helping people.",
-    "image_path": "/images/amit.jpg",
+    "image_path": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGKgtlQ0599IAh4GvEMcajMJd5xkXmVNJTvw&s",
     "subscription": 0
   },
   {
@@ -217,7 +217,7 @@
     "relative_company_address": "Sector 62, Noida",
     "kundali_milana": "Yes",
     "about_me": "Friendly, optimistic and career-oriented person.",
-    "image_path": "/images/neha.jpg",
+    "image_path": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/attachments/gen-images/public/indian-woman-traditional-dress-vcrDhnQL3PaNWlrf7gaMa9WtAZp8Hv.png",
     "subscription": 1
   },
   {
@@ -272,7 +272,7 @@
     "relative_company_address": "Tilak Marg, Delhi",
     "kundali_milana": "Yes",
     "about_me": "I am an ambitious and responsible lawyer.",
-    "image_path": "/images/raj.jpg",
+    "image_path": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCZsnwXyS2bnxrSDsr8xtqOOjeyCkVcs5_Kg&s",
     "subscription": 0
   },
   {
@@ -327,7 +327,7 @@
     "relative_company_address": "Electronic City, Bangalore",
     "kundali_milana": "No",
     "about_me": "I believe in simple living and high thinking.",
-    "image_path": "/images/sneha.jpg",
+    "image_path": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/attachments/gen-images/public/indian-woman-casual-outfit-cxh47oSHzp5J870dECVRdns6I9qsB2.png",
     "subscription": 1
   },
   {
@@ -382,7 +382,7 @@
     "relative_company_address": "Udaipur Industrial Area",
     "kundali_milana": "Yes",
     "about_me": "Ambitious and passionate about business growth.",
-    "image_path": "/images/vikram.jpg",
+    "image_path": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiKad3aUX_bZcpZDg2LtG-jM-oP0uj2xfroQ&s",
     "subscription": 1
   },
   {
@@ -416,6 +416,7 @@
     "body_type": "Average",
     "complexion": "Wheatish",
     "blood_group": "B-",
-    "education_detail": ""
+    "education_detail": "",
+    "image_path":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbNTZ2HvhGUeg0BkvzLYwPtJ_oClgelA_qow&s"
   }
 ]

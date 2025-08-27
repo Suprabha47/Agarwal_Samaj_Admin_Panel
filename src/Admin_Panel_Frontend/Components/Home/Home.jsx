@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import {
   BellIcon,
@@ -46,7 +46,7 @@ export default function Home() {
           <Sidebar />
         </div>
       </div>
-
+      
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar */}
@@ -226,9 +226,9 @@ export default function Home() {
               <ul className="space-y-4">
                 <li className="flex items-center space-x-3">
                   <UsersIcon className="h-6 w-6 text-blue-500" />
-                  <button className="text-blue-600 font-medium hover:underline">
+                  <NavLink to={'/members'} className="text-blue-600 font-medium hover:underline">
                     Add New Member
-                  </button>
+                  </NavLink>
                 </li>
 
                 <li className="flex items-center space-x-3">

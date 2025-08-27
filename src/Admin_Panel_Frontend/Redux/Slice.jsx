@@ -16,7 +16,8 @@ export const Slice=createSlice({
         isLoggedIn:false,
         loading:false,
         Members:[],
-        error:null
+        error:null,
+        
 
     },
     reducers:{
@@ -40,7 +41,7 @@ export const Slice=createSlice({
       state.isLoggedIn = false;
       localStorage.setItem("auth", JSON.stringify(state));
     },
-
+    
     },
     extraReducers:(boiler)=>{
         boiler.addCase(MemberApi.pending,(state)=>{
