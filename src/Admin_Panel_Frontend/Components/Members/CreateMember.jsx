@@ -14,166 +14,109 @@ import { FORMIK_INITIAL_VALUES } from "../../../utils/FORMIK_INITIAL_VALUES";
 import { YUP_VALIDATION } from "../../../utils/YUP_VALIDATION"; // full schema for final submit (optional)
 import { STEP_VALIDATION_SCHEMAS } from "../../../../src/utils/validationSchema";
 import Sidebar from "../Sidebar/Sidebar";
-
+import axios from "axios";
+import toast from "react-hot-toast";
+ 
 export default function CreateMember() {
-   
-      const [openSidebar, setOpenSidebar] = useState(false);
+  const [step, setStep] = useState(1);
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const [isStepValid, setIsStepValid] = useState(false);
+  const initialValues = FORMIK_INITIAL_VALUES;
+ 
+  const formik = useFormik({
+    initialValues,
+    validationSchema: YUP_VALIDATION,
+    onSubmit: async(values) => {
+      console.log("Final submit:", values);
+      try {
+         try {
+    const formData = new FormData();
 
-        const [step, setStep] = useState(1);
+    // append text fields
+    Object.keys(values).forEach((key) => {
+      if (key !== "image_path") {
+        formData.append(key, values[key]);
+      }
+    });
 
-        const formik=useFormik({
-        initialValues:{
-  name: "",
-  dob: "",
-  birth_place: "",
-  candidate_gender: "",
-  manglik: "",
-  gotra: "",
-  maternal_gotra: "",
-  father_name: "",
-  father_mobile: "",
-  father_occupation: "",
-  father_annual_income: "",
-  mother_name: "",
-  mother_occupation: "",
-  grandfather: "",
-  native_place: "",
-  nationality: "",
-  status_of_family: "",
-  address: "",
-  country: "",
-  state: "",
-  district: "",
-  pin_code: "",
-  phone: "",
-  contact_no: "",
-  email: "",
-  height: "",
-  body_type: "",
-  complexion: "",
-  blood_group: "",
-  education_detail: "",
-  education: "",
-  hobby: "",
-  occupation: "",
-  designation: "",
-  annual_income: "",
-  company_name: "",
-  company_city: "",
-  no_unmarried_brother: 0,
-  no_unmarried_sister: 0,
-  no_married_brother: 0,
-  no_married_sister: 0,
-  relation: "",
-  relative_name: "",
-  relative_mobile_no: "",
-  relative_city: "",
-  relative_company_name: "",
-  relative_designation: "",
-  relative_company_address: "",
-  kundali_milana: "",
-  about_me: "",
-  image_path: "",
-  subscription: false, 
-
-        },
-        onSubmit:(values)=>{
-            console.log(values);
-
-        },
-        validationSchema:Yup.object(
-            {
-      // -------- Candidate Basic Info --------
-      name: Yup.string().required("Name is required"),
-      dob: Yup.date().required("Date of Birth is required"),
-      birth_place: Yup.string().required("Birth place is required"),
-      candidate_gender: Yup.string().required("Gender is required"),
-      manglik: Yup.string().required("Manglik field is required"),
-      gotra: Yup.string().required("Gotra is required"),
-      maternal_gotra: Yup.string().required("Maternal gotra is required"),
-
-      // -------- Family Info --------
-      father_name: Yup.string().required("Father's name is required"),
-      father_mobile: Yup.string()
-        .matches(/^[0-9]{10}$/, "Enter a valid 10-digit mobile number")
-        .required("Father's mobile is required"),
-      father_occupation: Yup.string().required("Father occupation is required"),
-      father_annual_income: Yup.number()
-        .min(0, "Income cannot be negative")
-        .required("Father annual income is required"),
-
-      mother_name: Yup.string().required("Mother's name is required"),
-      mother_occupation: Yup.string().required("Mother occupation is required"),
-      grandfather: Yup.string().required("Grandfather's name is required"),
-      native_place: Yup.string().required("Native place is required"),
-      nationality: Yup.string().required("Nationality is required"),
-      status_of_family: Yup.string().required("Status of family is required"),
-
-      // -------- Contact Info --------
-      address: Yup.string().required("Address is required"),
-      country: Yup.string().required("Country is required"),
-      state: Yup.string().required("State is required"),
-      district: Yup.string().required("District is required"),
-      pin_code: Yup.string()
-        .matches(/^[0-9]{4,10}$/, "Invalid Pin Code")
-        .required("Pin Code is required"),
-      phone: Yup.string().matches(/^[0-9]{6,15}$/, "Invalid Phone number"),
-      contact_no: Yup.string()
-        .matches(/^[0-9]{6,15}$/, "Invalid Contact number")
-        .required("Contact number is required"),
-      email: Yup.string()
-        .email("Invalid email format")
-        .required("Email is required"),
-
-      // -------- Physical Info --------
-      height: Yup.string().required("Height is required"),
-      body_type: Yup.string().required("Body type is required"),
-      complexion: Yup.string().required("Complexion is required"),
-      blood_group: Yup.string().required("Blood group is required"),
-
-      // -------- Education & Work --------
-      education_detail: Yup.string().required("Education detail is required"),
-      education: Yup.string().required("Education is required"),
-      hobby: Yup.string().required("Hobby is required"),
-      occupation: Yup.string().required("Occupation is required"),
-      designation: Yup.string().required("Designation is required"),
-      annual_income: Yup.number()
-        .min(0, "Income cannot be negative")
-        .required("Annual income is required"),
-      company_name: Yup.string().required("Company name is required"),
-      company_city: Yup.string().required("Company city is required"),
-
-      // -------- Siblings Info --------
-      no_unmarried_brother: Yup.number().min(0),
-      no_unmarried_sister: Yup.number().min(0),
-      no_married_brother: Yup.number().min(0),
-      no_married_sister: Yup.number().min(0),
-
-      // -------- Relatives Info (Optional fields) --------
-      relation: Yup.string(),
-      relative_name: Yup.string(),
-      relative_mobile_no: Yup.string().matches(
-        /^[0-9]{10}$/,
-        "Enter a valid 10-digit number"
-      ),
-      relative_city: Yup.string(),
-      relative_company_name: Yup.string(),
-      relative_designation: Yup.string(),
-      relative_company_address: Yup.string(),
-
-     
-      kundali_milana: Yup.string(),
-      about_me: Yup.string().required("About Me is required"),
-      image_path:  Yup.mixed()
-  .required("Image is required")
-  .test("fileType", "Only image files are allowed", (value) => {
-    return value && value.type.startsWith("image/");
-  }),
-      subscription: Yup.boolean(),
+    // append file (if selected)
+    if (values.image_path) {
+      formData.append("image_path", values.image_path);
     }
-        )
-        });
 
+    const response = await axios.post("http://localhost:4005/api/candidates", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data) {
+      toast.success("User Created Successfully");
+    }
+  } catch (error) {
+    toast.error("Something Went Wrong");
+  }
+
+      } catch (error) {
+        toast.error("Something Went Wrong");
+        
+      }
+    },
+    validateOnBlur: true,
+    validateOnChange: false, // optional: prevents full-form validation on every keystroke
+  });
+  useEffect(() => {
+    const validateStep = async () => {
+      const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
+      if (!currentSchema) {
+        setIsStepValid(true);
+        return;
+      }
+ 
+      try {
+        await currentSchema.validate(formik.values, { abortEarly: false });
+        setIsStepValid(true);
+      } catch (err) {
+        setIsStepValid(false);
+      }
+    };
+ 
+    validateStep();
+  }, [step, formik.values]);
+ 
+  const handleNext = async () => {
+    const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
+    if (!currentSchema) {
+      setStep((s) => s + 1);
+      return;
+    }
+ 
+    try {
+      // validate current step against full form values
+      await currentSchema.validate(formik.values, { abortEarly: false });
+ 
+      // no errors -> go next
+      setStep((s) => s + 1);
+    } catch (err) {
+      // Yup throws a ValidationError with `inner` array
+      const errors = {};
+      if (err && err.inner) {
+        err.inner.forEach((e) => {
+          if (e.path) {
+            // set first error message for each path
+            if (!errors[e.path]) errors[e.path] = e.message;
+            // mark field touched so error shows
+            formik.setFieldTouched(e.path, true, false);
+          }
+        });
+      }
+      // push errors into Formik (so formik.errors contains only step errors)
+      formik.setErrors((prev) => ({ ...prev, ...errors }));
+    }
+  };
+ 
+  const handlePrevious = () => {
+    setStep((s) => Math.max(1, s - 1));
+  };
+ 
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -196,14 +139,14 @@ export default function CreateMember() {
         return null;
     }
   };
-
+ 
   return (
     <div>
       {/* Sidebar - Desktop */}
       <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
         <Sidebar />
       </div>
-
+ 
       {/* Sidebar - Mobile */}
       <div
         className={`fixed inset-0 z-40 transform ${
@@ -225,7 +168,7 @@ export default function CreateMember() {
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar - Fixed */}
         <Header setOpenSidebar={setOpenSidebar} />
-
+ 
         <div className="flex justify-center px-4 py-8 mt-3">
           <form
             onSubmit={formik.handleSubmit}
@@ -233,7 +176,7 @@ export default function CreateMember() {
           >
             {/* Render the current step */}
             {renderStep()}
-
+ 
             {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">
               {step > 1 && (
@@ -245,7 +188,7 @@ export default function CreateMember() {
                   Previous
                 </button>
               )}
-
+ 
               {step < STEP_VALIDATION_SCHEMAS.length ? (
                 <button
                   type="button"
@@ -271,3 +214,5 @@ export default function CreateMember() {
     </div>
   );
 }
+ 
+ 
