@@ -124,7 +124,7 @@ export default function ViewMember() {
                   <li><b>Height:</b> {Member.height}</li>
                   <li><b>Religion:</b> Hindu</li>
                   <li><b>Caste:</b> {Member.gotra}</li>
-                  <li><b>Mother Tongue:</b> Hindi</li>
+                  <li><b>Manglik:</b> {Member.manglik}</li>
                   <li><b>Marital Status:</b> Never Married</li>
                 </ul>
               </div>

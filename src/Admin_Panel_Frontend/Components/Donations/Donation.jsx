@@ -1,10 +1,11 @@
 import React from "react";
-import Dashboard from "../Sidebar/Sidebar";
+import Sidebar from "../Sidebar/Sidebar";
+
 
 export default function Donation() {
   return (
     <div>
-      <Dashboard />
+    <Sidebar/>
     </div>
   );
 }
