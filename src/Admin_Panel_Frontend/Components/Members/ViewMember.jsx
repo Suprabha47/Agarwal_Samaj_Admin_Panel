@@ -54,7 +54,7 @@ export default function ViewMember() {
         <div className="flex flex-col md:flex-row items-center md:items-start bg-gray-800 p-6 rounded-lg shadow">
           {/* Image */}
           <img
-            src={Member.image_path}
+           src={`http://localhost:4005/${Member.image_path.replace(/\\/g, "/")}`}
             alt={Member.name}
             className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-700 shadow-md"
           />
@@ -87,7 +87,6 @@ export default function ViewMember() {
     </p>
   </div>
 </div>
-
         </div>
 
         {/* Tabs */}
@@ -173,7 +172,7 @@ export default function ViewMember() {
             <div className="bg-gray-800 p-4 rounded-lg shadow">
               <h2 className="font-semibold mb-2">📸 Photos</h2>
               <img
-                src={Member.image_path}
+                src={`http://localhost:4005/${Member.image_path.replace(/\\/g, "/")}`}
                 alt="Profile"
                 className="rounded-lg w-full md:w-1/2"
               />

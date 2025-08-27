@@ -31,8 +31,8 @@ export default function Member() {
   const [search, setSearch] = useState("");
   const [filters,setFilter]=useState('All');
 
- const BasicMembers=Members.filter((users)=>users.subscription===0);
- const Premium_Membership=Members.filter((users)=>users.subscription===1);
+ const BasicMembers=Members.filter((users)=>users.subscription===false);
+ const Premium_Membership=Members.filter((users)=>users.subscription===true);
 
 const filterData=filters==='All'?Members:Members.filter((user)=>
 (
@@ -66,7 +66,8 @@ const filterSearch = filterData.filter((user) =>
     user.pin_code,
     user.district,
     user.native_place,
-    user.annual_income
+    user.annual_income,
+    user.email
 
   ]
   .some((field) => normalize(field).includes(normalize(search)))
@@ -219,8 +220,8 @@ const filterSearch = filterData.filter((user) =>
                 value={filters} onChange={(e)=>setFilter(e.target.value)}
                 >
                   <option value={'All'}>All</option>
-                  <option value={0}>Basic</option>
-                  <option value={1}>Membership</option>
+                  <option value={false}>Basic</option>
+                  <option value={true}>Membership</option>
                   <option value={'Yes'}>Manglik</option>
 
                 </select>
@@ -309,7 +310,7 @@ const filterSearch = filterData.filter((user) =>
                       </td>
                     </tr>
                   ))}
-                  {Members.length === 0 && (
+                  {filterSearch.length === 0 && (
                     <tr>
                       <td
                         colSpan="5"

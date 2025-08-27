@@ -15,7 +15,7 @@ import { YUP_VALIDATION } from "../../../utils/YUP_VALIDATION"; // full schema f
 import { STEP_VALIDATION_SCHEMAS } from "../../../../src/utils/validationSchema";
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
  
 export default function CreateMember() {
   const [step, setStep] = useState(1);
@@ -26,38 +26,40 @@ export default function CreateMember() {
   const formik = useFormik({
     initialValues,
     validationSchema: YUP_VALIDATION,
-    onSubmit: async(values) => {
+    onSubmit: async (values) => {
       console.log("Final submit:", values);
       try {
-         try {
-    const formData = new FormData();
-
-    // append text fields
-    Object.keys(values).forEach((key) => {
-      if (key !== "image_path") {
-        formData.append(key, values[key]);
-      }
-    });
-
-    // append file (if selected)
-    if (values.image_path) {
-      formData.append("image_path", values.image_path);
-    }
-
-    const response = await axios.post("http://localhost:4005/api/candidates", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    if (response.data) {
-      toast.success("User Created Successfully");
-    }
-  } catch (error) {
-    toast.error("Something Went Wrong");
-  }
-
+        try {
+          const formData = new FormData();
+ 
+          // append text fields
+          Object.keys(values).forEach((key) => {
+            if (key !== "image_path") {
+              formData.append(key, values[key]);
+            }
+          });
+ 
+          // append file (if selected)
+          if (values.image_path) {
+            formData.append("image_path", values.image_path);
+          }
+ 
+          const response = await axios.post(
+            "http://localhost:4005/api/candidates",
+            formData,
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+            }
+          );
+ 
+          if (response.data) {
+            toast.success(response.data.message || "Profile Created Successfully");
+          }
+        } catch (error) {
+          toast.error(error.response.data.error || "Something went wrong!");
+        }
       } catch (error) {
         toast.error("Something Went Wrong");
-        
       }
     },
     validateOnBlur: true,
@@ -65,6 +67,10 @@ export default function CreateMember() {
   });
   useEffect(() => {
     const validateStep = async () => {
+      if (step === 7) {
+        setIsStepValid(true);
+        return;
+      }
       const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
       if (!currentSchema) {
         setIsStepValid(true);
@@ -83,6 +89,10 @@ export default function CreateMember() {
   }, [step, formik.values]);
  
   const handleNext = async () => {
+    if (step === 7) {
+      setStep((s) => s + 1);
+      return;
+    }
     const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
     if (!currentSchema) {
       setStep((s) => s + 1);
@@ -189,28 +199,40 @@ export default function CreateMember() {
                 </button>
               )}
  
-              {step < STEP_VALIDATION_SCHEMAS.length ? (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={!isStepValid}
-                  className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                  Next
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={!isStepValid}
-                  className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                  Submit
-                </button>
-              )}
+              <div className="flex gap-2">
+                {step === 7 && (
+                  <button
+                    type="button"
+                    onClick={() => setStep((s) => s + 1)}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
+                    Skip
+                  </button>
+                )}
+                {step < STEP_VALIDATION_SCHEMAS.length ? (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!isStepValid}
+                    className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={!isStepValid}
+                    className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    Submit
+                  </button>
+                )}
+              </div>
             </div>
           </form>
         </div>
       </main>
+      <Toaster />
     </div>
   );
 }
