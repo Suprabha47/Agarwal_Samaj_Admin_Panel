@@ -29,6 +29,22 @@ export default function Member() {
   const email = useSelector((state) => state.app.email);
   const Members = useSelector((state) => state.app.Members);
   const [search, setSearch] = useState("");
+  const [filters,setFilter]=useState('All');
+
+ const BasicMembers=Members.filter((users)=>users.subscription===0);
+ const Premium_Membership=Members.filter((users)=>users.subscription===1);
+
+const filterData=filters==='All'?Members:Members.filter((user)=>user.subscription.toString()===filters);
+
+const filterSearch=filterData.filter((user)=>{
+  return(
+    user.name.toLowerCase().includes(search.toLowerCase()) ||
+    user.gender.toLowerCase().includes(search.toLowerCase()) ||
+    user.gotra.toLowerCase().includes(search.toLowerCase()) ||
+    user.birth_place.toLowerCase().includes(search.toLowerCase()) ||
+    user.age.toString().includes(search)
+  )
+})
 
   const Navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,7 +67,6 @@ export default function Member() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  
   return (
     <div className="bg-gray-50 min-h-screen flex">
       {/* Sidebar - Desktop */}
@@ -147,8 +162,8 @@ export default function Member() {
               icon={<Users className="w-7 h-7 text-gray-500" />}
             />
             <Card
-              title="Active Members"
-              count={Members.filter((m) => m.status === "active").length}
+              title="Basic Members"
+              count={BasicMembers.length}
               icon={<UserCheck className="w-7 h-7 text-green-600" />}
             />
             <Card
@@ -158,7 +173,7 @@ export default function Member() {
             />
             <Card
               title="Premium Members"
-              count={Members.filter((m) => m.membership === "premium").length}
+              count={Premium_Membership.length}
               icon={<Star className="w-7 h-7 text-purple-600" />}
             />
           </div>
@@ -175,10 +190,12 @@ export default function Member() {
                 </p>
               </div>
               <div className="flex gap-2">
-                <select className="border-gray-200 border-2 rounded-lg px-3 py-2 text-base font-semibold">
-                  <option>All Types</option>
-                  <option>Basic</option>
-                  <option>Premium</option>
+                <select className="border-gray-200 border-2 rounded-lg px-3 py-2 text-base font-semibold"
+                value={filters} onChange={(e)=>setFilter(e.target.value)}
+                >
+                  <option value={'All'}>All Types</option>
+                  <option value={0}>Basic</option>
+                  <option value={1}>Membership</option>
                 </select>
               </div>
             </div>
@@ -219,7 +236,7 @@ export default function Member() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-800">
-                  {Members.map((u) => (
+                  {filterSearch.map((u) => (
                     <tr
                       key={u.id}
                       className="border-gray-200 border-2 hover:bg-gray-50 text-gray-700"
@@ -230,7 +247,7 @@ export default function Member() {
                         <p className="text-sm text-gray-500">{u.contact_no}</p>
                       </td>
                       <td className="py-4 px-5">
-                        <MembershipPill membership={u.membership} />
+                        <MembershipPill membership={u.subscription} />
                       </td>
                       <td className="py-4 px-5">
                         <NavLink
@@ -299,17 +316,10 @@ const Card = ({ title, count, icon }) => (
 
 /* Membership Pill */
 const MembershipPill = ({ membership }) => {
-  const styles = {
-    premium: "bg-purple-100 text-purple-700",
-    basic: "bg-blue-100 text-blue-700",
-  };
   return (
     <span
-      className={`px-3 py-1 rounded-full text-base font-semibold ${
-        styles[membership] || "bg-gray-100 text-gray-600"
-      }`}
     >
-      {membership}
+      {membership===1?<h6>✅</h6>:<h6>❌</h6>}
     </span>
   );
 };
