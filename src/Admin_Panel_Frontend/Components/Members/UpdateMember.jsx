@@ -1,11 +1,3 @@
-import BasicInfo from "./details-form/BasicInfo";
-import FamilyInfo from "./details-form/FamilyInfo";
-import ContactInfo from "./details-form/ContactInfo";
-import PhysicalInfo from "./details-form/PhysicalInfo";
-import EduWorkInfo from "./details-form/EduWorkInfo";
-import SiblingsInfo from "./details-form/SiblingsInfo";
-import RelativeInfo from "./details-form/RelativeInfo";
-import MiscellaneousInfo from "./details-form/MiscellaneousInfo";
 import Header from "../Header/Header";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
@@ -17,26 +9,35 @@ import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router";
+import BasicInfo from "./details-form/BasicInfo";
+import FamilyInfo from "./details-form/FamilyInfo";
+import ContactInfo from "./details-form/ContactInfo";
+import PhysicalInfo from "./details-form/PhysicalInfo";
+import EduWorkInfo from "./details-form/EduWorkInfo";
+import SiblingsInfo from "./details-form/SiblingsInfo";
+import RelativeInfo from "./details-form/RelativeInfo";
+import MiscellaneousInfo from "./details-form/MiscellaneousInfo";
 
 export default function UpdateMember() {
+  const { id } = useParams();
   const [step, setStep] = useState(1);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [isStepValid, setIsStepValid] = useState(false);
   const [initialValues, setInitialValues] = useState(FORMIK_INITIAL_VALUES);
   const [loading, setLoading] = useState(true);
-  const candidateId = useParams();
 
-  // Fetch existing candidate data
+  const totalSteps = 8;
+
   useEffect(() => {
     const fetchCandidate = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4005/api/candidates/${candidateId}`
+          `http://localhost:4005/api/candidates/${id}`
         );
         if (response.data) {
           setInitialValues({
             ...FORMIK_INITIAL_VALUES,
-            ...response.data, // make sure API keys match Formik fields
+            ...response.data,
           });
         }
       } catch (error) {
@@ -46,7 +47,7 @@ export default function UpdateMember() {
       }
     };
     fetchCandidate();
-  }, [candidateId]);
+  }, [id]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -65,7 +66,7 @@ export default function UpdateMember() {
         }
 
         const response = await axios.put(
-          `http://localhost:4005/api/candidates/${candidateId}`,
+          `http://localhost:4005/api/candidates/${id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -76,6 +77,7 @@ export default function UpdateMember() {
           );
         }
       } catch (error) {
+        console.error("Form submission error:", error); // Log submission errors
         toast.error(error.response?.data?.error || "Something went wrong!");
       }
     },
@@ -83,42 +85,50 @@ export default function UpdateMember() {
     validateOnChange: false,
   });
 
-  // Step validation (step 7 optional)
   useEffect(() => {
     const validateStep = async () => {
-      if (step === 7) {
+      console.log(`Validating step ${step}...`);
+      // If the current step is beyond the schemas we have (e.g., step 8 for 7 schemas)
+      if (step > STEP_VALIDATION_SCHEMAS.length) {
         setIsStepValid(true);
+        console.log(`Step ${step} (no schema) is valid.`);
         return;
       }
+
       const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
       if (!currentSchema) {
-        setIsStepValid(true);
+        setIsStepValid(true); // Treat steps without explicit schema as valid
+        console.log(`Step ${step} has no schema, considered valid.`);
         return;
       }
       try {
         await currentSchema.validate(formik.values, { abortEarly: false });
         setIsStepValid(true);
+        console.log(`Step ${step} is valid.`);
       } catch (err) {
         setIsStepValid(false);
+        console.log(`Step ${step} is NOT valid. Errors:`, err.inner); // Log validation errors
       }
     };
     validateStep();
   }, [step, formik.values]);
 
   const handleNext = async () => {
-    if (step === 7) {
+    // If it's the last validation step (step 7) and you click next, just advance
+    if (step === STEP_VALIDATION_SCHEMAS.length) {
       setStep((s) => s + 1);
       return;
     }
     const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
     if (!currentSchema) {
-      setStep((s) => s + 1);
+      setStep((s) => s + 1); // If no schema, just go to next step
       return;
     }
     try {
       await currentSchema.validate(formik.values, { abortEarly: false });
       setStep((s) => s + 1);
     } catch (err) {
+      console.error("Next step validation failed:", err);
       const errors = {};
       if (err && err.inner) {
         err.inner.forEach((e) => {
@@ -188,10 +198,7 @@ export default function UpdateMember() {
         <Header setOpenSidebar={setOpenSidebar} />
 
         <div className="flex justify-center px-4 py-8 mt-3">
-          <form
-            onSubmit={formik.handleSubmit}
-            className="w-[90%] bg-white border border-gray-300 shadow-md rounded-lg p-6 space-y-6"
-          >
+          <form className="w-[90%] bg-white border border-gray-300 shadow-md rounded-lg p-6 space-y-6">
             {renderStep()}
 
             <div className="flex justify-between mt-6">
@@ -206,6 +213,7 @@ export default function UpdateMember() {
               )}
 
               <div className="flex gap-2">
+                {/* Skip button for step 7 (RelativeInfo) */}
                 {step === 7 && (
                   <button
                     type="button"
@@ -215,7 +223,8 @@ export default function UpdateMember() {
                     Skip
                   </button>
                 )}
-                {step < STEP_VALIDATION_SCHEMAS.length ? (
+                {/* Next button for all steps except the very last one */}
+                {step < totalSteps && (
                   <button
                     type="button"
                     onClick={handleNext}
@@ -224,9 +233,12 @@ export default function UpdateMember() {
                   >
                     Next
                   </button>
-                ) : (
+                )}
+                {/* Update button for the very last step */}
+                {step === totalSteps && (
                   <button
-                    type="submit"
+                    type="button" // CHANGE THIS TO type="button"
+                    onClick={formik.handleSubmit}
                     disabled={!isStepValid}
                     className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
                   >

@@ -1,12 +1,17 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { logout } from "../../Redux/Slice";
 import toast from "react-hot-toast";
-import { Bars3Icon,  } from "@heroicons/react/24/outline";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Bell, LogOut } from "lucide-react";
+import { NavLink } from "react-router";
 
-export default function Header({ setOpenSidebar }) {
+export default function Header({
+  setOpenSidebar,
+  isUpdate = false,
+  id = null,
+}) {
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef(null);
   const dispatch = useDispatch();
@@ -26,12 +31,20 @@ export default function Header({ setOpenSidebar }) {
 
       {/* Right Side */}
       <div className="flex items-center gap-4">
+        {/* Update Member */}
+
+        {isUpdate && id && (
+          <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg text-base hover:bg-gray-600">
+            <NavLink to={`/members/updateMember/${id}`}>
+              + Update Member
+            </NavLink>
+          </button>
+        )}
         {/* Notification */}
         <button className="relative">
           <Bell className="h-6 w-6 text-gray-700" />
           <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
         </button>
-
         {/* User Dropdown */}
         <div className="relative" ref={menuRef}>
           <button
