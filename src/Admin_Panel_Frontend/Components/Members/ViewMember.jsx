@@ -12,9 +12,9 @@ export default function ViewMember() {
 
     const [openSidebar, setOpenSidebar] = useState(false);
   
-          const [activeTab, setActiveTab] = useState("Personal Details");
+    const [activeTab, setActiveTab] = useState("Personal Details");
 
-  const tabs = ["Personal Details", "Family Background", "Partner Preferences", "Photos"];
+    const tabs = ["Personal Details", "Family Background", "Partner Preferences", "Photos"];
 
     const {id}=useParams();
     const Members=useSelector((state)=>state.app.Members);
@@ -66,8 +66,8 @@ export default function ViewMember() {
               {Member.height} • {Member.education} • {Member.occupation}
             </p>
             <div className="flex flex-wrap gap-2 mt-2">
-              <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">Hindu</span>
-              <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">{Member.gotra}</span>
+             
+              <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">Gotra : {Member.gotra}</span>
               <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">Never Married</span>
             </div>
             <p className="text-xs text-gray-400 mt-2">Last active: 2 hours ago</p>
