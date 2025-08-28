@@ -128,7 +128,7 @@ export default function Member() {
           <Sidebar />
         </div>
       </div>
-      
+
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
@@ -293,7 +293,7 @@ export default function Member() {
                       <td className="py-4 px-5">
                         <NavLink
                           to={`member/${u.id}`}
-                          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-base hover:bg-blue-700"
+                          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-base hover:bg-blue-500 "
                         >
                           View
                         </NavLink>
@@ -307,7 +307,7 @@ export default function Member() {
                           
 
                           <button
-                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-blue-700"
+                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-red-500 hover:scale-98 transition-transform duration-1000"
                             onClick={() => setConfirmDelete(u.id)}
                           >
                             <Trash2 className="w-4 h-4" /> Delete
@@ -348,13 +348,13 @@ export default function Member() {
       <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 mt-6">
         <button
           onClick={() => setConfirmDelete(null)}
-          className="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+          className="w-full sm:w-auto px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 hover:scale-98 transition-transform duration-1000"
         >
           Cancel
         </button>
         <button
           onClick={() => handleDelete(confirmDelete)}
-          className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+          className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 hover:scale-98 transition-transform duration-1000"
         >
           Yes, Delete
         </button>
