@@ -85,13 +85,22 @@ export const step7Schema = Yup.object({
   relative_company_address: Yup.string(),
 });
 
+// step8Schema.js
 export const step8Schema = Yup.object({
   kundali_milana: Yup.string(),
   about_me: Yup.string().required("About Me is required"),
   image_path: Yup.mixed()
     .required("Image is required")
     .test("fileType", "Only image files are allowed", (value) => {
-      return value && value.type && value.type.startsWith("image/");
+      if (!value) return false; // required already handles empty, but safe check
+      if (typeof value === "string") {
+        // handles when backend sends a URL
+        return value.startsWith("http") || value.startsWith("data:image");
+      }
+      if (value instanceof File) {
+        return value.type.startsWith("image/");
+      }
+      return false;
     }),
   subscription: Yup.boolean(),
 });

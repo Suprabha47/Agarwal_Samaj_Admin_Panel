@@ -16,15 +16,14 @@ import { STEP_VALIDATION_SCHEMAS } from "../../../../src/utils/validationSchema"
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router";
- 
+import { Navigate } from "react-router";
+
 export default function CreateMember() {
   const [step, setStep] = useState(1);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [isStepValid, setIsStepValid] = useState(false);
   const initialValues = FORMIK_INITIAL_VALUES;
-  const Navigate=useNavigate()
- 
+
   const formik = useFormik({
     initialValues,
     validationSchema: YUP_VALIDATION,
@@ -33,19 +32,19 @@ export default function CreateMember() {
       try {
         try {
           const formData = new FormData();
- 
+
           // append text fields
           Object.keys(values).forEach((key) => {
             if (key !== "image_path") {
               formData.append(key, values[key]);
             }
           });
- 
+
           // append file (if selected)
           if (values.image_path) {
             formData.append("image_path", values.image_path);
           }
- 
+
           const response = await axios.post(
             "http://localhost:4005/api/candidates",
             formData,
@@ -53,16 +52,17 @@ export default function CreateMember() {
               headers: { "Content-Type": "multipart/form-data" },
             }
           );
- 
+
           if (response.data) {
-            toast.success(response.data.message || "Profile Created Successfully");
+            toast.success(
+              response.data.message || "Profile Created Successfully"
+            );
             setTimeout(() => {
-              Navigate('/members');
-              
+              Navigate("/members");
             }, 500);
           }
         } catch (error) {
-          toast.error(error.response.data.error || "Something went wrong!");
+          toast.error("Something Went Wrong");
         }
       } catch (error) {
         toast.error("Something Went Wrong");
@@ -82,7 +82,7 @@ export default function CreateMember() {
         setIsStepValid(true);
         return;
       }
- 
+
       try {
         await currentSchema.validate(formik.values, { abortEarly: false });
         setIsStepValid(true);
@@ -90,10 +90,10 @@ export default function CreateMember() {
         setIsStepValid(false);
       }
     };
- 
+
     validateStep();
   }, [step, formik.values]);
- 
+
   const handleNext = async () => {
     if (step === 7) {
       setStep((s) => s + 1);
@@ -104,11 +104,11 @@ export default function CreateMember() {
       setStep((s) => s + 1);
       return;
     }
- 
+
     try {
       // validate current step against full form values
       await currentSchema.validate(formik.values, { abortEarly: false });
- 
+
       // no errors -> go next
       setStep((s) => s + 1);
     } catch (err) {
@@ -128,11 +128,11 @@ export default function CreateMember() {
       formik.setErrors((prev) => ({ ...prev, ...errors }));
     }
   };
- 
+
   const handlePrevious = () => {
     setStep((s) => Math.max(1, s - 1));
   };
- 
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -155,14 +155,14 @@ export default function CreateMember() {
         return null;
     }
   };
- 
+
   return (
     <div>
       {/* Sidebar - Desktop */}
       <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
         <Sidebar />
       </div>
- 
+
       {/* Sidebar - Mobile */}
       <div
         className={`fixed inset-0 z-40 transform ${
@@ -184,7 +184,7 @@ export default function CreateMember() {
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar - Fixed */}
         <Header setOpenSidebar={setOpenSidebar} />
- 
+
         <div className="flex justify-center px-4 py-8 mt-3">
           <form
             onSubmit={formik.handleSubmit}
@@ -192,7 +192,7 @@ export default function CreateMember() {
           >
             {/* Render the current step */}
             {renderStep()}
- 
+
             {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">
               {step > 1 && (
@@ -204,36 +204,25 @@ export default function CreateMember() {
                   Previous
                 </button>
               )}
- 
-              <div className="flex gap-2">
-                {step === 7 && (
-                  <button
-                    type="button"
-                    onClick={() => setStep((s) => s + 1)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                  >
-                    Skip
-                  </button>
-                )}
-                {step < STEP_VALIDATION_SCHEMAS.length ? (
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    disabled={!isStepValid}
-                    className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
-                  >
-                    Next
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    disabled={!isStepValid}
-                    className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
-                  >
-                    Submit
-                  </button>
-                )}
-              </div>
+
+              {step < STEP_VALIDATION_SCHEMAS.length ? (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  disabled={!isStepValid}
+                  className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  Next
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={!isStepValid}
+                  className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  Submit
+                </button>
+              )}
             </div>
           </form>
         </div>
@@ -242,5 +231,3 @@ export default function CreateMember() {
     </div>
   );
 }
- 
- 

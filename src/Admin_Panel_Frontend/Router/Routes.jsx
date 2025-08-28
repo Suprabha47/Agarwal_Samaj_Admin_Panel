@@ -12,6 +12,7 @@ import MemberShip from "../Components/Membership/MemberShip";
 import CreateMember from "../Components/Members/CreateMember";
 import MemberOutlet from "../Components/Members/MemberOutlet";
 import ViewMember from "../Components/Members/ViewMember";
+import UpdateMember from "../Components/Members/UpdateMember";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -46,13 +47,15 @@ export default function Routes() {
         {
           index: true,
           element: <Member />,
-         
         },
         {
-          path:"member/:id",
-          element:<ViewMember/>
-        }
-        
+          path: "member/:id",
+          element: <ViewMember />,
+        },
+        {
+          path: "updateMember/:id",
+          element: <UpdateMember />,
+        },
       ],
     },
     {

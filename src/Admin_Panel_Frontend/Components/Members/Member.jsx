@@ -1,16 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logout, MemberApi } from "../../Redux/Slice";
-
-import {
-Bell,Users,UserCheck,Hourglass,Star,LogOut,Trash2,
-} from "lucide-react";
-
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bell, LogOut, Trash2 } from "lucide-react";
 import axios from "axios";
+import { SidebarMobile, SidebarMobileButton } from "../Sidebar/SidebarMobile";
+import Cards from "./content/Cards";
 
 export default function Member() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -23,11 +20,6 @@ export default function Member() {
   const [search, setSearch] = useState("");
   const [filters, setFilter] = useState("All");
    const [confirmDelete, setConfirmDelete] = useState(null);
-
-  const BasicMembers = Members.filter((users) => users.subscription === false);
-  const Premium_Membership = Members.filter(
-    (users) => users.subscription === true
-  );
 
   const filterData =
     filters === "All"
@@ -111,6 +103,12 @@ export default function Member() {
       </div>
 
       {/* Sidebar - Mobile */}
+
+      <SidebarMobile
+        openSidebar={openSidebar}
+        setOpenSidebar={setOpenSidebar}
+      />
+
       <div
         className={`fixed inset-0 z-40 transform ${
           openSidebar ? "translate-x-0" : "-translate-x-full"
@@ -130,19 +128,13 @@ export default function Member() {
       </div>
 
 
+
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar - Fixed */}
         <header className="flex justify-between items-center px-4 md:px-6 py-5 bg-white border-white shadow-sm sticky top-0 z-50">
           {/* Left Side */}
-          <div className="flex items-center gap-3">
-            {/* Mobile Sidebar Button */}
-            <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
-              <Bars3Icon className="h-8 w-8 text-gray-700" />
-            </button>
-            <h1 className="text-3xl font-bold text-gray-800">Members</h1>
-          </div>
-
+          <SidebarMobileButton setOpenSidebar={setOpenSidebar} />
           {/* Right Side */}
           <div className="flex items-center gap-4">
             {/* Add Member */}
@@ -193,29 +185,7 @@ export default function Member() {
         {/* Content */}
         <div className="p-4 md:p-6 space-y-6">
           {/* Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card
-              title="Total Members"
-              count={Members.length}
-              icon={<Users className="w-7 h-7 text-gray-500" />}
-            />
-            <Card
-              title="Basic Members"
-              count={BasicMembers.length}
-              icon={<UserCheck className="w-7 h-7 text-green-600" />}
-            />
-            <Card
-              title="Classified"
-              count={Members.filter((m) => m.status === "pending").length}
-              icon={<Hourglass className="w-7 h-7 text-yellow-500" />}
-            />
-            <Card
-              title="Premium Members"
-              count={Premium_Membership.length}
-              icon={<Star className="w-7 h-7 text-purple-600" />}
-            />
-          </div>
-
+          <Cards />
           {/* Member List */}
           <div className="bg-white rounded-xl shadow-xl border-white">
             <div className="p-5 border-gray-200 border-2 border-t-transparent border-l-transparent border-r-transparent flex justify-between items-center">
@@ -304,8 +274,6 @@ export default function Member() {
                       >
                         {/* Action Dropdown */}
                         <div className="flex flex-wrap gap-2">
-                          
-
                           <button
                             className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-red-500 hover:scale-98 transition-transform duration-1000"
                             onClick={() => setConfirmDelete(u.id)}
@@ -366,17 +334,6 @@ export default function Member() {
     </div>
   );
 }
-
-/* Card Component */
-const Card = ({ title, count, icon }) => (
-  <div className="bg-white p-6 rounded-xl shadow border-white flex justify-between items-center hover:scale-105 transition-transform duration-1000">
-    <div>
-      <h3 className="text-lg text-gray-500">{title}</h3>
-      <p className="text-3xl font-bold mt-2">{count}</p>
-    </div>
-    {icon}
-  </div>
-);
 
 /* Membership Pill */
 const MembershipPill = ({ membership }) => {

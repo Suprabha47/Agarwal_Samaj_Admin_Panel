@@ -84,7 +84,14 @@ export const YUP_VALIDATION = Yup.object({
   image_path: Yup.mixed()
     .required("Image is required")
     .test("fileType", "Only image files are allowed", (value) => {
-      return value && value.type.startsWith("image/");
+      if (!value) return false;
+      if (typeof value === "string") {
+        return value.startsWith("http") || value.startsWith("data:image");
+      }
+      if (value instanceof File) {
+        return value.type.startsWith("image/");
+      }
+      return false;
     }),
   subscription: Yup.boolean(),
 });
