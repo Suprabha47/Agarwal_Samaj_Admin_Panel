@@ -8,7 +8,7 @@ import { Bell, LogOut, Trash2 } from "lucide-react";
 import axios from "axios";
 import { SidebarMobile, SidebarMobileButton } from "../Sidebar/SidebarMobile";
 import Cards from "./content/Cards";
-import {XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Member() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -20,7 +20,7 @@ export default function Member() {
   const Members = useSelector((state) => state.app.Members);
   const [search, setSearch] = useState("");
   const [filters, setFilter] = useState("All");
-   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const filterData =
     filters === "All"
@@ -66,7 +66,6 @@ export default function Member() {
     dispatch(MemberApi());
   }, [dispatch]);
 
-
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -77,7 +76,7 @@ export default function Member() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-    const handleDelete = async (id) => {
+  const handleDelete = async (id) => {
     try {
       await axios
         .delete(`http://localhost:4005/api/candidates/${id}`)
@@ -100,7 +99,7 @@ export default function Member() {
     <div className="bg-gray-50 min-h-screen flex">
       {/* Sidebar - Desktop */}
       <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
-        <Sidebar  />
+        <Sidebar />
       </div>
 
       {/* Sidebar - Mobile */}
@@ -115,7 +114,6 @@ export default function Member() {
           openSidebar ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
-
         <div className="h-full w-64 bg-white shadow-lg relative">
           {/* Close button */}
           <button
@@ -127,8 +125,6 @@ export default function Member() {
           <Sidebar />
         </div>
       </div>
-
-
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
@@ -303,40 +299,79 @@ export default function Member() {
       </main>
       <Outlet />
       {/* Delete Confirmation Modal */}
-{confirmDelete && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-    <div className="bg-white rounded-xl p-6 w-full max-w-sm sm:max-w-md md:max-w-lg shadow-xl">
-      <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
-        Are you sure you want to delete this member?
-      </h2>
-      <p className="text-sm sm:text-base text-gray-600 mt-2">
-        This action cannot be undone.
-      </p>
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm sm:max-w-md md:max-w-lg shadow-xl">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+              Are you sure you want to delete this member?
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600 mt-2">
+              This action cannot be undone.
+            </p>
 
-      {/* Buttons */}
-      <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 mt-6">
-        <button
-          onClick={() => setConfirmDelete(null)}
-          className="w-full sm:w-auto px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 hover:scale-98 transition-transform duration-1000"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={() => handleDelete(confirmDelete)}
-          className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 hover:scale-98 transition-transform duration-1000"
-        >
-          Yes, Delete
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 mt-6">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="w-full sm:w-auto px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 hover:scale-98 transition-transform duration-1000"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDelete(confirmDelete)}
+                className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 hover:scale-98 transition-transform duration-1000"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 /* Membership Pill */
 const MembershipPill = ({ membership }) => {
-  return <span>{membership === true ? <h6>✅</h6> : <h6>❌</h6>}</span>;
+  return (
+    <span>
+      {membership === true ? (
+        <h6>
+          <svg
+            class="text-green-600 h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
+            />
+          </svg>
+        </h6>
+      ) : (
+        <h6>
+          <svg
+            class=" h-6 w-6 text-blue-600"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </h6>
+      )}
+    </span>
+  );
 };

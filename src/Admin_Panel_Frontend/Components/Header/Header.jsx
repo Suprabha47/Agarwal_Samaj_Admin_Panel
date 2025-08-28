@@ -5,8 +5,7 @@ import { logout } from "../../Redux/Slice";
 import toast from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Bell, LogOut } from "lucide-react";
-import ExitIcon from '../../assests/Images/Exit.png';
-
+import ExitIcon from "../../assests/Images/Exit.png";
 
 export default function Header({
   setOpenSidebar,
@@ -18,33 +17,34 @@ export default function Header({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const email = useSelector((state) => state.app.email);
-  const location=useLocation()
+  const location = useLocation();
 
-  const HeaderHeading=()=>{
-    switch(location.pathname){
+  const HeaderHeading = () => {
+    switch (location.pathname) {
       case "/dashboard":
         return "Dashboard";
       case "/members":
         return "Members";
       case "/donations":
-      return "Donations";
-      case '/classified':
+        return "Donations";
+      case "/classified":
         return "Classified";
-      case '/membership':
+      case "/membership":
         return "MemberShips";
-        
-        default:
-           return (
-            <NavLink to={'/members'}> <h1 className="text-3xl font-bold text-gray-800">
-        <button>
-          <img src={ExitIcon} alt=""
-          className="size-10"
-          />
-        </button>
-        </h1></NavLink>
-          );;
+
+      default:
+        return (
+          <NavLink to={"/members"}>
+            {" "}
+            <h1 className="text-3xl font-bold text-gray-800">
+              <button>
+                <img src={ExitIcon} alt="" className="size-10" />
+              </button>
+            </h1>
+          </NavLink>
+        );
     }
-  }
+  };
 
   return (
     <header className="flex justify-between items-center px-4 md:px-6 py-5 bg-white border-white shadow-sm sticky top-0 z-50">
@@ -54,7 +54,7 @@ export default function Header({
         <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
           <Bars3Icon className="h-8 w-8 text-gray-700" />
         </button>
-      <h1 className="text-3xl font-bold text-gray-800">{HeaderHeading()}</h1>
+        <h1 className="text-3xl font-bold text-gray-800">{HeaderHeading()}</h1>
       </div>
 
       {/* Right Side */}
@@ -63,9 +63,7 @@ export default function Header({
 
         {isUpdate && id && (
           <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg text-base hover:bg-gray-600">
-            <NavLink to={`/members/updateMember/${id}`}>
-               Update Member
-            </NavLink>
+            <NavLink to={`/members/updateMember/${id}`}>Update Member</NavLink>
           </button>
         )}
         {/* Notification */}
@@ -79,7 +77,18 @@ export default function Header({
             onClick={() => setOpenMenu(!openMenu)}
             className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg"
           >
-            👤
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="size-6"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                clipRule="evenodd"
+              />
+            </svg>
           </button>
 
           {openMenu && (

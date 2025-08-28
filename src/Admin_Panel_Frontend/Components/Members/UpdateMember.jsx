@@ -8,7 +8,7 @@ import { STEP_VALIDATION_SCHEMAS } from "../../../utils/validationSchema";
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import {  useParams } from "react-router";
+import { useParams } from "react-router";
 import BasicInfo from "./details-form/BasicInfo";
 import FamilyInfo from "./details-form/FamilyInfo";
 import ContactInfo from "./details-form/ContactInfo";
@@ -25,7 +25,6 @@ export default function UpdateMember() {
   const [isStepValid, setIsStepValid] = useState(false);
   const [initialValues, setInitialValues] = useState(FORMIK_INITIAL_VALUES);
   const [loading, setLoading] = useState(true);
-  
 
   const totalSteps = 8;
 
@@ -77,8 +76,7 @@ export default function UpdateMember() {
             response.data.message || "Candidate Updated Successfully"
           );
           setTimeout(() => {
-           window.location.href='/members'
-            
+            window.location.href = "/members";
           }, 500);
         }
       } catch (error) {
@@ -242,7 +240,7 @@ export default function UpdateMember() {
                 {/* Update button for the very last step */}
                 {step === totalSteps && (
                   <button
-                    type="button" // CHANGE THIS TO type="button"
+                    type="button"
                     onClick={formik.handleSubmit}
                     disabled={!isStepValid}
                     className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
