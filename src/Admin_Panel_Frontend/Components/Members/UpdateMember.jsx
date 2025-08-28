@@ -119,14 +119,14 @@ export default function UpdateMember() {
   }, [step, formik.values]);
 
   const handleNext = async () => {
-    // If it's the last validation step (step 7) and you click next, just advance
+    
     if (step === STEP_VALIDATION_SCHEMAS.length) {
       setStep((s) => s + 1);
       return;
     }
     const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
     if (!currentSchema) {
-      setStep((s) => s + 1); // If no schema, just go to next step
+      setStep((s) => s + 1);
       return;
     }
     try {

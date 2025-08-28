@@ -9,8 +9,8 @@ export default function Cards() {
   );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 ">
+      <Card 
         title="Total Members"
         count={Members.length}
         icon={<Users className="w-7 h-7 text-gray-500" />}
