@@ -1,11 +1,15 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { logout } from "../../Redux/Slice";
 import toast from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Bell, LogOut } from "lucide-react";
+
 import { NavLink } from "react-router";
+
+import ExitIcon from '../../assests/Images/Exit.png';
+
 
 export default function Header({
   setOpenSidebar,
@@ -17,6 +21,33 @@ export default function Header({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const email = useSelector((state) => state.app.email);
+  const location=useLocation()
+
+  const HeaderHeading=()=>{
+    switch(location.pathname){
+      case "/dashboard":
+        return "Dashboard";
+      case "/members":
+        return "Members";
+      case "/donations":
+      return "Donations";
+      case '/classified':
+        return "Classified";
+      case '/membership':
+        return "MemberShips";
+        
+        default:
+           return (
+            <NavLink to={'/members'}> <h1 className="text-3xl font-bold text-gray-800">
+        <button>
+          <img src={ExitIcon} alt=""
+          className="size-10"
+          />
+        </button>
+        </h1></NavLink>
+          );;
+    }
+  }
 
   return (
     <header className="flex justify-between items-center px-4 md:px-6 py-5 bg-white border-white shadow-sm sticky top-0 z-50">
@@ -26,7 +57,7 @@ export default function Header({
         <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
           <Bars3Icon className="h-8 w-8 text-gray-700" />
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">Members</h1>
+      <h1 className="text-3xl font-bold text-gray-800">{HeaderHeading()}</h1>
       </div>
 
       {/* Right Side */}

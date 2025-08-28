@@ -19,6 +19,7 @@ export default function Member() {
   const Members = useSelector((state) => state.app.Members);
   const [search, setSearch] = useState("");
   const [filters, setFilter] = useState("All");
+   const [confirmDelete, setConfirmDelete] = useState(null);
 
   const filterData =
     filters === "All"
@@ -64,7 +65,7 @@ export default function Member() {
     dispatch(MemberApi());
   }, [dispatch]);
 
-  // Close dropdowns on outside click
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -75,14 +76,13 @@ export default function Member() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleDelete = async (id) => {
-    console.log(id);
+    const handleDelete = async (id) => {
     try {
       await axios
         .delete(`http://localhost:4005/api/candidates/${id}`)
         .then((response) => {
           if (response.data) {
-            toast.success("Member Delete Successfully");
+            toast.success("Member Deleted Successfully");
             setTimeout(async () => {
               dispatch(MemberApi());
             }, 300);
@@ -91,21 +91,43 @@ export default function Member() {
         .catch((err) => toast.error("Something Went Wrong", err));
     } catch (error) {
       console.log(error);
+    } finally {
+      setConfirmDelete(null); // close modal
     }
   };
-
   return (
     <div className="bg-gray-50 min-h-screen flex">
       {/* Sidebar - Desktop */}
       <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
-        <Sidebar />
+        <Sidebar  />
       </div>
 
       {/* Sidebar - Mobile */}
+
       <SidebarMobile
         openSidebar={openSidebar}
         setOpenSidebar={setOpenSidebar}
       />
+
+      <div
+        className={`fixed inset-0 z-40 transform ${
+          openSidebar ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out md:hidden`}
+      >
+
+        <div className="h-full w-64 bg-white shadow-lg relative">
+          {/* Close button */}
+          <button
+            onClick={() => setOpenSidebar(false)}
+            className="absolute top-4 right-4 text-gray-700"
+          >
+            <XMarkIcon className="h-7 w-7" />
+          </button>
+          <Sidebar />
+        </div>
+      </div>
+
+
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
@@ -241,7 +263,7 @@ export default function Member() {
                       <td className="py-4 px-5">
                         <NavLink
                           to={`member/${u.id}`}
-                          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-base hover:bg-blue-700"
+                          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-base hover:bg-blue-500 "
                         >
                           View
                         </NavLink>
@@ -253,8 +275,8 @@ export default function Member() {
                         {/* Action Dropdown */}
                         <div className="flex flex-wrap gap-2">
                           <button
-                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-blue-700"
-                            onClick={() => handleDelete(u.id)}
+                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-red-500 hover:scale-98 transition-transform duration-1000"
+                            onClick={() => setConfirmDelete(u.id)}
                           >
                             <Trash2 className="w-4 h-4" /> Delete
                           </button>
@@ -279,6 +301,36 @@ export default function Member() {
         </div>
       </main>
       <Outlet />
+      {/* Delete Confirmation Modal */}
+{confirmDelete && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+    <div className="bg-white rounded-xl p-6 w-full max-w-sm sm:max-w-md md:max-w-lg shadow-xl">
+      <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+        Are you sure you want to delete this member?
+      </h2>
+      <p className="text-sm sm:text-base text-gray-600 mt-2">
+        This action cannot be undone.
+      </p>
+
+      {/* Buttons */}
+      <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 mt-6">
+        <button
+          onClick={() => setConfirmDelete(null)}
+          className="w-full sm:w-auto px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 hover:scale-98 transition-transform duration-1000"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => handleDelete(confirmDelete)}
+          className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 hover:scale-98 transition-transform duration-1000"
+        >
+          Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

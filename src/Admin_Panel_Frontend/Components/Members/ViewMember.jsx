@@ -11,6 +11,7 @@ import Header from "../Header/Header";
 export default function ViewMember() {
   const [openSidebar, setOpenSidebar] = useState(false);
 
+
   const [activeTab, setActiveTab] = useState("Personal Details");
 
   const tabs = [
@@ -19,6 +20,13 @@ export default function ViewMember() {
     "Partner Preferences",
     "Photos",
   ];
+
+    const [openSidebar, setOpenSidebar] = useState(false);
+  
+    const [activeTab, setActiveTab] = useState("Personal Details");
+
+    const tabs = ["Personal Details", "Family Background", "Partner Preferences", "Photos"];
+
 
   const { id } = useParams();
   const Members = useSelector((state) => state.app.Members);
@@ -102,6 +110,34 @@ export default function ViewMember() {
                   </p>
                 </div>
               </div>
+
+        
+              {/* Main Content */}
+              <main className="flex-1 flex flex-col md:ml-64">
+                {/* Top Navbar - Fixed */}
+               <Header setOpenSidebar={setOpenSidebar} />
+                  <div className="min-h-screen bg-gray-200 py-6 px-4 md:px-12 text-white">
+      <div className="max-w-5xl mx-auto rounded-lg">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row items-center md:items-start bg-gray-800 p-6 rounded-lg shadow">
+          {/* Image */}
+          <img
+           src={`http://localhost:4005/${Member.image_path.replace(/\\/g, "/")}`}
+            alt={Member.name}
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-700 shadow-md"
+          />
+          {/* Info */}
+          <div className="flex-1 mt-4 md:mt-0 md:ml-6">
+            <h1 className="text-2xl font-bold">{Member.name}</h1>
+            <p className="text-gray-300">{Member.district}, {Member.state}</p>
+            <p className="text-gray-300">
+              {Member.height} • {Member.education} • {Member.occupation}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-2">
+             
+              <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">Gotra : {Member.gotra}</span>
+              <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">Never Married</span>
+
             </div>
 
             {/* Tabs */}

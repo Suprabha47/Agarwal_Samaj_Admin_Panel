@@ -7,8 +7,8 @@ export default function Sidebar() {
     <div className="h-full w-64 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
-        <h1 className="text-xl font-bold flex items-center gap-2 text-white">
-          <span className="text-gray-100">▦</span> Admin Panel
+        <h1 className="text-xl font-bold flex items-center gap-2 text-white hover:scale-105 transition-transform duration-1000">
+          <span className="text-gray-100 hover:scale-105 transition-transform duration-1000">▦</span> Admin Panel
         </h1>
       </div>
 
