@@ -16,7 +16,7 @@ import { STEP_VALIDATION_SCHEMAS } from "../../../../src/utils/validationSchema"
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { Navigate } from "react-router";
+
 
 export default function CreateMember() {
   const [step, setStep] = useState(1);
@@ -58,7 +58,7 @@ export default function CreateMember() {
               response.data.message || "Profile Created Successfully"
             );
             setTimeout(() => {
-              Navigate("/members");
+         window.location.href='/members';
             }, 500);
           }
         } catch (error) {

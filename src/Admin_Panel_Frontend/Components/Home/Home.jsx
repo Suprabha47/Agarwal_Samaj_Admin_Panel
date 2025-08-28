@@ -124,7 +124,7 @@ export default function Home() {
                 <p className="text-gray-600 text-lg">Total Members</p>
                 <UsersIcon className="h-6 w-6 text-blue-500" />
               </div>
-              <h3 className="text-3xl font-bold mt-2">2,847</h3>
+              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform duration-500">2,847</h3>
               <p className="text-base text-green-600">+12% from last month</p>
             </div>
 
@@ -133,7 +133,7 @@ export default function Home() {
                 <p className="text-gray-600 text-lg">Active Classifieds</p>
                 <DocumentTextIcon className="h-6 w-6 text-green-500" />
               </div>
-              <h3 className="text-3xl font-bold mt-2">156</h3>
+              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform duration-500">156</h3>
               <p className="text-base text-green-600">+8% from last month</p>
             </div>
 
@@ -142,7 +142,7 @@ export default function Home() {
                 <p className="text-gray-600 text-lg">Total Donations</p>
                 <HeartIcon className="h-6 w-6 text-pink-500" />
               </div>
-              <h3 className="text-3xl font-bold mt-2">$24,580</h3>
+              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform duration-500">$24,580</h3>
               <p className="text-base text-green-600">+23% from last month</p>
             </div>
 
@@ -151,7 +151,7 @@ export default function Home() {
                 <p className="text-gray-600 text-lg">Memberships</p>
                 <CreditCardIcon className="h-6 w-6 text-purple-500" />
               </div>
-              <h3 className="text-3xl font-bold mt-2">1,234</h3>
+              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform duration-500">1,234</h3>
               <p className="text-base text-red-600">-2% from last month</p>
             </div>
           </div>
