@@ -174,14 +174,18 @@ export default function FamilyInfo({ formik }) {
           <label className="block text-lg font-medium text-gray-700 mb-2">
             Nationality
           </label>
-          <input
+          <select
             type="text"
             name="nationality"
             value={formik.values.nationality}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
-          />
+          >
+            <option value="">---Select---</option>
+            <option value="Indian">Indian</option>
+          
+                       </select>
           {formik.touched.nationality && formik.errors.nationality && (
             <p className="text-red-500 text-sm mt-1">
               {formik.errors.nationality}
@@ -194,14 +198,19 @@ export default function FamilyInfo({ formik }) {
           <label className="block text-lg font-medium text-gray-700 mb-2">
             Status of Family
           </label>
-          <input
+          <select
             type="text"
             name="status_of_family"
             value={formik.values.status_of_family}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
-          />
+          >
+            <option value="">---Select---</option>
+            <option value="Middle Class">Middle Class</option>
+            <option value="Upper Class">Upper Class</option>
+            <option value="Lower Class">Lower Class</option>
+            </select>
           {formik.touched.status_of_family &&
             formik.errors.status_of_family && (
               <p className="text-red-500 text-sm mt-1">

@@ -35,7 +35,7 @@ export const step3Schema = Yup.object({
   district: Yup.string().required("District is required"),
   pin_code: Yup.string()
     .matches(/^[0-9]{4,10}$/, "Invalid Pin Code")
-    .required("Pin Code is required"),
+    .required("Pin Code is required").min(6,'PinCode should be 6 digit').max(6,'PinCode should be 6 digit'),
   phone: Yup.string().matches(/^[0-9]{6,15}$/, "Invalid Phone number"),
   contact_no: Yup.string()
     .matches(/^[0-9]{6,15}$/, "Invalid Contact number")
