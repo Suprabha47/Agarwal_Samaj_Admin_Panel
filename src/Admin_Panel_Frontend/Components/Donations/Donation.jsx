@@ -5,7 +5,10 @@ import Sidebar from "../Sidebar/Sidebar";
 export default function Donation() {
   return (
     <div>
-    <Sidebar/>
+ 
+    <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
+   <Sidebar/>
+    </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { logout } from "../../Redux/Slice";
 import toast from "react-hot-toast";
 import { Bars3Icon,  } from "@heroicons/react/24/outline";
@@ -21,7 +21,7 @@ export default function Header({ setOpenSidebar }) {
         <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
           <Bars3Icon className="h-8 w-8 text-gray-700" />
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">Members</h1>
+       <NavLink to={'/members'}> <h1 className="text-3xl font-bold text-gray-800">Members</h1></NavLink>
       </div>
 
       {/* Right Side */}

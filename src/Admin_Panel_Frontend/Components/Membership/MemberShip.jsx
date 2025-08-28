@@ -1,10 +1,14 @@
 import React from "react";
-import Dashboard from "../Sidebar/Sidebar";
+import Sidebar from "../Sidebar/Sidebar";
+
 
 export default function MemberShip() {
   return (
     <div>
-      <Dashboard />
+    <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
+      <Sidebar/>
+
+    </div>
     </div>
   );
 }
