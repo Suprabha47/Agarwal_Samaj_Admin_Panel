@@ -15,7 +15,8 @@ import { YUP_VALIDATION } from "../../../utils/YUP_VALIDATION"; // full schema f
 import { STEP_VALIDATION_SCHEMAS } from "../../../../src/utils/validationSchema";
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
-import { Toaster, toast } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { Navigate } from "react-router";
 
 export default function CreateMember() {
   const [step, setStep] = useState(1);
@@ -53,7 +54,12 @@ export default function CreateMember() {
           );
 
           if (response.data) {
-            toast.success("User Created Successfully");
+            toast.success(
+              response.data.message || "Profile Created Successfully"
+            );
+            setTimeout(() => {
+              Navigate("/members");
+            }, 500);
           }
         } catch (error) {
           toast.error("Something Went Wrong");
