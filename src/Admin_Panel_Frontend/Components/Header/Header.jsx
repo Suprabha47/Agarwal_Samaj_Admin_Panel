@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Bell, LogOut } from "lucide-react";
 
-import { NavLink } from "react-router";
 
 import ExitIcon from '../../assests/Images/Exit.png';
 

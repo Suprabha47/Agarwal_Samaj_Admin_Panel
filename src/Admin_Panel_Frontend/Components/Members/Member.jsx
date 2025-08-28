@@ -8,6 +8,7 @@ import { Bell, LogOut, Trash2 } from "lucide-react";
 import axios from "axios";
 import { SidebarMobile, SidebarMobileButton } from "../Sidebar/SidebarMobile";
 import Cards from "./content/Cards";
+import {XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Member() {
   const [openMenu, setOpenMenu] = useState(false);
