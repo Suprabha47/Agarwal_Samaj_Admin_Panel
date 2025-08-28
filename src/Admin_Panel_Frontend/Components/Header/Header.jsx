@@ -5,6 +5,7 @@ import { logout } from "../../Redux/Slice";
 import toast from "react-hot-toast";
 import { Bars3Icon,  } from "@heroicons/react/24/outline";
 import { Bell, LogOut } from "lucide-react";
+import ExitIcon from '../../assests/Images/Exit.png';
 
 export default function Header({ setOpenSidebar }) {
   const [openMenu, setOpenMenu] = useState(false);
@@ -21,7 +22,13 @@ export default function Header({ setOpenSidebar }) {
         <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
           <Bars3Icon className="h-8 w-8 text-gray-700" />
         </button>
-       <NavLink to={'/members'}> <h1 className="text-3xl font-bold text-gray-800">Members</h1></NavLink>
+       <NavLink to={'/members'}> <h1 className="text-3xl font-bold text-gray-800">
+        <button>
+          <img src={ExitIcon} alt=""
+          className="size-10"
+          />
+        </button>
+        </h1></NavLink>
       </div>
 
       {/* Right Side */}
