@@ -5,8 +5,6 @@ import { logout } from "../../Redux/Slice";
 import toast from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Bell, LogOut } from "lucide-react";
-
-
 import ExitIcon from '../../assests/Images/Exit.png';
 
 
@@ -66,7 +64,7 @@ export default function Header({
         {isUpdate && id && (
           <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg text-base hover:bg-gray-600">
             <NavLink to={`/members/updateMember/${id}`}>
-              + Update Member
+               Update Member
             </NavLink>
           </button>
         )}
