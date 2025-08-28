@@ -1,76 +1,62 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logout, MemberApi } from "../../Redux/Slice";
-
-import {
-  Bell,
-  Users,
-  UserCheck,
-  Hourglass,
-  Star,
-  LogOut,
-  MoreHorizontal,
-  Edit,
-  Trash2,
-} from "lucide-react";
-
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bell, LogOut, Trash2 } from "lucide-react";
+import axios from "axios";
+import { SidebarMobile, SidebarMobileButton } from "../Sidebar/SidebarMobile";
+import Cards from "./content/Cards";
 
 export default function Member() {
   const [openMenu, setOpenMenu] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [openAction, setOpenAction] = useState(null);
   const menuRef = useRef(null);
   const actionRef = useRef(null);
 
   const email = useSelector((state) => state.app.email);
   const Members = useSelector((state) => state.app.Members);
   const [search, setSearch] = useState("");
-  const [filters,setFilter]=useState('All');
+  const [filters, setFilter] = useState("All");
 
- const BasicMembers=Members.filter((users)=>users.subscription===0);
- const Premium_Membership=Members.filter((users)=>users.subscription===1);
-
-const filterData=filters==='All'?Members:Members.filter((user)=>
-(
-  user.subscription.toString()===filters||
-  user.manglik===filters
-
-)
-);
-const normalize = (str) => String(str || "").toLowerCase().replace(/\s+/g, "");
-// search 
-const filterSearch = filterData.filter((user) =>
-
-  [ 
-    user.name, 
-    user.gotra, 
-    new Date().getFullYear() - new Date(user.dob).getFullYear(), 
-    user.religion || "Hindu", // default fallback,
-    user.contact_no,
-    user.state,
-    user.candidate_gender,
-    user.status_of_family,
-    user.education,
-    user.father_name,
-    user.designation,
-    user.occupation,
-    user.body_type,
-    user.company_name,
-    user.address,
-    user.designation,
-    user.mother_name,
-    user.pin_code,
-    user.district,
-    user.native_place,
-    user.annual_income
-
-  ]
-  .some((field) => normalize(field).includes(normalize(search)))
-);
+  const filterData =
+    filters === "All"
+      ? Members
+      : Members.filter(
+          (user) =>
+            user.subscription.toString() === filters || user.manglik === filters
+        );
+  const normalize = (str) =>
+    String(str || "")
+      .toLowerCase()
+      .replace(/\s+/g, "");
+  // search
+  const filterSearch = filterData.filter((user) =>
+    [
+      user.name,
+      user.gotra,
+      new Date().getFullYear() - new Date(user.dob).getFullYear(),
+      user.religion || "Hindu", // default fallback,
+      user.contact_no,
+      user.state,
+      user.status_of_family,
+      user.education,
+      user.father_name,
+      user.designation,
+      user.occupation,
+      user.body_type,
+      user.company_name,
+      user.address,
+      user.designation,
+      user.mother_name,
+      user.pin_code,
+      user.district,
+      user.native_place,
+      user.annual_income,
+      user.email,
+    ].some((field) => normalize(field).includes(normalize(search)))
+  );
   const Navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -84,13 +70,29 @@ const filterSearch = filterData.filter((user) =>
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpenMenu(false);
       }
-      if (actionRef.current && !actionRef.current.contains(e.target)) {
-        setOpenAction(null);
-      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleDelete = async (id) => {
+    console.log(id);
+    try {
+      await axios
+        .delete(`http://localhost:4005/api/candidates/${id}`)
+        .then((response) => {
+          if (response.data) {
+            toast.success("Member Delete Successfully");
+            setTimeout(async () => {
+              dispatch(MemberApi());
+            }, 500);
+          }
+        })
+        .catch((err) => toast.error("Something Went Wrong", err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen flex">
@@ -100,36 +102,17 @@ const filterSearch = filterData.filter((user) =>
       </div>
 
       {/* Sidebar - Mobile */}
-      <div
-        className={`fixed inset-0 z-40 transform ${
-          openSidebar ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out md:hidden`}
-      >
-        <div className="h-full w-64 bg-white shadow-lg relative">
-          {/* Close button */}
-          <button
-            onClick={() => setOpenSidebar(false)}
-            className="absolute top-4 right-4 text-gray-700"
-          >
-            <XMarkIcon className="h-7 w-7" />
-          </button>
-          <Sidebar />
-        </div>
-      </div>
+      <SidebarMobile
+        openSidebar={openSidebar}
+        setOpenSidebar={setOpenSidebar}
+      />
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar - Fixed */}
         <header className="flex justify-between items-center px-4 md:px-6 py-5 bg-white border-white shadow-sm sticky top-0 z-50">
           {/* Left Side */}
-          <div className="flex items-center gap-3">
-            {/* Mobile Sidebar Button */}
-            <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
-              <Bars3Icon className="h-8 w-8 text-gray-700" />
-            </button>
-            <h1 className="text-3xl font-bold text-gray-800">Members</h1>
-          </div>
-
+          <SidebarMobileButton setOpenSidebar={setOpenSidebar} />
           {/* Right Side */}
           <div className="flex items-center gap-4">
             {/* Add Member */}
@@ -180,29 +163,7 @@ const filterSearch = filterData.filter((user) =>
         {/* Content */}
         <div className="p-4 md:p-6 space-y-6">
           {/* Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card
-              title="Total Members"
-              count={Members.length}
-              icon={<Users className="w-7 h-7 text-gray-500" />}
-            />
-            <Card
-              title="Basic Members"
-              count={BasicMembers.length}
-              icon={<UserCheck className="w-7 h-7 text-green-600" />}
-            />
-            <Card
-              title="Classified"
-              count={Members.filter((m) => m.status === "pending").length}
-              icon={<Hourglass className="w-7 h-7 text-yellow-500" />}
-            />
-            <Card
-              title="Premium Members"
-              count={Premium_Membership.length}
-              icon={<Star className="w-7 h-7 text-purple-600" />}
-            />
-          </div>
-
+          <Cards />
           {/* Member List */}
           <div className="bg-white rounded-xl shadow-xl border-white">
             <div className="p-5 border-gray-200 border-2 border-t-transparent border-l-transparent border-r-transparent flex justify-between items-center">
@@ -215,14 +176,15 @@ const filterSearch = filterData.filter((user) =>
                 </p>
               </div>
               <div className="flex gap-2">
-                <select className="border-gray-200 border-2 rounded-lg px-3 py-2 text-base font-semibold"
-                value={filters} onChange={(e)=>setFilter(e.target.value)}
+                <select
+                  className="border-gray-200 border-2 rounded-lg px-3 py-2 text-base font-semibold"
+                  value={filters}
+                  onChange={(e) => setFilter(e.target.value)}
                 >
-                  <option value={'All'}>All</option>
-                  <option value={0}>Basic</option>
-                  <option value={1}>Membership</option>
-                  <option value={'Yes'}>Manglik</option>
-
+                  <option value={"All"}>All</option>
+                  <option value={false}>Basic</option>
+                  <option value={true}>Membership</option>
+                  <option value={"Yes"}>Manglik</option>
                 </select>
               </div>
             </div>
@@ -289,27 +251,18 @@ const filterSearch = filterData.filter((user) =>
                         ref={actionRef}
                       >
                         {/* Action Dropdown */}
-                        <button
-                          onClick={() =>
-                            setOpenAction(openAction === u.id ? null : u.id)
-                          }
-                        >
-                          <MoreHorizontal className="w-6 h-6" />
-                        </button>
-                        {openAction === u.id && (
-                          <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg z-50">
-                            <button className="flex items-center gap-2 px-4 py-2 w-full hover:bg-gray-50">
-                              <Edit className="w-5 h-5" /> Edit
-                            </button>
-                            <button className="flex items-center gap-2 px-4 py-2 w-full text-red-600 hover:bg-gray-50">
-                              <Trash2 className="w-5 h-5" /> Delete
-                            </button>
-                          </div>
-                        )}
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-blue-700"
+                            onClick={() => handleDelete(u.id)}
+                          >
+                            <Trash2 className="w-4 h-4" /> Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
-                  {Members.length === 0 && (
+                  {filterSearch.length === 0 && (
                     <tr>
                       <td
                         colSpan="5"
@@ -330,23 +283,7 @@ const filterSearch = filterData.filter((user) =>
   );
 }
 
-/* Card Component */
-const Card = ({ title, count, icon }) => (
-  <div className="bg-white p-6 rounded-xl shadow border-white flex justify-between items-center hover:scale-105 transition-transform duration-1000">
-    <div>
-      <h3 className="text-lg text-gray-500">{title}</h3>
-      <p className="text-3xl font-bold mt-2">{count}</p>
-    </div>
-    {icon}
-  </div>
-);
-
 /* Membership Pill */
 const MembershipPill = ({ membership }) => {
-  return (
-    <span
-    >
-      {membership===1?<h6>✅</h6>:<h6>❌</h6>}
-    </span>
-  );
+  return <span>{membership === true ? <h6>✅</h6> : <h6>❌</h6>}</span>;
 };

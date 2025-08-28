@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const MemberApi=createAsyncThunk('api',async()=>{
-    let response=await axios.get('./Member.json');
+    let response=await axios.get('http://localhost:4005/api/candidates');
     return response.data;
 })
 
@@ -17,8 +17,6 @@ export const Slice=createSlice({
         loading:false,
         Members:[],
         error:null,
-        
-
     },
     reducers:{
         setUsername:(state,action)=>{

@@ -11,60 +11,79 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { FORMIK_INITIAL_VALUES } from "../../../utils/FORMIK_INITIAL_VALUES";
-import { YUP_VALIDATION } from "../../../utils/YUP_VALIDATION"; // full schema for final submit (optional)
-import { STEP_VALIDATION_SCHEMAS } from "../../../../src/utils/validationSchema";
+import { YUP_VALIDATION } from "../../../utils/YUP_VALIDATION";
+import { STEP_VALIDATION_SCHEMAS } from "../../../utils/validationSchema";
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
-import { Toaster, toast } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { useParams } from "react-router";
 
-export default function CreateMember() {
+export default function UpdateMember() {
   const [step, setStep] = useState(1);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [isStepValid, setIsStepValid] = useState(false);
-  const initialValues = FORMIK_INITIAL_VALUES;
+  const [initialValues, setInitialValues] = useState(FORMIK_INITIAL_VALUES);
+  const [loading, setLoading] = useState(true);
+  const candidateId = useParams();
+
+  // Fetch existing candidate data
+  useEffect(() => {
+    const fetchCandidate = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4005/api/candidates/${candidateId}`
+        );
+        if (response.data) {
+          setInitialValues({
+            ...FORMIK_INITIAL_VALUES,
+            ...response.data, // make sure API keys match Formik fields
+          });
+        }
+      } catch (error) {
+        toast.error("Failed to fetch candidate data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCandidate();
+  }, [candidateId]);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues,
     validationSchema: YUP_VALIDATION,
     onSubmit: async (values) => {
-      console.log("Final submit:", values);
       try {
-        try {
-          const formData = new FormData();
+        const formData = new FormData();
 
-          // append text fields
-          Object.keys(values).forEach((key) => {
-            if (key !== "image_path") {
-              formData.append(key, values[key]);
-            }
-          });
+        Object.keys(values).forEach((key) => {
+          if (key !== "image_path") formData.append(key, values[key]);
+        });
 
-          // append file (if selected)
-          if (values.image_path) {
-            formData.append("image_path", values.image_path);
-          }
+        if (values.image_path instanceof File) {
+          formData.append("image_path", values.image_path);
+        }
 
-          const response = await axios.post(
-            "http://localhost:4005/api/candidates",
-            formData,
-            {
-              headers: { "Content-Type": "multipart/form-data" },
-            }
+        const response = await axios.put(
+          `http://localhost:4005/api/candidates/${candidateId}`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        if (response.data) {
+          toast.success(
+            response.data.message || "Candidate Updated Successfully"
           );
-
-          if (response.data) {
-            toast.success("User Created Successfully");
-          }
-        } catch (error) {
-          toast.error("Something Went Wrong");
         }
       } catch (error) {
-        toast.error("Something Went Wrong");
+        toast.error(error.response?.data?.error || "Something went wrong!");
       }
     },
     validateOnBlur: true,
-    validateOnChange: false, // optional: prevents full-form validation on every keystroke
+    validateOnChange: false,
   });
+
+  // Step validation (step 7 optional)
   useEffect(() => {
     const validateStep = async () => {
       if (step === 7) {
@@ -76,7 +95,6 @@ export default function CreateMember() {
         setIsStepValid(true);
         return;
       }
-
       try {
         await currentSchema.validate(formik.values, { abortEarly: false });
         setIsStepValid(true);
@@ -84,7 +102,6 @@ export default function CreateMember() {
         setIsStepValid(false);
       }
     };
-
     validateStep();
   }, [step, formik.values]);
 
@@ -98,27 +115,17 @@ export default function CreateMember() {
       setStep((s) => s + 1);
       return;
     }
-
     try {
-      // validate current step against full form values
       await currentSchema.validate(formik.values, { abortEarly: false });
-
-      // no errors -> go next
       setStep((s) => s + 1);
     } catch (err) {
-      // Yup throws a ValidationError with `inner` array
       const errors = {};
       if (err && err.inner) {
         err.inner.forEach((e) => {
-          if (e.path) {
-            // set first error message for each path
-            if (!errors[e.path]) errors[e.path] = e.message;
-            // mark field touched so error shows
-            formik.setFieldTouched(e.path, true, false);
-          }
+          if (e.path && !errors[e.path]) errors[e.path] = e.message;
+          formik.setFieldTouched(e.path, true, false);
         });
       }
-      // push errors into Formik (so formik.errors contains only step errors)
       formik.setErrors((prev) => ({ ...prev, ...errors }));
     }
   };
@@ -150,6 +157,8 @@ export default function CreateMember() {
     }
   };
 
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+
   return (
     <div>
       {/* Sidebar - Desktop */}
@@ -164,7 +173,6 @@ export default function CreateMember() {
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
         <div className="h-full w-64 bg-white shadow-lg relative">
-          {/* Close button */}
           <button
             onClick={() => setOpenSidebar(false)}
             className="absolute top-4 right-4 text-gray-700"
@@ -174,9 +182,9 @@ export default function CreateMember() {
           <Sidebar />
         </div>
       </div>
+
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
-        {/* Top Navbar - Fixed */}
         <Header setOpenSidebar={setOpenSidebar} />
 
         <div className="flex justify-center px-4 py-8 mt-3">
@@ -184,10 +192,8 @@ export default function CreateMember() {
             onSubmit={formik.handleSubmit}
             className="w-[90%] bg-white border border-gray-300 shadow-md rounded-lg p-6 space-y-6"
           >
-            {/* Render the current step */}
             {renderStep()}
 
-            {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">
               {step > 1 && (
                 <button
@@ -199,24 +205,35 @@ export default function CreateMember() {
                 </button>
               )}
 
-              {step < STEP_VALIDATION_SCHEMAS.length ? (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={!isStepValid}
-                  className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                  Next
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={!isStepValid}
-                  className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                  Submit
-                </button>
-              )}
+              <div className="flex gap-2">
+                {step === 7 && (
+                  <button
+                    type="button"
+                    onClick={() => setStep((s) => s + 1)}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
+                    Skip
+                  </button>
+                )}
+                {step < STEP_VALIDATION_SCHEMAS.length ? (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!isStepValid}
+                    className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={!isStepValid}
+                    className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    Update
+                  </button>
+                )}
+              </div>
             </div>
           </form>
         </div>
