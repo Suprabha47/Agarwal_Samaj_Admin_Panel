@@ -93,7 +93,7 @@ export default function Member() {
             toast.success("Member Delete Successfully");
             setTimeout(async () => {
               dispatch(MemberApi());
-            }, 500);
+            }, 300);
           }
         })
         .catch((err) => toast.error("Something Went Wrong", err));

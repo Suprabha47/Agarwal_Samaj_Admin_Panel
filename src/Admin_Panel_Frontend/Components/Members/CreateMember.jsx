@@ -16,12 +16,14 @@ import { STEP_VALIDATION_SCHEMAS } from "../../../../src/utils/validationSchema"
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
  
 export default function CreateMember() {
   const [step, setStep] = useState(1);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [isStepValid, setIsStepValid] = useState(false);
   const initialValues = FORMIK_INITIAL_VALUES;
+  const Navigate=useNavigate()
  
   const formik = useFormik({
     initialValues,
@@ -54,6 +56,10 @@ export default function CreateMember() {
  
           if (response.data) {
             toast.success(response.data.message || "Profile Created Successfully");
+            setTimeout(() => {
+              Navigate('/members');
+              
+            }, 500);
           }
         } catch (error) {
           toast.error(error.response.data.error || "Something went wrong!");
