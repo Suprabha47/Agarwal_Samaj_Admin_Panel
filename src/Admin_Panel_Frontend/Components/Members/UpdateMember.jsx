@@ -34,6 +34,7 @@ export default function UpdateMember() {
         const response = await axios.get(
           `http://localhost:4005/api/candidates/${id}`
         );
+        console.log("res data: ", response.data);
         if (response.data) {
           setInitialValues({
             ...FORMIK_INITIAL_VALUES,
@@ -53,6 +54,7 @@ export default function UpdateMember() {
     enableReinitialize: true,
     initialValues,
     validationSchema: YUP_VALIDATION,
+
     onSubmit: async (values) => {
       try {
         const formData = new FormData();
@@ -81,7 +83,7 @@ export default function UpdateMember() {
         }
       } catch (error) {
         console.error("Form submission error:", error); // Log submission errors
-        toast.error(error.response?.data?.error || "Something went wrong!");
+        toast.error(error.response?.data?.error);
       }
     },
     validateOnBlur: true,
@@ -90,7 +92,6 @@ export default function UpdateMember() {
 
   useEffect(() => {
     const validateStep = async () => {
-      console.log(`Validating step ${step}...`);
       // If the current step is beyond the schemas we have (e.g., step 8 for 7 schemas)
       if (step > STEP_VALIDATION_SCHEMAS.length) {
         setIsStepValid(true);
@@ -117,18 +118,24 @@ export default function UpdateMember() {
   }, [step, formik.values]);
 
   const handleNext = async () => {
-    
     if (step === STEP_VALIDATION_SCHEMAS.length) {
       setStep((s) => s + 1);
       return;
     }
+
     const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
     if (!currentSchema) {
       setStep((s) => s + 1);
       return;
     }
+
     try {
-      await currentSchema.validate(formik.values, { abortEarly: false });
+      // 👇 explicitly pass Formik context to Yup validate
+      await currentSchema.validate(formik.values, {
+        abortEarly: false,
+        context: { isUpdate: true }, // or false in create mode
+      });
+
       setStep((s) => s + 1);
     } catch (err) {
       console.error("Next step validation failed:", err);

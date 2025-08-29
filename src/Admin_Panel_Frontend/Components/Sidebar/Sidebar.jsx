@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const email = useSelector((state) => state.app.email);
+    const role = parseInt(localStorage.getItem("role"));
   return (
     <div className="h-full w-64 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg flex flex-col">
       {/* Header */}
@@ -157,7 +158,12 @@ export default function Sidebar() {
             </svg>
           </div>
           <div>
-            <p className="font-semibold text-white">Admin User</p>
+            {
+              role===1?
+              <p className="font-semibold text-white">Super Admin</p>:
+              <p className="font-semibold text-white">Moderator</p>
+            }
+           
             <p className="text-sm text-gray-300">{email}</p>
           </div>
         </div>

@@ -109,6 +109,7 @@ export default function Header({
                   toast.success("Logout Successfully");
                   setTimeout(() => {
                     localStorage.removeItem("token");
+                    localStorage.removeItem("role");
                     dispatch(logout());
                     navigate("/");
                   }, 1000);

@@ -4,7 +4,7 @@ export const FORMIK_INITIAL_VALUES = {
   birth_place: "",
   candidate_gender: "",
   manglik: "",
-  gotra: "",
+  gotra: "", 
   maternal_gotra: "",
   father_name: "",
   father_mobile: "",

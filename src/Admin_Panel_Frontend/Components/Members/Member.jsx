@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logout, MemberApi } from "../../Redux/Slice";
-import {  LogOut, Trash2 } from "lucide-react";
+import { LogOut, Trash2 } from "lucide-react";
 import axios from "axios";
 import { SidebarMobile, SidebarMobileButton } from "../Sidebar/SidebarMobile";
 import Cards from "./content/Cards";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+
 
 export default function Member() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -21,6 +22,8 @@ export default function Member() {
   const [search, setSearch] = useState("");
   const [filters, setFilter] = useState("All");
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const role = parseInt(localStorage.getItem("role"));
+ // console.log(typeof role);
 
   const filterData =
     filters === "All"
@@ -135,20 +138,24 @@ export default function Member() {
           {/* Right Side */}
           <div className="flex items-center gap-4">
             {/* Add Member */}
-            <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg text-base hover:bg-gray-600">
-              <NavLink to={"createMember"}>+ Add Member</NavLink>
-            </button>
+            {role === 1 && (
+              <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg text-base hover:bg-gray-600">
+                <NavLink to={"createMember"}>+ Add Member</NavLink>
+              </button>
+            )}
 
             {/* Notification */}
             <button className="relative">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" 
-         x="0px" y="0px" 
-         className="size-10"
-         viewBox="0 0 64 64">
-<path d="M25.815 50h12.371c-1.068 2.355-3.436 4-6.185 4S26.883 52.355 25.815 50zM51.509 39.699C51.764 39.954 54 42.294 54 46c0 1.104-.896 2-2 2H12c-1.104 0-2-.896-2-2 0-3.706 2.236-6.046 2.491-6.301.165-.166.359-.301.571-.399 3.056-1.417 3.604-9.965 3.897-14.557.779-7.786 7.072-10.934 10.68-11.658C28.307 11.604 29.662 10 32 10s3.693 1.604 4.36 3.084c3.607.723 9.899 3.862 10.674 11.586.3 4.664.848 13.212 3.903 14.629C51.149 39.398 51.344 39.534 51.509 39.699z"></path>
-</svg>
-          <span className="absolute top-1  right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                className="size-10"
+                viewBox="0 0 64 64"
+              >
+                <path d="M25.815 50h12.371c-1.068 2.355-3.436 4-6.185 4S26.883 52.355 25.815 50zM51.509 39.699C51.764 39.954 54 42.294 54 46c0 1.104-.896 2-2 2H12c-1.104 0-2-.896-2-2 0-3.706 2.236-6.046 2.491-6.301.165-.166.359-.301.571-.399 3.056-1.417 3.604-9.965 3.897-14.557.779-7.786 7.072-10.934 10.68-11.658C28.307 11.604 29.662 10 32 10s3.693 1.604 4.36 3.084c3.607.723 9.899 3.862 10.674 11.586.3 4.664.848 13.212 3.903 14.629C51.149 39.398 51.344 39.534 51.509 39.699z"></path>
+              </svg>
+              <span className="absolute top-1  right-1 h-2 w-2 bg-red-500 rounded-full"></span>
             </button>
 
             {/* User Dropdown */}
@@ -157,18 +164,18 @@ export default function Member() {
                 onClick={() => setOpenMenu(!openMenu)}
                 className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg"
               >
-                  <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                clipRule="evenodd"
-              />
-            </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </button>
 
               {openMenu && (
@@ -289,8 +296,9 @@ export default function Member() {
                         {/* Action Dropdown */}
                         <div className="flex flex-wrap gap-2">
                           <button
-                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-red-500 hover:scale-98 transition-transform duration-1000"
+                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-red-500 hover:scale-98 transition-transform duration-1000 disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={() => setConfirmDelete(u.id)}
+                            disabled={role !== 1} // 👈 disable condition here
                           >
                             <Trash2 className="w-4 h-4" /> Delete
                           </button>
@@ -361,7 +369,6 @@ const MembershipPill = ({ membership }) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            
           >
             <path
               strokeLinecap="round"
@@ -379,7 +386,6 @@ const MembershipPill = ({ membership }) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-           
           >
             <path
               strokeLinecap="round"

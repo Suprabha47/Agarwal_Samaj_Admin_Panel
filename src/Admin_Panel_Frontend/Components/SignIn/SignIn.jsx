@@ -4,21 +4,21 @@ import { login, setEmail, setPassword } from "../../Redux/Slice";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
- 
+
 export default function SignIn() {
   const email = useSelector((state) => state.app.email);
   const password = useSelector((state) => state.app.password);
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  
+
   const [toggle, setToggle] = useState(true);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
- 
+
   const handleLogin = async (e) => {
     e.preventDefault();
     let newErrors = {};
- 
+
     // 🔎 Validation
     if (!email.trim()) {
       newErrors.email = "Email is required";
@@ -28,36 +28,37 @@ export default function SignIn() {
         newErrors.email = "Invalid email format";
       }
     }
- 
+
     if (!password.trim()) {
       newErrors.password = "Password is required";
     } else if (password.length < 8) {
       newErrors.password = "Password must be at least 8 characters long";
     }
- 
+
     setErrors(newErrors);
- 
+
     // 🚀 If no errors, call API
     if (Object.keys(newErrors).length === 0) {
       try {
         setLoading(true);
- 
+
         const response = await axios.post(
           "http://localhost:4005/api/auth/sign-in",
           { email, password },
           { headers: { "Content-Type": "application/json" } }
         );
- 
+
         console.log("✅ Login success:", response.data);
- 
+
         // 🔑 Store token
         if (response.data.token) {
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("role", response.data.role);
         }
- 
+
         // Update redux login state
-        dispatch(login());
- 
+        dispatch(login({ role: response?.data?.role }));
+
         // Navigate to dashboard
         Navigate("/dashboard");
       } catch (error) {
@@ -73,7 +74,7 @@ export default function SignIn() {
       }
     }
   };
- 
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-200 to-gray-300 px-4">
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
@@ -101,7 +102,7 @@ export default function SignIn() {
             </NavLink>
           </p>
         </div>
- 
+
         <div className="p-6 sm:p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
             Sign In to Your Account
@@ -122,7 +123,7 @@ export default function SignIn() {
                 <p className="text-red-500 text-base mt-1">{errors.email}</p>
               )}
             </div>
- 
+
             <div className="relative">
               <label className="block text-base md:text-lg font-medium text-gray-700 mb-1">
                 Password
@@ -159,7 +160,7 @@ export default function SignIn() {
                 <p className="text-red-500 text-base mt-1">{errors.password}</p>
               )}
             </div>
- 
+
             <button
               type="submit"
               className="w-full bg-gray-900 hover:bg-gray-700 text-white py-3 rounded-full font-semibold shadow-md hover:scale-98 transition-transform duration-700 text-base md:text-lg"

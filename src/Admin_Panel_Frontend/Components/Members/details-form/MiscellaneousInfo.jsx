@@ -51,6 +51,15 @@ export default function MiscellaneousInfo({ formik }) {
           <label className="block text-lg font-medium text-gray-700 mb-2">
             Profile Image
           </label>
+          {/* Preview existing image */}
+          {formik.values.image_path &&
+            typeof formik.values.image_path === "string" && (
+              <img
+                src={`http://localhost:4005/${formik.values.image_path}`}
+                alt="Current profile"
+                className="w-24 h-24 object-cover rounded mb-3"
+              />
+            )}
           <input
             type="file"
             name="image_path"

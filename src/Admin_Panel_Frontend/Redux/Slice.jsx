@@ -17,6 +17,7 @@ export const Slice = createSlice({
     loading: false,
     Members: [],
     error: null,
+    role:null,
   },
   reducers: {
     setUsername: (state, action) => {
@@ -31,14 +32,16 @@ export const Slice = createSlice({
     setConfirmPassword: (state, action) => {
       state.confirm_password = action.payload;
     },
-    login: (state) => {
+    login: (state,action) => {
       state.isLoggedIn = true;
+      state.role=action.payload.role
       localStorage.setItem("auth", JSON.stringify(state));
     },
     logout: (state) => {
       state.isLoggedIn = false;
       localStorage.setItem("auth", JSON.stringify(state));
     },
+    
   },
   extraReducers: (boiler) => {
     boiler
@@ -54,6 +57,7 @@ export const Slice = createSlice({
         state.error = action.payload.error;
       });
   },
+
 });
 
 export const {

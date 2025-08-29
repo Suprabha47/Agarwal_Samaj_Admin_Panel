@@ -17,7 +17,6 @@ import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
-
 export default function CreateMember() {
   const [step, setStep] = useState(1);
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -58,11 +57,11 @@ export default function CreateMember() {
               response.data.message || "Profile Created Successfully"
             );
             setTimeout(() => {
-         window.location.href='/members';
+              window.location.href = "/members";
             }, 500);
           }
         } catch (error) {
-          toast.error("Something Went Wrong");
+          toast.error(error.response?.data?.error);
         }
       } catch (error) {
         toast.error("Something Went Wrong");
