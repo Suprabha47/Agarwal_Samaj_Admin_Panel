@@ -53,10 +53,10 @@ export default function ViewMember() {
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar - Fixed */}
         <Header setOpenSidebar={setOpenSidebar} isUpdate={true} id={id} />
-        <div className="min-h-screen bg-gray-200 py-6 px-4 md:px-12 text-white">
-          <div className="max-w-5xl mx-auto rounded-lg">
+        <div className="min-h-screen bg-gray-200 py-0 px-2  sm:px-4 md:px-12 text-white">
+          <div className="max-w-5xl mx-auto rounded-lg ">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row items-center md:items-start bg-gray-800 p-6 rounded-lg shadow">
+            <div className="flex flex-col md:flex-row items-center md:items-start bg-gray-800 p-6 rounded-lg shadow mt-20">
               {/* Image */}
               <img
                 src={`http://localhost:4005/${Member.image_path.replace(
@@ -64,7 +64,7 @@ export default function ViewMember() {
                   "/"
                 )}`}
                 alt={Member.name}
-                className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-700 shadow-md"
+                className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-700 shadow-md hover:scale-110 transition-transform duration-500"
               />
               {/* Info */}
               <div className="flex-1 mt-4 md:mt-0 md:ml-6">
@@ -120,7 +120,7 @@ export default function ViewMember() {
             </div>
 
             {/* Tabs */}
-            <div className="flex justify-around mt-6 border-white border-gray-700">
+            <div className="flex justify-around mt-6 border-white border-gray-700 overflow-x-hidden flex-wrap">
               {tabs.map((tab) => (
                 <button
                   key={tab}

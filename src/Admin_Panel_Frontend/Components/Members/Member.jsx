@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logout, MemberApi } from "../../Redux/Slice";
-import { Bell, LogOut, Trash2 } from "lucide-react";
+import {  LogOut, Trash2 } from "lucide-react";
 import axios from "axios";
 import { SidebarMobile, SidebarMobileButton } from "../Sidebar/SidebarMobile";
 import Cards from "./content/Cards";
@@ -141,8 +141,14 @@ export default function Member() {
 
             {/* Notification */}
             <button className="relative">
-              <Bell className="h-6 w-6 text-gray-700" />
-              <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+              
+              <svg xmlns="http://www.w3.org/2000/svg" 
+         x="0px" y="0px" 
+         className="size-10"
+         viewBox="0 0 64 64">
+<path d="M25.815 50h12.371c-1.068 2.355-3.436 4-6.185 4S26.883 52.355 25.815 50zM51.509 39.699C51.764 39.954 54 42.294 54 46c0 1.104-.896 2-2 2H12c-1.104 0-2-.896-2-2 0-3.706 2.236-6.046 2.491-6.301.165-.166.359-.301.571-.399 3.056-1.417 3.604-9.965 3.897-14.557.779-7.786 7.072-10.934 10.68-11.658C28.307 11.604 29.662 10 32 10s3.693 1.604 4.36 3.084c3.607.723 9.899 3.862 10.674 11.586.3 4.664.848 13.212 3.903 14.629C51.149 39.398 51.344 39.534 51.509 39.699z"></path>
+</svg>
+          <span className="absolute top-1  right-1 h-2 w-2 bg-red-500 rounded-full"></span>
             </button>
 
             {/* User Dropdown */}

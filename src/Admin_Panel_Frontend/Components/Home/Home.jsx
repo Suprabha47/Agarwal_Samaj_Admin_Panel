@@ -1,26 +1,18 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import {
-  BellIcon,
-  ArrowRightOnRectangleIcon,
-  UsersIcon,
-  DocumentTextIcon,
-  HeartIcon,
-  CreditCardIcon,
-  Bars3Icon,
-  XMarkIcon,
+  UsersIcon,DocumentTextIcon,HeartIcon,CreditCardIcon,XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../Redux/Slice";
-import toast, { Toaster } from "react-hot-toast";
+
+
+import  { Toaster } from "react-hot-toast";
+import Header from "../Header/Header";
 
 export default function Home() {
-  const [openMenu, setOpenMenu] = useState(false);
+ 
   const [openSidebar, setOpenSidebar] = useState(false);
-  const email = useSelector((state) => state.app.email);
-  const dispatch = useDispatch();
-  const Navigate = useNavigate();
+
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -50,78 +42,10 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar */}
-        <header className="fixed top-0 left-0 md:left-64 right-0 z-50 flex justify-between items-center px-4 md:px-6 py-4 bg-gray-50 shadow-sm">
-          <h1 className="text-3xl text-gray-600 font-bold hidden md:block">
-            Dashboard
-          </h1>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button onClick={() => setOpenSidebar(true)}>
-              <Bars3Icon className="h-8 w-8 text-gray-700" />
-            </button>
-          </div>
-
-          <div className="flex items-center ml-auto">
-            {/* Notification */}
-            <button className="mr-4 relative">
-              <BellIcon className="h-7 w-7 text-gray-700" />
-              <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-            </button>
-
-            {/* User Menu */}
-            <div className="relative">
-              <button
-                onClick={() => setOpenMenu(!openMenu)}
-                className="flex items-center space-x-2"
-              >
-                <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-lg">
-                    <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                clipRule="evenodd"
-              />
-            </svg>
-                </div>
-              </button>
-
-              {openMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-white shadow-lg rounded-lg z-50">
-                  <div className="p-3 border-b">
-                    <p className="font-medium text-base">Admin User</p>
-                    <p className="text-sm text-gray-500">{email}</p>
-                  </div>
-
-                  <div className="flex items-center px-4 py-3 bg-gray-800 text-white hover:bg-gray-700 text-base">
-                    <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
-                    <button
-                      onClick={() => {
-                        toast.success("Logout Successfully");
-                        setTimeout(() => {
-                          localStorage.removeItem("token");
-                          console.log(localStorage.removeItem("token"));
-                          dispatch(logout());
-                          Navigate("/");
-                        }, 1000);
-                      }}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </header>
+       <Header setOpenSidebar={setOpenSidebar}/>
 
         {/* Dashboard Content */}
-        <main className="p-6 mt-20">
+        <main className="p-6 mt-1">
           {/* Header Text */}
           <h1 className="text-3xl font-bold mt-1">Welcome back, <span className="animate-pulse">Admin</span></h1>
           <p className="text-lg text-gray-600 mb-6">
