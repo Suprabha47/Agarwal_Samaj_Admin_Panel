@@ -77,9 +77,6 @@ export default function ViewMember() {
                 </p>
                 <div className="flex flex-wrap gap-2 mt-2">
                   <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">
-                    Hindu
-                  </span>
-                  <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">
                     {Member.gotra}
                   </span>
                   <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">
@@ -191,9 +188,7 @@ export default function ViewMember() {
                       <li>
                         <b>Height:</b> {Member.height}
                       </li>
-                      <li>
-                        <b>Religion:</b> Hindu
-                      </li>
+                      
                       <li>
                         <b>Caste:</b> {Member.gotra}
                       </li>

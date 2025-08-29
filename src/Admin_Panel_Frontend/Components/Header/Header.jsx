@@ -39,13 +39,13 @@ export default function Header({
         return (
           <NavLink to={"/members"}>
             {" "}
-            <h1 className="text-3xl flex  gap-3 font-bold text-gray-800">
+            <div className="text-3xl flex  gap-3 font-bold text-gray-800">
               <button>
                 <img src={ExitIcon} alt="" className="size-10" />
               </button>
-              {isCreate && <h1 className="text-3xl font-bold text-gray-800">Candidate Form</h1> }
-                {isUpdateform && <h1 className="text-3xl font-bold text-gray-800">Update Form</h1> }
-            </h1>
+              {isCreate && <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">Candidate Form</h1> }
+                {isUpdateform && <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">Update Form</h1> }
+            </div>
           </NavLink>
         );
     }
