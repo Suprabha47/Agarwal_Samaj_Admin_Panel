@@ -182,7 +182,7 @@ export default function CreateMember() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Top Navbar - Fixed */}
-        <Header setOpenSidebar={setOpenSidebar} />
+        <Header setOpenSidebar={setOpenSidebar} isCreate={true}/>
 
         <div className="flex justify-center px-4 py-8 mt-3">
           <form

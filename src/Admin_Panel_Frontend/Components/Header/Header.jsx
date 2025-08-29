@@ -10,6 +10,8 @@ import ExitIcon from "../../assests/Images/Exit.png";
 export default function Header({
   setOpenSidebar,
   isUpdate = false,
+  isCreate=false,
+  isUpdateform=false,
   id = null,
 }) {
   const [openMenu, setOpenMenu] = useState(false);
@@ -31,15 +33,18 @@ export default function Header({
         return "Classified";
       case "/membership":
         return "MemberShips";
+        
 
       default:
         return (
           <NavLink to={"/members"}>
             {" "}
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl flex  gap-3 font-bold text-gray-800">
               <button>
                 <img src={ExitIcon} alt="" className="size-10" />
               </button>
+              {isCreate && <h1 className="text-3xl font-bold text-gray-800">Candidate Form</h1> }
+                {isUpdateform && <h1 className="text-3xl font-bold text-gray-800">Update Form</h1> }
             </h1>
           </NavLink>
         );

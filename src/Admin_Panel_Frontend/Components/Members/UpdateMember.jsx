@@ -205,7 +205,7 @@ export default function UpdateMember() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
-        <Header setOpenSidebar={setOpenSidebar} />
+        <Header setOpenSidebar={setOpenSidebar} isUpdateform={true} />
 
         <div className="flex justify-center px-4 py-8 mt-3">
           <form className="w-[90%] bg-white border border-gray-300 shadow-md rounded-lg p-6 space-y-6">
