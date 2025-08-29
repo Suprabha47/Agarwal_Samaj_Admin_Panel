@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Users, UserCheck, Hourglass, Star } from "lucide-react";
+import { Users, UserCheck, Star } from "lucide-react";
 
 export default function Cards() {
   const Members = useSelector((state) => state.app.Members);
@@ -23,8 +23,11 @@ export default function Cards() {
       <Card
         title="Classified"
         count={Members.filter((m) => m.status === "pending").length}
-        icon={<Hourglass className="w-7 h-7 text-yellow-500" />}
+        icon={
+          <img src="https://img.icons8.com/?size=100&id=xYV4Gygh25wG&format=png&color=000000" alt="" className="size-7 "/>
+        }
       />
+
       <Card
         title="Premium Members"
         count={Premium_Membership.length}
@@ -36,7 +39,7 @@ export default function Cards() {
 
 /* Card Component */
 const Card = ({ title, count, icon }) => (
-  <div className="bg-white p-6 rounded-xl shadow border-white flex justify-between items-center hover:scale-105 transition-transform duration-1000">
+  <div className="bg-white p-6 rounded-xl shadow border-white flex justify-between items-center hover:scale-105 transition-transform ease-in-out duration-1000">
     <div>
       <h3 className="text-lg text-gray-500">{title}</h3>
       <p className="text-3xl font-bold mt-2">{count}</p>
@@ -44,3 +47,4 @@ const Card = ({ title, count, icon }) => (
     {icon}
   </div>
 );
+

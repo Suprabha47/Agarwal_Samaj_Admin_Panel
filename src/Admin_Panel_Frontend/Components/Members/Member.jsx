@@ -139,7 +139,7 @@ export default function Member() {
           <div className="flex items-center gap-4">
             {/* Add Member */}
             {role === 1 && (
-              <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg text-base hover:bg-gray-600">
+              <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600">
                 <NavLink to={"createMember"}>+ Add Member</NavLink>
               </button>
             )}

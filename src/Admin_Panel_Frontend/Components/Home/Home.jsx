@@ -54,7 +54,7 @@ export default function Home() {
 
           {/* Stats Section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform duration-1000">
+            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform ease-in-out duration-1000">
               <div className="flex justify-between">
                 <p className="text-gray-600 text-lg">Total Members</p>
                 <UsersIcon className="h-6 w-6 text-blue-500" />
@@ -63,7 +63,7 @@ export default function Home() {
               <p className="text-base text-green-600">+12% from last month</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform duration-1000">
+            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform  ease-in-out duration-1000">
               <div className="flex justify-between">
                 <p className="text-gray-600 text-lg">Active Classifieds</p>
                 <DocumentTextIcon className="h-6 w-6 text-green-500" />
@@ -72,21 +72,21 @@ export default function Home() {
               <p className="text-base text-green-600">+8% from last month</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform duration-1000">
+            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform  ease-in-out duration-1000">
               <div className="flex justify-between">
                 <p className="text-gray-600 text-lg">Total Donations</p>
                 <HeartIcon className="h-6 w-6 text-pink-500" />
               </div>
-              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform duration-500">$24,580</h3>
+              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform  duration-500">$24,580</h3>
               <p className="text-base text-green-600">+23% from last month</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform duration-1000">
+            <div className="bg-white p-6 rounded-xl shadow hover:scale-105 transition-transform ease-in-out duration-1000">
               <div className="flex justify-between">
                 <p className="text-gray-600 text-lg">Memberships</p>
                 <CreditCardIcon className="h-6 w-6 text-purple-500" />
               </div>
-              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform duration-500">1,234</h3>
+              <h3 className="text-3xl font-bold mt-2 hover:scale-105 transition-transform  duration-500">1,234</h3>
               <p className="text-base text-red-600">-2% from last month</p>
             </div>
           </div>
