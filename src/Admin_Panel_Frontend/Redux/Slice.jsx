@@ -18,6 +18,7 @@ export const Slice = createSlice({
     Members: [],
     error: null,
     role:null,
+    classified:[]
   },
   reducers: {
     setUsername: (state, action) => {
@@ -40,7 +41,6 @@ export const Slice = createSlice({
     },
     logout: (state) => {
       state.isLoggedIn = false;
-    
       localStorage.setItem("auth", JSON.stringify(state));
     },
     

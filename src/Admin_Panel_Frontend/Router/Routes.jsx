@@ -13,6 +13,8 @@ import CreateMember from "../Components/Members/CreateMember";
 import MemberOutlet from "../Components/Members/MemberOutlet";
 import ViewMember from "../Components/Members/ViewMember";
 import UpdateMember from "../Components/Members/UpdateMember";
+import ClassifiedOutlet from "../Components/Classified/ClassifiedOutlet";
+import CreateClassified from "../Components/Classified/CreateClassified";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -62,9 +64,19 @@ export default function Routes() {
       path: "/classified",
       element: (
         <ProtectedRoute>
-          <Classified />
+          <ClassifiedOutlet/>
         </ProtectedRoute>
       ),
+      children:[
+        {
+          index:true,
+          element:<Classified/>
+        },
+        {
+          path:"createClassified",
+          element:<CreateClassified/>
+        }
+      ]
     },
     {
       path: "/donations",

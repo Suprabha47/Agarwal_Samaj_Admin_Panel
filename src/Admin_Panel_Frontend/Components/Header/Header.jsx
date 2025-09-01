@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import {  LogOut } from "lucide-react";
 import ExitIcon from "../../assests/Images/Exit.png";
+import { useMatch } from "react-router";
 
 export default function Header({
   setOpenSidebar,
@@ -21,45 +22,105 @@ export default function Header({
   const email = useSelector((state) => state.app.email);
   const location = useLocation();
 
-  const HeaderHeading = () => {
-    switch (location.pathname) {
-      case "/dashboard":
-        return "Dashboard";
-      case "/members":
-        return "Members";
-      case "/donations":
-        return "Donations";
-      case "/classified":
-        return "Classified";
-      case "/membership":
-        return "MemberShips";
-        
+const HeaderHeading = () => {
+  // Declare all matches at the top (hooks cannot be conditional)
+  const matchCreateMember = useMatch("/members/createMember");
+  const matchUpdateMember = useMatch("/members/updateMember/:id");
+  const matchViewMember = useMatch("/members/member/:id");
 
-      default:
-        return (
-          <NavLink to={"/members"}>
-            {" "}
-            <div className="text-3xl flex  gap-3 font-bold text-gray-800">
-              <button>
-                <img src={ExitIcon} alt="" className="size-10" />
-              </button>
-              {isCreate && <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">Candidate Form</h1> }
-                {isUpdateform && <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">Update Form</h1> }
-            </div>
-          </NavLink>
-        );
+  const matchCreateClassified=useMatch("/classified/createClassified");
+
+  // Top-level routes
+  if (location.pathname === "/dashboard") return "Dashboard";
+  if (location.pathname === "/members") return "Members";
+  if (location.pathname === "/donations") return "Donations";
+  if (location.pathname === "/classified") return "Classified";
+  if (location.pathname === "/membership") return "MemberShips";
+
+  // Nested member routes
+  if (matchCreateMember || matchUpdateMember || matchViewMember) {
+    return (
+      <NavLink to="/members">
+        <div className="text-3xl flex gap-3 font-bold text-gray-800 items-center">
+          <button>
+            <img src={ExitIcon} alt="Exit" className="size-10" />
+          </button>
+          {isCreate && (
+            <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              Candidate Form
+            </h1>
+          )}
+          {isUpdateform && (
+            <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              Update Form
+            </h1>
+          )}
+        </div>
+      </NavLink>
+    );
+    
     }
-  };
+    if(matchCreateClassified){
+      return(
+        <NavLink to="/classified">
+        <div className="text-3xl flex gap-3 font-bold text-gray-800 items-center">
+          <button>
+            <img src={ExitIcon} alt="Exit" className="size-10" />
+          </button>
+          {isCreate && (
+            <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              Classified Form
+            </h1>
+          )}
+          {isUpdateform && (
+            <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              Update Form
+            </h1>
+          )}
+        </div>
+      </NavLink>
+        
+      )
+  }
+
+  // Fallback
+  return "Page";
+};
+
+
+
+  const Buttons=()=>{
+    switch(location.pathname){
+      case '/classified':
+      return (
+         <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600">
+                <NavLink to={"createClassified"}>+ Add Category</NavLink>
+              </button>
+      );
+      default :
+      return null
+    }
+  }
 
   return (
-    <header className="flex justify-between items-center px-4 md:px-6 py-5 bg-white border-white shadow-sm sticky top-0  z-50">
+    <header className="flex justify-between items-center px-4 md:px-6 py-5  bg-white border-white shadow-sm sticky top-0  z-50">
       {/* Left Side */}
       <div className="flex items-center gap-3">
         {/* Mobile Sidebar Button */}
         <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
           <Bars3Icon className="h-8 w-8 text-gray-700" />
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">{HeaderHeading()}</h1>
+       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-3">
+  {/* Heading */}
+  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+    {HeaderHeading()}
+  </h1>
+
+  {/* Button */}
+  <div className="w-full sm:w-auto flex sm:justify-end">
+    {Buttons()}
+  </div>
+</div>
       </div>
 
       {/* Right Side */}
@@ -72,7 +133,7 @@ export default function Header({
           </button>
         )}
         {/* Notification */}
-        <button className="relative"
+        <button className="relative " 
         
         >
          <svg xmlns="http://www.w3.org/2000/svg" 

@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import {XMarkIcon } from "@heroicons/react/24/outline";
+import Card from "./content/Card";
+
 import Header from "../Header/Header";
 
 export default function Classified() {
    const [openSidebar, setOpenSidebar] = useState(false);
+  
+   
   return (
     <div>
        {/* Sidebar - Desktop */}
@@ -30,8 +34,27 @@ export default function Classified() {
                       </div>
                     </div>
 
-                <main className="flex-1 flex flex-col md:ml-64">
-                      <Header setOpenSidebar={setOpenSidebar} />
+                <main className="flex-1 flex flex-col md:ml-64 ">
+                              {/* Left Side */}
+                             <Header setOpenSidebar={setOpenSidebar} />
+                              {/* Right Side */}
+                              
+                   <div className="px-4 sm:px-6 lg:px-8 mt-6 mb-6 text-center sm:text-left">
+                   <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                    Classified Ads Management
+                    </h1>
+                   <p className="text-base sm:text-lg text-gray-600 mt-2">
+                   Moderate and manage classified advertisements
+                  </p>
+                  </div>
+
+                      <div className="p-4 md:p-6 space-y-6">
+                        <Card />
+                      </div>
+
+
+
+                    
 
                 </main>
    
