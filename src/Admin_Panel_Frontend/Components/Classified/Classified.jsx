@@ -1,12 +1,20 @@
-import React, {  useState } from "react";
+import React, {  useRef, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import {XMarkIcon } from "@heroicons/react/24/outline";
 import Card from "./content/Card";
-
+import { NavLink } from "react-router";
+import {  Trash2 } from "lucide-react";
 import Header from "../Header/Header";
+import { useSelector } from "react-redux";
 
 export default function Classified() {
    const [openSidebar, setOpenSidebar] = useState(false);
+   const [search,setSearch]=useState('');
+
+   const classified=useSelector((state)=>state.app.classified);
+   const actionRef = useRef(null);
+    const [confirmDelete, setConfirmDelete] = useState(null);
+    console.log(confirmDelete);
   
    
   return (
@@ -51,13 +59,164 @@ export default function Classified() {
                       <div className="p-4 md:p-6 space-y-6">
                         <Card />
                       </div>
+                      <div className="bg-white rounded-xl shadow-xl border-white">
+            <div className="p-5 border-gray-200 border-2 border-t-transparent border-l-transparent border-r-transparent flex justify-between items-center">
+              <div>
+                <h2 className="font-semibold text-2xl text-gray-800">
+                  Members List
+                </h2>
+                <p className="text-lg text-gray-500">
+                  View and manage all organization members
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <select
+                  className="border-gray-200 border-2 rounded-lg px-3 py-2 text-base font-semibold"
+               
+                  
+                >
+                  <option value={"All"}>All</option>
+                  <option value={''}>Basic</option>
+                  <option value={''}>Membership</option>
+                  <option value={""}>Manglik</option>
+                </select>
+              </div>
+            </div>
 
+            {/* Search (UI only, no filter) */}
+            <div className="p-4 border-gray-200">
+              <div className="flex items-center gap-1 max-w-2xl w-full border-gray-300 border-2 rounded-xl">
+                {/* Search Icon */}
+                <img
+                  src="https://img.icons8.com/?size=100&id=lwZinoeNcL3F&format=png&color=000000"
+                  alt="search"
+                  className="w-6 h-6 text-gray-500 ml-2 "
+                />
 
+                {/* Search Input */}
+                <input
+                  type="text"
+                  placeholder="Search members..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="flex-1 border-white  px-4 py-2 rounded-lg text-base 
+                 focus:outline-none focus:border-gray-400
+                 w-full sm:w-[80%] md:w-[60%] lg:w-[50%]"
+                />
+              </div>
+            </div>
 
-                    
-
-                </main>
+            {/* Table */}
+            <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              <table className="min-w-[700px] w-full text-base text-left border-white border-t-white">
+                <thead className="bg-gray-50 text-gray-700 border-white border-t-white text-lg">
+                  <tr>
+                    <th className="py-4 px-5">Member</th>
+                    <th className="py-4 px-5">Contact</th>
+                    <th className="py-4 px-5">Membership</th>
+                    <th className="py-4 px-5">Details</th>
+                    <th className="py-4 px-5">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-800">
+                  {classified.map((u) => (
+                    <tr
+                      key={u.id}
+                      className="border-gray-200 border-2 hover:bg-gray-50 text-gray-700"
+                    >
+                      <td className="py-4 px-5 font-medium ">{u.name}</td>
+                      <td className="py-4 px-5">
+                        <p>{u.email}</p>
+                        <p className="text-sm text-gray-500">{u.contact_no}</p>
+                      </td>
+                      <td className="py-4 px-5">
+                        <MembershipPill membership={u.subscription} />
+                      </td>
+                      <td className="py-4 px-5">
+                        <NavLink
+                          to={`member/${u.id}`}
+                          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-base hover:bg-blue-500 "
+                        >
+                          View
+                        </NavLink>
+                      </td>
+                      <td
+                        className="py-4 px-5 relative flex items-center gap-3"
+                        ref={actionRef}
+                      >
+                        {/* Action Dropdown */}
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            className="flex items-center gap-1 px-3.5 py-1.5 bg-red-600 text-white rounded-lg text-base hover:bg-red-500 hover:scale-98 transition-transform duration-1000 disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={() => setConfirmDelete(u.id)}
+                            
+                          >
+                            <Trash2 className="w-4 h-4" /> Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {classified.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="text-center py-6 text-gray-500 text-lg"
+                      >
+                        No members found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>            
+          </main>
    
     </div>
   );
 }
+
+/* Membership Pill */
+const MembershipPill = ({ membership }) => {
+  return (
+    <span>
+      {membership === true ? (
+        <h6>
+          <svg
+            className="text-green-600 h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
+            />
+          </svg>
+        </h6>
+      ) : (
+        <h6>
+          <svg
+            className=" h-6 w-6 text-red-600"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </h6>
+      )}
+    </span>
+  );
+};
+
