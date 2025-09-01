@@ -35,10 +35,12 @@ export const Slice = createSlice({
     login: (state,action) => {
       state.isLoggedIn = true;
       state.role=action.payload.role
+      state.password=""
       localStorage.setItem("auth", JSON.stringify(state));
     },
     logout: (state) => {
       state.isLoggedIn = false;
+    
       localStorage.setItem("auth", JSON.stringify(state));
     },
     

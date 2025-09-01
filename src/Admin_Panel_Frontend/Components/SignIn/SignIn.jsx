@@ -50,10 +50,14 @@ export default function SignIn() {
 
         console.log("✅ Login success:", response.data);
 
+
         // 🔑 Store token
         if (response.data.token) {
+                 toast.success("Login Successfully")
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
+   
+         
         }
 
         // Update redux login state

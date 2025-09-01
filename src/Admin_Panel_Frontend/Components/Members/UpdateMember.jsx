@@ -3,7 +3,6 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { FORMIK_INITIAL_VALUES } from "../../../utils/FORMIK_INITIAL_VALUES";
-import { YUP_VALIDATION } from "../../../utils/YUP_VALIDATION";
 import { STEP_VALIDATION_SCHEMAS } from "../../../utils/validationSchema";
 import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
@@ -17,6 +16,7 @@ import EduWorkInfo from "./details-form/EduWorkInfo";
 import SiblingsInfo from "./details-form/SiblingsInfo";
 import RelativeInfo from "./details-form/RelativeInfo";
 import MiscellaneousInfo from "./details-form/MiscellaneousInfo";
+import { update_YUP_VALIDATION } from "../../../utils/update_YUP_VALIDATION";
 
 export default function UpdateMember() {
   const { id } = useParams();
@@ -53,8 +53,7 @@ export default function UpdateMember() {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues,
-    validationSchema: YUP_VALIDATION,
-
+    validationSchema: update_YUP_VALIDATION,
     onSubmit: async (values) => {
       try {
         const formData = new FormData();
@@ -63,6 +62,7 @@ export default function UpdateMember() {
           if (key !== "image_path") formData.append(key, values[key]);
         });
 
+        // ✅ Only append if user uploaded new image
         if (values.image_path instanceof File) {
           formData.append("image_path", values.image_path);
         }
@@ -82,8 +82,8 @@ export default function UpdateMember() {
           }, 500);
         }
       } catch (error) {
-        console.error("Form submission error:", error); // Log submission errors
-        toast.error(error.response?.data?.error);
+        console.error("Form submission error:", error);
+        toast.error(error.response?.data?.error || "Update failed");
       }
     },
     validateOnBlur: true,
@@ -92,26 +92,21 @@ export default function UpdateMember() {
 
   useEffect(() => {
     const validateStep = async () => {
-      // If the current step is beyond the schemas we have (e.g., step 8 for 7 schemas)
       if (step > STEP_VALIDATION_SCHEMAS.length) {
         setIsStepValid(true);
-        console.log(`Step ${step} (no schema) is valid.`);
         return;
       }
 
       const currentSchema = STEP_VALIDATION_SCHEMAS[step - 1];
       if (!currentSchema) {
-        setIsStepValid(true); // Treat steps without explicit schema as valid
-        console.log(`Step ${step} has no schema, considered valid.`);
+        setIsStepValid(true);
         return;
       }
       try {
         await currentSchema.validate(formik.values, { abortEarly: false });
         setIsStepValid(true);
-        console.log(`Step ${step} is valid.`);
-      } catch (err) {
+      } catch {
         setIsStepValid(false);
-        console.log(`Step ${step} is NOT valid. Errors:`, err.inner); // Log validation errors
       }
     };
     validateStep();
@@ -130,15 +125,9 @@ export default function UpdateMember() {
     }
 
     try {
-      // 👇 explicitly pass Formik context to Yup validate
-      await currentSchema.validate(formik.values, {
-        abortEarly: false,
-        context: { isUpdate: true }, // or false in create mode
-      });
-
+      await currentSchema.validate(formik.values, { abortEarly: false });
       setStep((s) => s + 1);
     } catch (err) {
-      console.error("Next step validation failed:", err);
       const errors = {};
       if (err && err.inner) {
         err.inner.forEach((e) => {
@@ -208,7 +197,10 @@ export default function UpdateMember() {
         <Header setOpenSidebar={setOpenSidebar} isUpdateform={true} />
 
         <div className="flex justify-center px-4 py-8 mt-3">
-          <form className="w-[90%] bg-white border border-gray-300 shadow-md rounded-lg p-6 space-y-6">
+          <form
+            className="w-[90%] bg-white border border-gray-300 shadow-md rounded-lg p-6 space-y-6"
+            onSubmit={formik.handleSubmit}
+          >
             {renderStep()}
 
             <div className="flex justify-between mt-6">
@@ -223,7 +215,6 @@ export default function UpdateMember() {
               )}
 
               <div className="flex gap-2">
-                {/* Skip button for step 7 (RelativeInfo) */}
                 {step === 7 && (
                   <button
                     type="button"
@@ -233,7 +224,7 @@ export default function UpdateMember() {
                     Skip
                   </button>
                 )}
-                {/* Next button for all steps except the very last one */}
+
                 {step < totalSteps && (
                   <button
                     type="button"
@@ -244,12 +235,10 @@ export default function UpdateMember() {
                     Next
                   </button>
                 )}
-                {/* Update button for the very last step */}
+
                 {step === totalSteps && (
                   <button
-                    type="button"
-                    onClick={formik.handleSubmit}
-                    disabled={!isStepValid}
+                    type="submit"
                     className={`px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     Update
