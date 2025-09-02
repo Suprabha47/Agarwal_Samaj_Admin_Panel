@@ -49,8 +49,13 @@ export default function ViewClassified() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col md:ml-64">
         {/* Fixed Header */}
-        <div className="fixed top-0 left-0 md:left-64 right-0 z-50 bg-white border-b shadow-sm">
-          <Header setOpenSidebar={setOpenSidebar} isView={true} />
+        <div className="fixed top-0 left-0 md:left-64 right-0 z-50 bg-white shadow-sm">
+          <Header
+            setOpenSidebar={setOpenSidebar}
+            isView={true}
+            isUpdateClassified={true}
+            id={id}
+          />
         </div>
 
         {/* Content below header */}
@@ -70,7 +75,9 @@ export default function ViewClassified() {
             {/* Left - Image + Details */}
             <div className="lg:col-span-2 bg-gray-700 rounded-xl shadow-lg p-4">
               <img
-                src={ClassifiedMember.photos || "https://via.placeholder.com/600"}
+                src={
+                  ClassifiedMember.photos || "https://via.placeholder.com/600"
+                }
                 alt={ClassifiedMember.firm_name}
                 className="w-full h-80 object-cover rounded-lg"
               />
@@ -158,7 +165,7 @@ export default function ViewClassified() {
             </div>
           </div>
         </div>
-        <Outlet/>
+        <Outlet />
       </main>
     </div>
   );
