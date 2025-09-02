@@ -59,7 +59,7 @@ export default function ViewMember() {
             <div className="flex flex-col md:flex-row items-center md:items-start bg-gray-800 p-6 rounded-lg shadow mt-20">
               {/* Image */}
               <img
-                src={`http://localhost:4005/${Member.image_path.replace(
+                src={`http://localhost:4005/uploads/${Member.image_path.replace(
                   /\\/g,
                   "/"
                 )}`}

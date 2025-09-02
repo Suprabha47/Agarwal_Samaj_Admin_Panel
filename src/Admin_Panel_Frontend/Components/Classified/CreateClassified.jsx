@@ -39,7 +39,7 @@ export default function CreateClassified() {
         }
 
         const response = await axios.post(
-          "http://localhost:4005/api/classified",
+          "http://localhost:4005/api/classifieds/register",
           formData,
           {
             headers: {

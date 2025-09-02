@@ -16,16 +16,25 @@ import UpdateMember from "../Components/Members/UpdateMember";
 import ClassifiedOutlet from "../Components/Classified/ClassifiedOutlet";
 import CreateClassified from "../Components/Classified/CreateClassified";
 import ViewClassified from "../Components/Classified/ViewClassified";
+import PublicRoute from "../Components/ProtectedRoute/PublicRoute";
 
 export default function Routes() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <SignIn />,
+      element: (
+        <PublicRoute>
+          <SignIn/>
+        </PublicRoute>
+      ),
     },
     {
       path: "/signup",
-      element: <SignUp />,
+      element: (
+        <PublicRoute>
+          <SignUp/>
+        </PublicRoute>
+      ),
     },
     {
       path: "/dashboard",

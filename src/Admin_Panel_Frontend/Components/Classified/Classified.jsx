@@ -26,7 +26,7 @@ export default function Classified() {
     const timer = setTimeout(async () => {
       setLoading(false);
       try {
-        const response = await axios.get("http://localhost:4005/api/classified");
+        const response = await axios.get("http://localhost:4005/api/classifieds");
         dispatch(setClassified(response.data));
       } catch (err) {
         setError(err);
@@ -49,7 +49,7 @@ export default function Classified() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:4005/api/classified/${id}`);
+      const response = await axios.delete(`http://localhost:4005/api/classifieds/${id}`);
       if (response.data) {
         toast.success("Deleted successfully");
         dispatch(setClassified(classified.filter((item) => item.id !== id)));
