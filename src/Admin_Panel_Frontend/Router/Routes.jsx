@@ -17,6 +17,7 @@ import ClassifiedOutlet from "../Components/Classified/ClassifiedOutlet";
 import CreateClassified from "../Components/Classified/CreateClassified";
 import ViewClassified from "../Components/Classified/ViewClassified";
 import PublicRoute from "../Components/ProtectedRoute/PublicRoute";
+import UpdateClassified from "../Components/Classified/UpdateClassified";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -24,7 +25,7 @@ export default function Routes() {
       path: "/",
       element: (
         <PublicRoute>
-          <SignIn/>
+          <SignIn />
         </PublicRoute>
       ),
     },
@@ -32,7 +33,7 @@ export default function Routes() {
       path: "/signup",
       element: (
         <PublicRoute>
-          <SignUp/>
+          <SignUp />
         </PublicRoute>
       ),
     },
@@ -74,23 +75,27 @@ export default function Routes() {
       path: "/classified",
       element: (
         <ProtectedRoute>
-          <ClassifiedOutlet/>
+          <ClassifiedOutlet />
         </ProtectedRoute>
       ),
-      children:[
+      children: [
         {
-          index:true,
-          element:<Classified/>
+          index: true,
+          element: <Classified />,
         },
         {
-          path:"createClassified",
-          element:<CreateClassified/>
+          path: "createClassified",
+          element: <CreateClassified />,
         },
         {
-          path:'classified/:id',
-          element:<ViewClassified/>
-        }
-      ]
+          path: ":id",
+          element: <ViewClassified />,
+        },
+        {
+          path: "updateClassified/:id",
+          element: <UpdateClassified />,
+        },
+      ],
     },
     {
       path: "/donations",

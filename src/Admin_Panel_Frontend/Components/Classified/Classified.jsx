@@ -26,7 +26,9 @@ export default function Classified() {
     const timer = setTimeout(async () => {
       setLoading(false);
       try {
-        const response = await axios.get("http://localhost:4005/api/classifieds");
+        const response = await axios.get(
+          "http://localhost:4005/api/classifieds"
+        );
         dispatch(setClassified(response.data));
       } catch (err) {
         setError(err);
@@ -49,14 +51,16 @@ export default function Classified() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:4005/api/classifieds/${id}`);
+      const response = await axios.delete(
+        `http://localhost:4005/api/classifieds/${id}`
+      );
       if (response.data) {
         toast.success("Deleted successfully");
         dispatch(setClassified(classified.filter((item) => item.id !== id)));
         setConfirmDelete(null);
       }
     } catch (error) {
-    toast.error(error.response?.data?.error);
+      toast.error(error.response?.data?.error);
       setConfirmDelete(null);
     }
   };
@@ -176,7 +180,9 @@ export default function Classified() {
                       >
                         <td className="py-4 px-5 font-medium">
                           {u.firm_name}
-                          <p className="font-light text-gray-600">{u.person_name}</p>
+                          <p className="font-light text-gray-600">
+                            {u.person_name}
+                          </p>
                         </td>
                         <td className="py-4 px-5">
                           <p>{u.email}</p>
@@ -187,7 +193,7 @@ export default function Classified() {
                         </td>
                         <td className="py-4 px-5">
                           <NavLink
-                            to={`classified/${u.id}`}
+                            to={`${u.id}`}
                             className="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg text-sm sm:text-base hover:bg-blue-500"
                           >
                             View
@@ -206,7 +212,10 @@ export default function Classified() {
                   )}
                   {!loading && filterSearch.length === 0 && (
                     <tr>
-                      <td colSpan="5" className="text-center py-6 text-gray-500 text-lg">
+                      <td
+                        colSpan="5"
+                        className="text-center py-6 text-gray-500 text-lg"
+                      >
                         No members found
                       </td>
                     </tr>
@@ -218,7 +227,10 @@ export default function Classified() {
             {/* Mobile Cards */}
             <div className="md:hidden space-y-4 p-4">
               {filterSearch.map((u) => (
-                <div key={u.id} className="border border-gray-200 rounded-xl p-4 shadow-sm">
+                <div
+                  key={u.id}
+                  className="border border-gray-200 rounded-xl p-4 shadow-sm"
+                >
                   <h3 className="font-semibold text-lg">{u.firm_name}</h3>
                   <p className="text-gray-600">{u.person_name}</p>
                   <div className="mt-2 text-sm text-gray-700">
