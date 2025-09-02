@@ -55,7 +55,7 @@ export default function MiscellaneousInfo({ formik }) {
           {formik.values.image_path &&
             typeof formik.values.image_path === "string" && (
               <img
-                src={`http://localhost:4005/${formik.values.image_path}`}
+                src={`http://localhost:4005/uploads/${formik.values.image_path}`}
                 alt="Current profile"
                 className="w-24 h-24 object-cover rounded mb-3"
               />

@@ -437,7 +437,7 @@ export default function ViewMember() {
                     Photos
                   </h2>
                   <img
-                    src={`http://localhost:4005/${Member.image_path.replace(
+                    src={`http://localhost:4005/uploads/${Member.image_path.replace(
                       /\\/g,
                       "/"
                     )}`}

@@ -1,21 +1,31 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router'
-import Sidebar from '../Sidebar/Sidebar';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Outlet, useParams } from "react-router";
+import Sidebar from "../Sidebar/Sidebar";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import Header from '../Header/Header';
-
+import Header from "../Header/Header";
 
 export default function ViewClassified() {
-    const {id}=useParams();
-    const classified=useSelector((state)=>state.app.classified);
-    const ClassifiedMember=classified.find((item)=>item.id.toString()===id);
+  const { id } = useParams();
+  const classified = useSelector((state) => state.app.classified);
+  const ClassifiedMember = classified.find((item) => item.id.toString() === id);
 
-      const [openSidebar, setOpenSidebar] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false);
+
+  if (!ClassifiedMember) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-white">
+        <h1 className="text-2xl font-bold text-red-600">
+          Classified Not Found
+        </h1>
+      </div>
+    );
+  }
 
   return (
-    <div>
-         <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
+    <div className="bg-white min-h-screen">
+      {/* Sidebar - Desktop */}
+      <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-gray-800 text-white shadow-md">
         <Sidebar />
       </div>
 
@@ -25,11 +35,10 @@ export default function ViewClassified() {
           openSidebar ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
-        <div className="h-full w-64 bg-white shadow-lg relative">
-          {/* Close button */}
+        <div className="h-full w-64 bg-gray-800 shadow-lg relative">
           <button
             onClick={() => setOpenSidebar(false)}
-            className="absolute top-4 right-4 text-gray-700"
+            className="absolute top-4 right-4 text-white"
           >
             <XMarkIcon className="h-7 w-7" />
           </button>
@@ -37,13 +46,120 @@ export default function ViewClassified() {
         </div>
       </div>
 
-       {/* Main Content */}
-      <main className="flex-1 flex flex-col md:ml-64 ">
-        <Header setOpenSidebar={setOpenSidebar} isView={true}  />
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col md:ml-64">
+        {/* Fixed Header */}
+        <div className="fixed top-0 left-0 md:left-64 right-0 z-50 bg-white border-b shadow-sm">
+          <Header setOpenSidebar={setOpenSidebar} isView={true} />
+        </div>
+
+        {/* Content below header */}
+        <div className="pt-20 px-4 sm:px-6 lg:px-8 mt-5">
+          {/* Title Section */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-gray-900">
+              {ClassifiedMember.firm_name}
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Category: {ClassifiedMember.business_category}
+            </p>
+          </div>
+
+          {/* Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left - Image + Details */}
+            <div className="lg:col-span-2 bg-gray-700 rounded-xl shadow-lg p-4">
+              <img
+                src={ClassifiedMember.photos || "https://via.placeholder.com/600"}
+                alt={ClassifiedMember.firm_name}
+                className="w-full h-80 object-cover rounded-lg"
+              />
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                <img
+                  src={
+                    ClassifiedMember.photos || "https://via.placeholder.com/150"
+                  }
+                  alt="thumbnail"
+                  className="w-full h-24 object-cover rounded-lg border-2 border-blue-500"
+                />
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="thumb2"
+                  className="w-full h-24 object-cover rounded-lg"
+                />
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="thumb3"
+                  className="w-full h-24 object-cover rounded-lg"
+                />
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="thumb4"
+                  className="w-full h-24 object-cover rounded-lg"
+                />
+              </div>
+            </div>
+
+            {/* Right - Moderation + Seller Info */}
+            <div className="space-y-6">
+              {/* Moderation */}
+              <div className="bg-gray-700 text-white p-5 rounded-xl shadow-lg">
+                <h2 className="font-semibold text-lg mb-4">Moderation</h2>
+                <div className="flex flex-col gap-3">
+                  <button className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition">
+                    Approve
+                  </button>
+                  <button className="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 transition">
+                    Reject
+                  </button>
+                  <button className="w-full py-2 rounded-lg bg-gray-600 hover:bg-gray-500 transition">
+                    Archive
+                  </button>
+                </div>
+                <p className="text-sm text-gray-300 mt-3">
+                  Note: Review reports before approval.
+                </p>
+              </div>
+
+              {/* Seller Info */}
+              <div className="bg-gray-700 text-white p-5 rounded-xl shadow-lg">
+                <h2 className="font-semibold text-lg mb-4">Seller</h2>
+                <div className="space-y-2 text-gray-200">
+                  <p>
+                    <span className="font-semibold">Name:</span>{" "}
+                    {ClassifiedMember.person_name}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Email:</span>{" "}
+                    {ClassifiedMember.email}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Phone:</span>{" "}
+                    {ClassifiedMember.phone}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Address:</span>{" "}
+                    {ClassifiedMember.firm_address}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Website:</span>{" "}
+                    <a
+                      href={ClassifiedMember.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-400 underline"
+                    >
+                      {ClassifiedMember.website}
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Outlet/>
       </main>
-
-
-
     </div>
-  )
+  );
 }

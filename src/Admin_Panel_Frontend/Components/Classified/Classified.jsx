@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Card from "./content/Card";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import Header from "../Header/Header";
 import { useDispatch, useSelector } from "react-redux";
