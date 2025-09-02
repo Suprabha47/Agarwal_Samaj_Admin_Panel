@@ -53,15 +53,15 @@ export default function SignIn() {
 
         // 🔑 Store token
         if (response.data.token) {
-                 toast.success("Login Successfully")
+          toast.success("Login Successfully")
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
-   
-         
+          localStorage.setItem("id",response.data.id);   
+     
         }
 
         // Update redux login state
-        dispatch(login({ role: response?.data?.role }));
+        dispatch(login({ role: response?.data?.role,id:response?.data?.id }));
 
         // Navigate to dashboard
         Navigate("/dashboard");

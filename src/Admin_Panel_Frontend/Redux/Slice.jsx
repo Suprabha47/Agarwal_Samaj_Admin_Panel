@@ -6,6 +6,9 @@ export const MemberApi = createAsyncThunk("api", async () => {
   return response.data;
 });
 
+
+
+
 export const Slice = createSlice({
   name: "app",
   initialState: {
@@ -18,7 +21,8 @@ export const Slice = createSlice({
     Members: [],
     error: null,
     role:null,
-    classified:[]
+    classified:[],
+    id:null
   },
   reducers: {
     setUsername: (state, action) => {
@@ -37,12 +41,17 @@ export const Slice = createSlice({
       state.isLoggedIn = true;
       state.role=action.payload.role
       state.password=""
+      state.id=action.payload.id
       localStorage.setItem("auth", JSON.stringify(state));
     },
     logout: (state) => {
       state.isLoggedIn = false;
       localStorage.setItem("auth", JSON.stringify(state));
     },
+    setClassified:(state,action)=>{
+      state.classified=action.payload
+
+    }
     
   },
   extraReducers: (boiler) => {
@@ -57,7 +66,8 @@ export const Slice = createSlice({
       .addCase(MemberApi.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.error;
-      });
+      })
+      
   },
 
 });
@@ -69,5 +79,6 @@ export const {
   setConfirmPassword,
   login,
   logout,
+  setClassified
 } = Slice.actions;
 export default Slice.reducer;

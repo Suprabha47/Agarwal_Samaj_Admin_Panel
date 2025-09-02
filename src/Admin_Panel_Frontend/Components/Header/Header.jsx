@@ -14,6 +14,7 @@ export default function Header({
   isCreate=false,
   isUpdateform=false,
   id = null,
+  isView=true
 }) {
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef(null);
@@ -29,6 +30,7 @@ const HeaderHeading = () => {
   const matchViewMember = useMatch("/members/member/:id");
 
   const matchCreateClassified=useMatch("/classified/createClassified");
+  const matchViewClassified=useMatch('/classified/classified/:id');
 
   // Top-level routes
   if (location.pathname === "/dashboard") return "Dashboard";
@@ -81,7 +83,27 @@ const HeaderHeading = () => {
       </NavLink>
         
       )
+
+      
   }
+  if(matchViewClassified){
+         return(
+        <NavLink to="/classified">
+        <div className="text-3xl flex gap-3 font-bold text-gray-800 items-center">
+          <button>
+            <img src={ExitIcon} alt="Exit" className="size-10" />
+          </button>
+         
+          {isUpdateform && (
+            <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              Update Form
+            </h1>
+          )}
+        </div>
+      </NavLink>
+
+      )
+      }
 
   // Fallback
   return "Page";
@@ -93,7 +115,7 @@ const HeaderHeading = () => {
     switch(location.pathname){
       case '/classified':
       return (
-         <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600">
+         <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600 ml-220">
                 <NavLink to={"createClassified"}>+ Add Category</NavLink>
               </button>
       );
@@ -176,6 +198,7 @@ const HeaderHeading = () => {
                   setTimeout(() => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("role");
+                    localStorage.removeItem("id");
                     dispatch(logout());
                     navigate("/");
                   }, 1000);

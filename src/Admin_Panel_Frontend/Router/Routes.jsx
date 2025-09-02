@@ -15,6 +15,7 @@ import ViewMember from "../Components/Members/ViewMember";
 import UpdateMember from "../Components/Members/UpdateMember";
 import ClassifiedOutlet from "../Components/Classified/ClassifiedOutlet";
 import CreateClassified from "../Components/Classified/CreateClassified";
+import ViewClassified from "../Components/Classified/ViewClassified";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -75,6 +76,10 @@ export default function Routes() {
         {
           path:"createClassified",
           element:<CreateClassified/>
+        },
+        {
+          path:'classified/:id',
+          element:<ViewClassified/>
         }
       ]
     },

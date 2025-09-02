@@ -1,5 +1,5 @@
 export const Initial_Values = {
-  name: "",
+  person_name: "",
   firm_name: "",
   firm_address: "",
   phone: "",

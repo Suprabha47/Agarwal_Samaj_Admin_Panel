@@ -6,25 +6,83 @@ import Header from "../Header/Header";
 import { useFormik } from "formik";
 import { Initial_Values } from "./utils/Initial_Values";
 import { Create_Validation_Schema } from "./utils/Create_Validation_Schema";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function CreateClassified() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
+  // const id=parseInt(localStorage.getItem("id"));
 
   const formik = useFormik({
     initialValues: Initial_Values,
     validationSchema: Create_Validation_Schema,
-    onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      resetForm();
-      setPreviewImages([]);
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const formData = new FormData();
+
+        // Append all normal fields
+        formData.append("person_name", values.person_name);
+        formData.append("firm_name", values.firm_name);
+        formData.append("firm_address", values.firm_address);
+        formData.append("phone", values.phone);
+        formData.append("email", values.email);
+        formData.append("website", values.website);
+        formData.append("business_category", values.business_category);
+     
+
+        // Append photos (multiple files)
+        if (values.photos && values.photos.length > 0) {
+          values.photos.forEach((file) => {
+            formData.append("photos", file);
+          });
+        }
+
+        const response = await axios.post(
+          "http://localhost:4005/api/classified",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.data) {
+          toast.success("Classified Created Successfully");
+          resetForm();
+          setPreviewImages([]);
+        }
+      } 
+      
+      catch (error) {
+       toast.error(error.response?.data?.error);
+      }
     },
   });
 
   const handlePhotosChange = (e) => {
     const files = Array.from(e.target.files);
-    formik.setFieldValue("photos", files);
-    const previews = files.map((file) => URL.createObjectURL(file));
+
+    // Merge old + new files
+    const updatedFiles = [...(formik.values.photos || []), ...files];
+
+    // Max 5 validation
+    if (updatedFiles.length > 5) {
+      toast.error("You can upload a maximum of 5 photos");
+      return;
+    }
+
+    formik.setFieldValue("photos", updatedFiles);
+
+    const previews = updatedFiles.map((file) => URL.createObjectURL(file));
+    setPreviewImages(previews);
+  };
+
+  const removePhoto = (index) => {
+    const updatedFiles = formik.values.photos.filter((_, i) => i !== index);
+    formik.setFieldValue("photos", updatedFiles);
+    const previews = updatedFiles.map((file) => URL.createObjectURL(file));
     setPreviewImages(previews);
   };
 
@@ -66,22 +124,28 @@ export default function CreateClassified() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name */}
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Name</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Name
+                </label>
                 <input
                   type="text"
-                  name="name"
-                  value={formik.values.name}
+                  name="person_name"
+                  value={formik.values.person_name}
                   onChange={formik.handleChange}
                   className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
                 />
                 {formik.touched.name && formik.errors.name && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.name}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.name}
+                  </p>
                 )}
               </div>
 
               {/* Firm Name */}
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Firm Name</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Firm Name
+                </label>
                 <input
                   type="text"
                   name="firm_name"
@@ -90,13 +154,17 @@ export default function CreateClassified() {
                   className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
                 />
                 {formik.touched.firm_name && formik.errors.firm_name && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.firm_name}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.firm_name}
+                  </p>
                 )}
               </div>
 
               {/* Firm Address */}
               <div className="md:col-span-2">
-                <label className="block text-gray-700 font-medium mb-1">Firm Address</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Firm Address
+                </label>
                 <textarea
                   name="firm_address"
                   value={formik.values.firm_address}
@@ -105,13 +173,17 @@ export default function CreateClassified() {
                   className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
                 />
                 {formik.touched.firm_address && formik.errors.firm_address && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.firm_address}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.firm_address}
+                  </p>
                 )}
               </div>
 
               {/* Phone */}
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Phone</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Phone
+                </label>
                 <input
                   type="text"
                   name="phone"
@@ -120,13 +192,17 @@ export default function CreateClassified() {
                   className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
                 />
                 {formik.touched.phone && formik.errors.phone && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.phone}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.phone}
+                  </p>
                 )}
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Email</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -135,13 +211,17 @@ export default function CreateClassified() {
                   className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
                 />
                 {formik.touched.email && formik.errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.email}
+                  </p>
                 )}
               </div>
 
               {/* Website */}
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Website</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Website
+                </label>
                 <input
                   type="text"
                   name="website"
@@ -153,7 +233,9 @@ export default function CreateClassified() {
 
               {/* Business Category */}
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Business Category</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Business Category
+                </label>
                 <select
                   name="business_category"
                   value={formik.values.business_category}
@@ -169,8 +251,10 @@ export default function CreateClassified() {
               </div>
 
               {/* Status */}
-              <div>
-                <label className="block text-gray-700 font-medium mb-1">Status</label>
+              {/* <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Status
+                </label>
                 <select
                   name="status"
                   value={formik.values.status}
@@ -181,11 +265,13 @@ export default function CreateClassified() {
                   <option value="approved">Approved</option>
                   <option value="rejected">Rejected</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Photos */}
               <div className="md:col-span-2">
-                <label className="block text-gray-700 font-medium mb-1">Photos</label>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Photos (max 5)
+                </label>
                 <input
                   type="file"
                   name="photos"
@@ -193,33 +279,35 @@ export default function CreateClassified() {
                   onChange={handlePhotosChange}
                   className="w-full"
                 />
+                <p className="text-sm text-gray-500 mt-1">
+                  {previewImages.length}/5 uploaded
+                </p>
                 <div className="flex flex-wrap mt-3 gap-3">
                   {previewImages.map((img, index) => (
-                    <img
-                      key={index}
-                      src={img}
-                      alt={`Preview ${index}`}
-                      className="w-28 h-28 object-cover rounded-xl border border-gray-200 shadow-sm"
-                    />
+                    <div key={index} className="relative">
+                      <img
+                        src={img}
+                        alt={`Preview ${index}`}
+                        className="w-28 h-28 object-cover rounded-xl border border-gray-200 shadow-sm"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(index)}
+                        className="absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded"
+                      >
+                        ✕
+                      </button>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              {/* Approval By */}
-              <div>
-                <label className="block text-gray-700 font-medium mb-1">Approval By</label>
-                <input
-                  type="text"
-                  name="approval_by"
-                  value={formik.values.approval_by}
-                  onChange={formik.handleChange}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
-                />
-              </div>
-
+            
               {/* Approval Date */}
-              <div>
-                <label className="block text-gray-700 font-medium mb-1">Approval Date</label>
+              {/* <div>
+                <label className="block text-gray-700 font-medium mb-1">
+                  Approval Date
+                </label>
                 <input
                   type="date"
                   name="approval_date"
@@ -227,7 +315,7 @@ export default function CreateClassified() {
                   onChange={formik.handleChange}
                   className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
                 />
-              </div>
+              </div> */}
             </div>
 
             {/* Submit Button */}
