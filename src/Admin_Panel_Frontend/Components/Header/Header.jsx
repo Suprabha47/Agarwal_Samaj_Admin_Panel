@@ -110,7 +110,9 @@ export default function Header({
       case "/classified":
         return (
           <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600 ml-220">
-            <NavLink to={"createClassified"}>+ Add Category</NavLink>
+            <NavLink to={"createClassified"} className="inline">
+              Add Classified
+            </NavLink>
           </button>
         );
       default:

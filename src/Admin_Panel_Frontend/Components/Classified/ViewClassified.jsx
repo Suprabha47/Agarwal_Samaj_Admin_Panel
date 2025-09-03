@@ -9,6 +9,7 @@ export default function ViewClassified() {
   const { id } = useParams();
   const classified = useSelector((state) => state.app.classified);
   const ClassifiedMember = classified.find((item) => item.id.toString() === id);
+  const photos = ClassifiedMember?.photos?.split(",");
 
   const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -74,37 +75,43 @@ export default function ViewClassified() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left - Image + Details */}
             <div className="lg:col-span-2 bg-gray-700 rounded-xl shadow-lg p-4">
+              {/* Main Image */}
               <img
                 src={
-                  ClassifiedMember.photos || "https://via.placeholder.com/600"
+                  `${process.env.REACT_APP_BACKEND_URL}/uploads/${photos?.[0]}` ||
+                  "https://via.placeholder.com/600"
                 }
                 alt={ClassifiedMember.firm_name}
                 className="w-full h-80 object-cover rounded-lg"
               />
 
+              {console.log(
+                "img path: ",
+                `${process.env.REACT_APP_BACKEND_URL}/uploads/${photos[0]}`
+              )}
+
+              {/* Thumbnails */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
-                <img
-                  src={
-                    ClassifiedMember.photos || "https://via.placeholder.com/150"
-                  }
-                  alt="thumbnail"
-                  className="w-full h-24 object-cover rounded-lg border-2 border-blue-500"
-                />
-                <img
-                  src="https://via.placeholder.com/150"
-                  alt="thumb2"
-                  className="w-full h-24 object-cover rounded-lg"
-                />
-                <img
-                  src="https://via.placeholder.com/150"
-                  alt="thumb3"
-                  className="w-full h-24 object-cover rounded-lg"
-                />
-                <img
-                  src="https://via.placeholder.com/150"
-                  alt="thumb4"
-                  className="w-full h-24 object-cover rounded-lg"
-                />
+                {ClassifiedMember?.photos?.length > 0
+                  ? photos?.map((photo, index) => (
+                      <img
+                        key={index}
+                        src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${photo}`}
+                        alt={`thumbnail-${index}`}
+                        className={`w-full h-24 object-cover rounded-lg ${
+                          index === 0 ? "border-2 border-blue-500" : ""
+                        }`}
+                      />
+                    ))
+                  : // Fallback thumbnails if no photos exist
+                    Array.from({ length: 4 }).map((_, index) => (
+                      <img
+                        key={index}
+                        src="https://via.placeholder.com/150"
+                        alt={`placeholder-${index}`}
+                        className="w-full h-24 object-cover rounded-lg"
+                      />
+                    ))}
               </div>
             </div>
 

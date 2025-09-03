@@ -32,7 +32,7 @@ export default function UpdateMember() {
     const fetchCandidate = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4005/api/candidates/${id}`
+          `${process.env.REACT_APP_BACKEND_URL}/api/candidates/${id}`
         );
         console.log("res data: ", response.data);
         if (response.data) {
@@ -68,7 +68,7 @@ export default function UpdateMember() {
         }
 
         const response = await axios.put(
-          `http://localhost:4005/api/candidates/${id}`,
+          `${process.env.REACT_APP_BACKEND_URL}/api/candidates/${id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
