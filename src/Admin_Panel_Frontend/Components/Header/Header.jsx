@@ -31,7 +31,8 @@ export default function Header({
     const matchViewMember = useMatch("/members/member/:id");
 
     const matchCreateClassified = useMatch("/classified/createClassified");
-    const matchViewClassified = useMatch("/classified/classified/:id");
+    const matchViewClassified = useMatch("/classified/:id");
+    const matchUpdateClassified = useMatch("/classified/updateClassified/:id");
 
     // Top-level routes
     if (location.pathname === "/dashboard") return "Dashboard";
@@ -96,6 +97,17 @@ export default function Header({
                 Update Form
               </h1>
             )}
+          </div>
+        </NavLink>
+      );
+    }
+    if (matchUpdateClassified) {
+      return (
+        <NavLink to="/classified">
+          <div className="text-3xl flex gap-3 font-bold text-gray-800 items-center">
+            <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              Classified Update Form
+            </h1>
           </div>
         </NavLink>
       );

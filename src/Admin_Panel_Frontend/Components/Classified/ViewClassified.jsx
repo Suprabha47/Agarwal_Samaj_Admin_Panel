@@ -4,12 +4,15 @@ import { Outlet, useParams } from "react-router";
 import Sidebar from "../Sidebar/Sidebar";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Header from "../Header/Header";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ViewClassified() {
   const { id } = useParams();
   const classified = useSelector((state) => state.app.classified);
   const ClassifiedMember = classified.find((item) => item.id.toString() === id);
   const photos = ClassifiedMember?.photos?.split(",");
+  const token = localStorage.getItem("token");
 
   const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -22,6 +25,35 @@ export default function ViewClassified() {
       </div>
     );
   }
+
+  const handleClick = async (status) => {
+    try {
+      let endpoint = "";
+
+      if (status === "approve") {
+        endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}/approve`;
+      } else if (status === "disapprove") {
+        endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}/disapprove`;
+      } else {
+        toast.error("Invalid action");
+        return;
+      }
+
+      const res = await axios.put(
+        endpoint,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(res?.data?.message); // ✅ Now you have the real response data
+    } catch (err) {
+      console.error("Error: ", err);
+      toast.error(err.response?.data?.message || err.message);
+    }
+  };
 
   return (
     <div className="bg-white min-h-screen">
@@ -85,11 +117,6 @@ export default function ViewClassified() {
                 className="w-full h-80 object-cover rounded-lg"
               />
 
-              {console.log(
-                "img path: ",
-                `${process.env.REACT_APP_BACKEND_URL}/uploads/${photos[0]}`
-              )}
-
               {/* Thumbnails */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
                 {ClassifiedMember?.photos?.length > 0
@@ -121,10 +148,16 @@ export default function ViewClassified() {
               <div className="bg-gray-700 text-white p-5 rounded-xl shadow-lg">
                 <h2 className="font-semibold text-lg mb-4">Moderation</h2>
                 <div className="flex flex-col gap-3">
-                  <button className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition">
+                  <button
+                    className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition"
+                    onClick={() => handleClick("approve")}
+                  >
                     Approve
                   </button>
-                  <button className="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 transition">
+                  <button
+                    className="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 transition"
+                    onClick={() => handleClick("disapprove")}
+                  >
                     Reject
                   </button>
                   <button className="w-full py-2 rounded-lg bg-gray-600 hover:bg-gray-500 transition">
@@ -174,6 +207,7 @@ export default function ViewClassified() {
         </div>
         <Outlet />
       </main>
+      <Toaster />
     </div>
   );
 }

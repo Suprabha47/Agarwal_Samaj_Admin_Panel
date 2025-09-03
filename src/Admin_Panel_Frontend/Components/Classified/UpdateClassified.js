@@ -55,6 +55,9 @@ export default function UpdateClassified() {
         if (response.data) {
           toast.success("Classified Updated Successfully");
           setDeletedImages([]); // Reset deleted images after successful update
+          setTimeout(() => {
+            window.location.href = "/classified";
+          }, 500);
         }
       } catch (error) {
         toast.error(error.response?.data?.error || "Update failed");
