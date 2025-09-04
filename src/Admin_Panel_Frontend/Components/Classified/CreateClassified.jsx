@@ -52,6 +52,9 @@ export default function CreateClassified() {
           toast.success("Classified Created Successfully");
           resetForm();
           setPreviewImages([]);
+          setTimeout(() => {
+            window.location.href='/classified';
+          }, 500);
         }
       } 
       

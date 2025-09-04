@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Card from "./content/Card";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { Trash2 } from "lucide-react";
 import Header from "../Header/Header";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +32,7 @@ export default function Classified() {
         dispatch(setClassified(response.data));
       } catch (err) {
         setError(err);
+        console.log("listing error: ", err);
       }
     }, 500);
     return () => clearTimeout(timer);
@@ -52,7 +53,7 @@ export default function Classified() {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4005/api/classifieds/${id}`
+        `http://localhost:4005/api/classified/${id}`
       );
       if (response.data) {
         toast.success("Deleted successfully");

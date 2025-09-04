@@ -6,11 +6,11 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
- 
+  version: 1,
+   
    
   /*
- version: 1,
-   migrate: (state) => {
+migrate: (state) => {
     return Promise.resolve(undefined); 
   },
 
