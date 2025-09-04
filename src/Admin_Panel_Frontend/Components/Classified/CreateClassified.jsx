@@ -29,7 +29,6 @@ export default function CreateClassified() {
         formData.append("email", values.email);
         formData.append("website", values.website);
         formData.append("business_category", values.business_category);
-     
 
         // Append photos (multiple files)
         if (values.photos && values.photos.length > 0) {
@@ -39,7 +38,7 @@ export default function CreateClassified() {
         }
 
         const response = await axios.post(
-          "http://localhost:4005/api/classifieds/register",
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/register`,
           formData,
           {
             headers: {
@@ -53,10 +52,8 @@ export default function CreateClassified() {
           resetForm();
           setPreviewImages([]);
         }
-      } 
-      
-      catch (error) {
-       toast.error(error.response?.data?.error);
+      } catch (error) {
+        toast.error(error.response?.data?.error);
       }
     },
   });
@@ -302,7 +299,6 @@ export default function CreateClassified() {
                 </div>
               </div>
 
-            
               {/* Approval Date */}
               {/* <div>
                 <label className="block text-gray-700 font-medium mb-1">

@@ -27,7 +27,7 @@ export default function Classified() {
       setLoading(false);
       try {
         const response = await axios.get(
-          "http://localhost:4005/api/classifieds"
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds`
         );
         dispatch(setClassified(response.data));
       } catch (err) {
@@ -52,7 +52,7 @@ export default function Classified() {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4005/api/classifieds/${id}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}`
       );
       if (response.data) {
         toast.success("Deleted successfully");

@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function UpdateClassified() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
+  const [deletedImages, setDeletedImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { id } = useParams(); // get id from route
 
@@ -31,25 +32,32 @@ export default function UpdateClassified() {
         formData.append("website", values.website);
         formData.append("business_category", values.business_category);
 
-        // Append new photos
+        // Append new photos (File objects)
         if (values.photos && values.photos.length > 0) {
           values.photos.forEach((file) => {
             formData.append("photos", file);
           });
         }
 
+        // Append deleted photos (as JSON string)
+        if (deletedImages.length > 0) {
+          formData.append("deletedPhotos", JSON.stringify(deletedImages));
+        }
+
         const response = await axios.put(
-          `http://localhost:4005/api/classifieds/${id}`,
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}`,
           formData,
           {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+            headers: { "Content-Type": "multipart/form-data" },
           }
         );
 
         if (response.data) {
           toast.success("Classified Updated Successfully");
+          setDeletedImages([]); // Reset deleted images after successful update
+          setTimeout(() => {
+            window.location.href = "/classified";
+          }, 500);
         }
       } catch (error) {
         toast.error(error.response?.data?.error || "Update failed");
@@ -62,7 +70,7 @@ export default function UpdateClassified() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4005/api/classifieds/${id}`
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}`
         );
         const data = response.data;
 
@@ -74,12 +82,12 @@ export default function UpdateClassified() {
           email: data.email || "",
           website: data.website || "",
           business_category: data.business_category || "",
-          photos: [], // new photos to upload
+          photos: [], // Will only hold new uploads
         });
 
-        // Set preview images for existing photos
-        if (data.photos) {
-          setPreviewImages(data.photos.split(","));
+        if (data?.photos) {
+          const images = data?.photos?.split(",");
+          setPreviewImages(images);
         }
 
         setLoading(false);
@@ -93,31 +101,34 @@ export default function UpdateClassified() {
 
   const handlePhotosChange = (e) => {
     const files = Array.from(e.target.files);
-
     const updatedFiles = [...(formik.values.photos || []), ...files];
 
-    if (updatedFiles.length > 5) {
+    if (updatedFiles.length + previewImages.length - deletedImages.length > 5) {
       toast.error("You can upload a maximum of 5 photos");
       return;
     }
 
     formik.setFieldValue("photos", updatedFiles);
 
-    const previews = updatedFiles.map((file) =>
-      file instanceof File ? URL.createObjectURL(file) : file
-    );
-    setPreviewImages(previews);
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    setPreviewImages((prev) => [...prev, ...newPreviews]);
   };
 
   const removePhoto = (index) => {
+    const removedImage = previewImages[index];
+
+    // If removed image is an existing one (not a new blob URL), track for deletion
+    if (typeof removedImage === "string" && !removedImage.startsWith("blob:")) {
+      setDeletedImages((prev) => [...prev, removedImage]);
+    }
+
+    // Remove from previewImages
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+
+    // Remove from formik if it was a newly uploaded file
     const updatedFiles = formik.values.photos.filter((_, i) => i !== index);
     formik.setFieldValue("photos", updatedFiles);
-    const previews = updatedFiles.map((file) =>
-      file instanceof File ? URL.createObjectURL(file) : file
-    );
-    setPreviewImages(previews);
   };
-
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -273,9 +284,7 @@ export default function UpdateClassified() {
                   {previewImages.map((img, index) => (
                     <div key={index} className="relative">
                       <img
-                        src={
-                          img instanceof File ? URL.createObjectURL(img) : img
-                        }
+                        src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${img}`}
                         alt={`Preview ${index}`}
                         className="w-28 h-28 object-cover rounded-xl border border-gray-200 shadow-sm"
                       />
