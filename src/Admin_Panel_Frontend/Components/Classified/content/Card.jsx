@@ -1,33 +1,37 @@
-import {  } from "react-redux";
+import { useSelector } from "react-redux";
 import { Users, UserCheck,  } from "lucide-react";
 
 export default function Card() {
-  //const Classified = useSelector((state) => state.app.Classified);
+  const classified = useSelector((state) => state.app.classified);
+  const approvedClassified=classified.filter((item)=>item.status==='approved')
+  const disapprovedClassified=classified.filter((item)=>item.status==='disapproved')
+  const pending=classified.filter((item)=>item.status==='pending')
+
 
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 ">
       <Card1 
         title="Total Adds"
-        count={'7'}
+        count={classified.length}
         icon={<Users className="w-7 h-7 text-gray-500" />}
       />
       <Card1
         title="Active Adds"
-        count={'4'}
+        count={approvedClassified.length}
         icon={<UserCheck className="w-7 h-7 text-green-600" />}
       />
       <Card1
         title="Inactive Adds"
-        count={'4'}
+        count={disapprovedClassified.length}
         icon={
           <img src="https://img.icons8.com/?size=100&id=23265&format=png&color=FA5252" alt="" className="size-7 "/>
         }
       />
 
       <Card1
-        title="Total views"
-        count={'290'}
+        title="Pending"
+        count={pending.length}
         icon={<img src="https://img.icons8.com/?size=100&id=1uIrq1GnyXTi&format=png&color=1A1A1A" alt="" className="size-7" />}
       />
     </div>

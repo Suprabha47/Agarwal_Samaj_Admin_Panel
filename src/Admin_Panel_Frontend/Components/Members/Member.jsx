@@ -10,7 +10,6 @@ import { SidebarMobile, SidebarMobileButton } from "../Sidebar/SidebarMobile";
 import Cards from "./content/Cards";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-
 export default function Member() {
   const [openMenu, setOpenMenu] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -23,7 +22,7 @@ export default function Member() {
   const [filters, setFilter] = useState("All");
   const [confirmDelete, setConfirmDelete] = useState(null);
   const role = parseInt(localStorage.getItem("role"));
- // console.log(typeof role);
+  // console.log(typeof role);
 
   const filterData =
     filters === "All"
@@ -82,7 +81,7 @@ export default function Member() {
   const handleDelete = async (id) => {
     try {
       await axios
-        .delete(`http://localhost:4005/api/candidates/${id}`)
+        .delete(`${process.env.REACT_APP_BACKEND_URL}/api/candidates/${id}`)
         .then((response) => {
           if (response.data) {
             toast.success("Member Deleted Successfully");

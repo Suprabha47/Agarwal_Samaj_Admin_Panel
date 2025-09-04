@@ -31,7 +31,8 @@ export default function Header({
     const matchViewMember = useMatch("/members/member/:id");
 
     const matchCreateClassified = useMatch("/classified/createClassified");
-    const matchViewClassified = useMatch("/classified/classified/:id");
+    const matchViewClassified = useMatch("/classified/:id");
+    const matchUpdateClassified = useMatch("/classified/updateClassified/:id");
 
     // Top-level routes
     if (location.pathname === "/dashboard") return "Dashboard";
@@ -100,6 +101,17 @@ export default function Header({
         </NavLink>
       );
     }
+    if (matchUpdateClassified) {
+      return (
+        <NavLink to="/classified">
+          <div className="text-3xl flex gap-3 font-bold text-gray-800 items-center">
+            <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              Classified Update Form
+            </h1>
+          </div>
+        </NavLink>
+      );
+    }
 
     // Fallback
     return "Page";
@@ -110,7 +122,9 @@ export default function Header({
       case "/classified":
         return (
           <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600 ml-220">
-            <NavLink to={"createClassified"}>+ Add Category</NavLink>
+            <NavLink to={"createClassified"} className="inline">
+              Add Classified
+            </NavLink>
           </button>
         );
       default:
