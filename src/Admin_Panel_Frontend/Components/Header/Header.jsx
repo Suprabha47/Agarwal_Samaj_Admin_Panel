@@ -15,7 +15,6 @@ export default function Header({
   isUpdateform = false,
   isUpdateClassified = false,
   id = null,
-  isView = true,
 }) {
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef(null);
@@ -36,7 +35,7 @@ export default function Header({
 
     // Top-level routes
     if (location.pathname === "/dashboard") return "Dashboard";
-    if (location.pathname === "/members") return "Members";
+    if (location.pathname === "/members") return "Matrimonial";
     if (location.pathname === "/donations") return "Donations";
     if (location.pathname === "/classified") return "Classified";
     if (location.pathname === "/membership") return "MemberShips";
@@ -117,20 +116,7 @@ export default function Header({
     return "Page";
   };
 
-  const Buttons = () => {
-    switch (location.pathname) {
-      case "/classified":
-        return (
-          <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600 ml-220">
-            <NavLink to={"createClassified"} className="inline">
-              Add Classified
-            </NavLink>
-          </button>
-        );
-      default:
-        return null;
-    }
-  };
+  
 
   return (
     <header className="flex justify-between items-center px-4 md:px-6 py-5  bg-white border-white shadow-sm sticky top-0  z-50">
@@ -147,9 +133,7 @@ export default function Header({
           </h1>
 
           {/* Button */}
-          <div className="w-full sm:w-auto flex sm:justify-end">
-            {Buttons()}
-          </div>
+         
         </div>
       </div>
 

@@ -22,7 +22,8 @@ export const Slice = createSlice({
     error: null,
     role:null,
     classified:[],
-    id:null
+    id:null,
+    name:""
   },
   reducers: {
     setUsername: (state, action) => {
@@ -42,6 +43,8 @@ export const Slice = createSlice({
       state.role=action.payload.role
       state.password=""
       state.id=action.payload.id
+      state.name=action.payload.name
+      
       localStorage.setItem("auth", JSON.stringify(state));
     },
     logout: (state) => {

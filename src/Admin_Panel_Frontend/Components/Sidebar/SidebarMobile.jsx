@@ -29,7 +29,7 @@ export function SidebarMobileButton({ setOpenSidebar }) {
       <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
         <Bars3Icon className="h-8 w-8 text-gray-700" />
       </button>
-      <h1 className="text-3xl font-bold text-gray-800">Members</h1>
+      <h1 className="text-3xl font-bold text-gray-800">Matrimonial</h1>
     </div>
   );
 }

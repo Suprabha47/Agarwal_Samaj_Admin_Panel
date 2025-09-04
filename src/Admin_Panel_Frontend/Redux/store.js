@@ -8,9 +8,9 @@ const persistConfig = {
   storage,
   version: 1,
    
-   
   /*
-migrate: (state) => {
+
+   migrate: (state) => {
     return Promise.resolve(undefined); 
   },
 

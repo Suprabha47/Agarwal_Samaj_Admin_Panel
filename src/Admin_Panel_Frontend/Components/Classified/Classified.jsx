@@ -79,7 +79,7 @@ export default function Classified() {
 
       {/* Sidebar - Mobile */}
       <div
-        className={`fixed inset-0 z-40 transform ${
+        className={`fixed inset-0 left-0 z-40 transform ${
           openSidebar ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
@@ -95,10 +95,12 @@ export default function Classified() {
       </div>
 
       {/* Main content */}
-      <main className="flex-1 flex flex-col md:ml-64">
-        <Header setOpenSidebar={setOpenSidebar} />
+      <main className="flex-1 flex flex-col md:ml-64 overflow-y-auto max-h-screen  ">
+       
+          <Header setOpenSidebar={setOpenSidebar} />
+       
 
-        <div className="px-4 sm:px-6 lg:px-8 mt-6 mb-6 text-center sm:text-left">
+        <div className="px-4 sm:px-6 lg:px-8 mt-15 mb-6 text-center sm:text-left">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
             Classified Ads Management
           </h1>
@@ -134,7 +136,7 @@ export default function Classified() {
             </div>
 
             {/* Search */}
-            <div className="p-4 border-gray-200">
+            <div className="p-4 border-gray-200 lg:flex md:flex-wrap sm:flex-wrap">
               <div className="flex items-center gap-2 max-w-2xl w-full border-gray-300 border-2 rounded-xl px-2 py-1">
                 <img
                   src="https://img.icons8.com/?size=100&id=lwZinoeNcL3F&format=png&color=000000"
@@ -149,6 +151,14 @@ export default function Classified() {
                   className="flex-1 border-none px-2 py-1 rounded-lg text-sm sm:text-base focus:outline-none"
                 />
               </div>
+             
+                 <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600 lg: ml-130 md:ml-50 sm:ml-10">
+  <NavLink to={"createClassified"} className="inline" >
+    Add Classified
+  </NavLink>
+</button>
+
+            
             </div>
 
             {/* Table - Desktop */}
@@ -198,7 +208,7 @@ export default function Classified() {
                         </td>
                         <td className="py-4 px-5">
                           <NavLink
-                            to={`${u.id}`}
+                            to={`/classified/${u.id}`}
                             className="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg text-sm sm:text-base hover:bg-blue-500"
                           >
                             View

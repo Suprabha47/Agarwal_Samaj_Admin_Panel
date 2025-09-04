@@ -56,12 +56,13 @@ export default function SignIn() {
           toast.success("Login Successfully")
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
-          localStorage.setItem("id",response.data.id);   
+          localStorage.setItem("id",response.data.id);  
+          localStorage.setItem("name",response.data.name)
           
         }
 
         // Update redux login state
-        dispatch(login({ role: response?.data?.role,id:response?.data?.id }));
+        dispatch(login({ role: response?.data?.role,id:response?.data?.id,name:response?.data.name }));
 
         // Navigate to dashboard
         Navigate("/dashboard");

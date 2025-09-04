@@ -148,21 +148,26 @@ export default function ViewClassified() {
               <div className="bg-gray-700 text-white p-5 rounded-xl shadow-lg">
                 <h2 className="font-semibold text-lg mb-4">Moderation</h2>
                 <div className="flex flex-col gap-3">
-                  <button
+                  {
+                    ClassifiedMember.status==="approved"?"":
+                    <button
                     className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition"
                     onClick={() => handleClick("approve")}
+                  
                   >
                     Approve
                   </button>
-                  <button
+                  }
+                  {
+                    ClassifiedMember.status==='disapproved'?"":
+                    <button
                     className="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 transition"
                     onClick={() => handleClick("disapprove")}
                   >
                     Reject
                   </button>
-                  <button className="w-full py-2 rounded-lg bg-gray-600 hover:bg-gray-500 transition">
-                    Archive
-                  </button>
+                  }
+                  
                 </div>
                 <p className="text-sm text-gray-300 mt-3">
                   Note: Review reports before approval.

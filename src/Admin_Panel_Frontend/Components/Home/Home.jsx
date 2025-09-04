@@ -12,6 +12,7 @@ import Header from "../Header/Header";
 export default function Home() {
  
   const [openSidebar, setOpenSidebar] = useState(false);
+  const name=localStorage.getItem("name");
 
 
   return (
@@ -47,7 +48,7 @@ export default function Home() {
         {/* Dashboard Content */}
         <main className="p-6 mt-1">
           {/* Header Text */}
-          <h1 className="text-3xl font-bold mt-1">Welcome back, <span className="animate-pulse">Admin</span></h1>
+          <h1 className="text-3xl font-bold mt-1">Welcome back, <span className="animate-pulse">{name}</span></h1>
           <p className="text-lg text-gray-600 mb-6">
             Here's what's happening with your organization today.
           </p>
