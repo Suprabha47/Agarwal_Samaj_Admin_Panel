@@ -8,7 +8,6 @@ import ProtectedRoute from "../Components/ProtectedRoute/ProtectedRoute";
 import Member from "../Components/Members/Member";
 import Classified from "../Components/Classified/Classified";
 import Donation from "../Components/Donations/Donation";
-import MemberShip from "../Components/Membership/MemberShip";
 import CreateMember from "../Components/Members/CreateMember";
 import MemberOutlet from "../Components/Members/MemberOutlet";
 import ViewMember from "../Components/Members/ViewMember";
@@ -18,6 +17,9 @@ import CreateClassified from "../Components/Classified/CreateClassified";
 import ViewClassified from "../Components/Classified/ViewClassified";
 import PublicRoute from "../Components/ProtectedRoute/PublicRoute";
 import UpdateClassified from "../Components/Classified/UpdateClassified";
+import Attributes from "../Components/Attributes/Attributes";
+import HomeSliderImage from "../Components/Home_Slider_Img/Home_Slider_Image";
+import Gallery from "../Components/Gallery/Gallery";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -106,13 +108,29 @@ export default function Routes() {
       ),
     },
     {
-      path: "/membership",
+      path: "/attributes",
       element: (
         <ProtectedRoute>
-          <MemberShip />
+      <Attributes/>
         </ProtectedRoute>
       ),
     },
+    {
+      path:'/sliderImages',
+      element:(
+        <ProtectedRoute>
+          <HomeSliderImage/>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path:"/gallery",
+      element:(
+        <ProtectedRoute>
+          <Gallery/>
+        </ProtectedRoute>
+      )
+    }
   ]);
 
   return <RouterProvider router={router} />;

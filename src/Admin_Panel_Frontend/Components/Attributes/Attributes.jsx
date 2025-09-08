@@ -4,7 +4,7 @@ import {XMarkIcon } from "@heroicons/react/24/outline";
 import Header from "../Header/Header";
 
 
-export default function MemberShip() {
+export default function Attributes() {
    const [openSidebar, setOpenSidebar] = useState(false);
   return (
     <div>

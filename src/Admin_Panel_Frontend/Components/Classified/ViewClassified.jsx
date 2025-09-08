@@ -49,6 +49,7 @@ export default function ViewClassified() {
         }
       );
       toast.success(res?.data?.message); // ✅ Now you have the real response data
+      window.location.href='/classified'
     } catch (err) {
       console.error("Error: ", err);
       toast.error(err.response?.data?.message || err.message);

@@ -23,7 +23,8 @@ export const Slice = createSlice({
     role:null,
     classified:[],
     id:null,
-    name:""
+    name:"",
+    SliderImages:[]
   },
   reducers: {
     setUsername: (state, action) => {
@@ -54,6 +55,9 @@ export const Slice = createSlice({
     setClassified:(state,action)=>{
       state.classified=action.payload
 
+    },
+    setSliderImages:(state,action)=>{
+      state.SliderImages=action.payload
     }
     
   },
@@ -82,6 +86,7 @@ export const {
   setConfirmPassword,
   login,
   logout,
-  setClassified
+  setClassified,
+  setSliderImages
 } = Slice.actions;
 export default Slice.reducer;

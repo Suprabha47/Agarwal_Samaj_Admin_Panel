@@ -14,7 +14,7 @@ export default function RelativeInfo({ formik }) {
           <input
             type="text"
             name="relation"
-            value={formik.values.relation}
+            value={formik.values.relation ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -34,7 +34,7 @@ export default function RelativeInfo({ formik }) {
           <input
             type="text"
             name="relative_name"
-            value={formik.values.relative_name}
+            value={formik.values.relative_name ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -54,7 +54,7 @@ export default function RelativeInfo({ formik }) {
           <input
             type="text"
             name="relative_mobile_no"
-            value={formik.values.relative_mobile_no}
+            value={formik.values.relative_mobile_no ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -75,7 +75,7 @@ export default function RelativeInfo({ formik }) {
           <input
             type="text"
             name="relative_city"
-            value={formik.values.relative_city}
+            value={formik.values.relative_city ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -95,7 +95,7 @@ export default function RelativeInfo({ formik }) {
           <input
             type="text"
             name="relative_company_name"
-            value={formik.values.relative_company_name}
+            value={formik.values.relative_company_name ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -116,7 +116,7 @@ export default function RelativeInfo({ formik }) {
           <input
             type="text"
             name="relative_designation"
-            value={formik.values.relative_designation}
+            value={formik.values.relative_designation ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -137,7 +137,7 @@ export default function RelativeInfo({ formik }) {
           <input
             type="text"
             name="relative_company_address"
-            value={formik.values.relative_company_address}
+            value={formik.values.relative_company_address ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"

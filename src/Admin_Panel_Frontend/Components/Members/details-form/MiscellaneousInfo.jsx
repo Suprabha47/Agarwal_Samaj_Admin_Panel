@@ -14,7 +14,7 @@ export default function MiscellaneousInfo({ formik }) {
           <input
             type="text"
             name="kundali_milana"
-            value={formik.values.kundali_milana}
+            value={formik.values.kundali_milana ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full border border-gray-300 rounded-md px-4 py-3 text-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -33,7 +33,7 @@ export default function MiscellaneousInfo({ formik }) {
           </label>
           <textarea
             name="about_me"
-            value={formik.values.about_me}
+            value={formik.values.about_me ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             rows="5"
@@ -86,7 +86,7 @@ export default function MiscellaneousInfo({ formik }) {
           <input
             type="checkbox"
             name="subscription"
-            checked={formik.values.subscription}
+            checked={formik.values.subscription ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-gray-500"

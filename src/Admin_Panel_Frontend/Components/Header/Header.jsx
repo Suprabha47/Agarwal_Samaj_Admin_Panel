@@ -8,6 +8,7 @@ import { LogOut } from "lucide-react";
 import ExitIcon from "../../assests/Images/Exit.png";
 import { useMatch } from "react-router";
 
+
 export default function Header({
   setOpenSidebar,
   isUpdate = false,
@@ -27,6 +28,7 @@ export default function Header({
     // Declare all matches at the top (hooks cannot be conditional)
     const matchCreateMember = useMatch("/members/createMember");
     const matchUpdateMember = useMatch("/members/updateMember/:id");
+
     const matchViewMember = useMatch("/members/member/:id");
 
     const matchCreateClassified = useMatch("/classified/createClassified");
@@ -38,7 +40,9 @@ export default function Header({
     if (location.pathname === "/members") return "Matrimonial";
     if (location.pathname === "/donations") return "Donations";
     if (location.pathname === "/classified") return "Classified";
-    if (location.pathname === "/membership") return "MemberShips";
+    if (location.pathname === "/attributes") return "Attributes";
+    if (location.pathname === "/sliderImages") return "Slider Images";
+    if(location.pathname==='/gallery') return "Gallery";
 
     // Nested member routes
     if (matchCreateMember || matchUpdateMember || matchViewMember) {

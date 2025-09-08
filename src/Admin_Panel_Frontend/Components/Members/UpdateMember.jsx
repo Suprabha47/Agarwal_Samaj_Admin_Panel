@@ -68,7 +68,7 @@ export default function UpdateMember() {
         }
 
         const response = await axios.put(
-          `${process.env.REACT_APP_BACKEND_URL}/api/candidates/${id}`,
+          `http://localhost:4005/api/candidates/${id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

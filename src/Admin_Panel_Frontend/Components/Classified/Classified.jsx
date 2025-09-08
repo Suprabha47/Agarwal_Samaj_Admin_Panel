@@ -256,7 +256,7 @@ export default function Classified() {
                     <MembershipPill membership={u.status} />
                     <div className="flex gap-2">
                       <NavLink
-                        to={`classified/${u.id}`}
+                        to={`${u.id}`}
                         className="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-500"
                       >
                         View
