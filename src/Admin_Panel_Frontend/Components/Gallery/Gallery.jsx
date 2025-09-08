@@ -30,11 +30,8 @@ export default function Gallery() {
 
       <main className="flex-1 flex flex-col md:ml-64">
               <Header setOpenSidebar={setOpenSidebar} />
+    </main>
 
-            </main>
-
-        
-      
     </div>
   )
 }

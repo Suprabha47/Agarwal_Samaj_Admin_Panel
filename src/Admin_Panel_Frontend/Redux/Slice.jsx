@@ -7,8 +7,6 @@ export const MemberApi = createAsyncThunk("api", async () => {
 });
 
 
-
-
 export const Slice = createSlice({
   name: "app",
   initialState: {
@@ -24,7 +22,8 @@ export const Slice = createSlice({
     classified:[],
     id:null,
     name:"",
-    SliderImages:[]
+    SliderImages:[],
+    Attributes:[]
   },
   reducers: {
     setUsername: (state, action) => {
@@ -45,7 +44,6 @@ export const Slice = createSlice({
       state.password=""
       state.id=action.payload.id
       state.name=action.payload.name
-      
       localStorage.setItem("auth", JSON.stringify(state));
     },
     logout: (state) => {
@@ -58,6 +56,9 @@ export const Slice = createSlice({
     },
     setSliderImages:(state,action)=>{
       state.SliderImages=action.payload
+    },
+    setAttributes:(state,action)=>{
+      state.Attributes=action.payload;
     }
     
   },
@@ -87,6 +88,7 @@ export const {
   login,
   logout,
   setClassified,
-  setSliderImages
+  setSliderImages,
+  setAttributes
 } = Slice.actions;
 export default Slice.reducer;

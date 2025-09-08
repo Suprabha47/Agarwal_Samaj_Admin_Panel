@@ -68,16 +68,7 @@ export const update_YUP_VALIDATION = Yup.object({
   no_married_sister: Yup.number().min(0),
 
   // -------- Relatives Info (Optional fields) --------
-  relation: Yup.string(),
-  relative_name: Yup.string(),
-  relative_mobile_no: Yup.string().matches(
-    /^[0-9]{10}$/,
-    "Enter a valid 10-digit number"
-  ),
-  relative_city: Yup.string(),
-  relative_company_name: Yup.string(),
-  relative_designation: Yup.string(),
-  relative_company_address: Yup.string(),
+  
   kundali_milana: Yup.string(),
   about_me: Yup.string().required("About Me is required"),
   subscription: Yup.boolean(),

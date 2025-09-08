@@ -1,0 +1,12 @@
+[
+  { "id": 1, "business_category": "Retail" },
+  { "id": 2, "business_category": "Banking" },
+  { "id": 3, "business_category": "Education" },
+  { "id": 4, "business_category": "Healthcare" },
+  { "id": 5, "business_category": "Hospitality" },
+  { "id": 6, "business_category": "Real Estate" },
+  { "id": 7, "business_category": "Transportation" },
+  { "id": 8, "business_category": "Technology" },
+  { "id": 9, "business_category": "Manufacturing" },
+  { "id": 10, "business_category": "Entertainment" }
+]

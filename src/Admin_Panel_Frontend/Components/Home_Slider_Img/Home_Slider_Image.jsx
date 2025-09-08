@@ -128,27 +128,43 @@ export default function HomeSliderImage() {
               </div>
 
               <div className="mb-4">
-                <input
-                  name="image_path"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="w-full sm:w-2/3 border border-gray-300 px-4 py-2 rounded"
-                  required
-                />
-              </div>
+   <input
+    id="file-upload"
+    name="image_path"
+    type="file"
+    accept="image/png, image/jpeg, image/jpg"
+    onChange={handleImageChange}
+    className="hidden"
+    required
+  />
 
-              <button
-                type="submit"
-                className="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800  hover:scale-98 transition-transform ease-in duration-500  "
-              >
-                Upload Image
-              </button>
+  <label
+    htmlFor="file-upload"
+    className="inline-flex items-center justify-between gap-2 bg-gray-200 border border-gray-300 text-gray-400 px-4 py-2 rounded cursor-pointer hover:bg-gray-200 transition w-full sm:w-2/3"
+  >
+    <span className="truncate text-gray-700">
+      {image ? image.name : "No file chosen"}
+    </span>
+    <span className="text-md text-gray-500 font-semibold">Choose File</span>
+  </label>
+  
+  <p className="mt-2 text-sm text-gray-500">
+    Allowed formats: <span className="font-medium text-gray-700">.jpg, .jpeg, .png</span>
+  </p>
+</div>
+
+<button
+  type="submit"
+  className="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 hover:scale-98 transition-transform ease-in duration-500"
+>
+  Upload Image
+</button>
+
             </form>
           </div>
 
           {/* Image Gallery */}
-          <div className="bg-white shadow-md rounded-xl p-6 mb-10">
+          <div className="bg-white shadow-md rounded-xl p-6 pb-10 mb-10">
             <h2 className="text-lg font-semibold mb-4">Slider Images</h2>
 
             {loading ? (
@@ -169,7 +185,7 @@ export default function HomeSliderImage() {
                       alt={item.alt_text}
                       className="w-full h-70 object-cover"
                     />
-                    <div className="p-3 flex gap-20">
+                    <div className="p-3 flex gap-22">
                       <p className="font-medium text-gray-700 mb-2">
                         Title: {item.alt_text}
                       </p>

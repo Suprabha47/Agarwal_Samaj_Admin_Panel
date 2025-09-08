@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import {XMarkIcon } from "@heroicons/react/24/outline";
 import Header from "../Header/Header";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { setAttributes } from "../../Redux/Slice";
+import toast from "react-hot-toast";
 
 
 export default function Attributes() {
    const [openSidebar, setOpenSidebar] = useState(false);
+   const Attributes=useSelector((state)=>state.app.Attributes);
+   const dispatch=useDispatch();
+
+   useEffect(()=>{
+     axios.get('../Attribute.json').then((response)=>{
+      dispatch(setAttributes(response.data));
+    }).catch((err)=>{
+      toast.error(err);
+    })
+   },[dispatch]);
   return (
     <div>
     {/* Sidebar - Desktop */}
@@ -33,7 +47,14 @@ export default function Attributes() {
     
                     <main className="flex-1 flex flex-col md:ml-64">
                           <Header setOpenSidebar={setOpenSidebar} />
+
+                          <div className="border-2 w-150 h-100 border-white shadow-xl mt-20 ml-82">
+                            <h1 className="text-center text-xl font-semibold text-gray-700">Select Attribute</h1>
+
+                          </div>
                     </main>
+
+
     </div>
   );
 }
