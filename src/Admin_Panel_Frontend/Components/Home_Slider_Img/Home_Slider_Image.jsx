@@ -11,23 +11,21 @@ export default function HomeSliderImage() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [image, setImage] = useState(null);
   const [altText, setAltText] = useState("");
-
-  const SliderImages = useSelector((state) => state.app.SliderImages);
   const [loading, setLoading] = useState(false);
+
+  // ✅ Provide fallback empty array
+  const SliderImages = useSelector((state) => state.app.SliderImages || []);
   const dispatch = useDispatch();
 
   useEffect(() => {
-     setLoading(true);
+    setLoading(true);
     const timer = setTimeout(async () => {
-     
       try {
         const response = await axios.get("http://localhost:4005/api/sliders");
         if (response.data) {
-            setLoading(false)
           dispatch(setSliderImages(response.data));
         }
       } catch (err) {
-        setLoading(false)
         toast.error("Failed to fetch images.");
       } finally {
         setLoading(false);
@@ -37,9 +35,7 @@ export default function HomeSliderImage() {
     return () => clearTimeout(timer);
   }, [dispatch]);
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
+  const handleImageChange = (e) => setImage(e.target.files[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,18 +50,20 @@ export default function HomeSliderImage() {
     formData.append("alt_text", altText);
 
     try {
-      const response = await axios.post("http://localhost:4005/api/sliders", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:4005/api/sliders",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-     if(response.data){
-         toast.success("Image uploaded successfully!");
-      setImage(null);
-      setAltText("");
-      window.location.href = "/sliderImages";
-     }
+      if (response.data) {
+        toast.success("Image uploaded successfully!");
+        setImage(null);
+        setAltText("");
+        window.location.href = "/sliderImages";
+      }
     } catch (err) {
       toast.error("Upload failed.");
     }
@@ -110,7 +108,7 @@ export default function HomeSliderImage() {
         <Header setOpenSidebar={setOpenSidebar} />
 
         <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6">Home Slider Images </h1>
+          <h1 className="text-2xl font-bold mb-6">Home Slider Images</h1>
 
           {/* Upload Section */}
           <div className="bg-white shadow-md rounded-xl p-6 mb-10 w-[50%]">
@@ -121,7 +119,7 @@ export default function HomeSliderImage() {
                   type="text"
                   value={altText}
                   onChange={(e) => setAltText(e.target.value)}
-                  placeholder="Image Title "
+                  placeholder="Image Title"
                   className="w-full sm:w-2/3 border border-gray-300 px-4 py-2 rounded"
                   required
                 />
@@ -140,7 +138,7 @@ export default function HomeSliderImage() {
 
               <button
                 type="submit"
-                className="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800  hover:scale-98 transition-transform ease-in duration-500  "
+                className="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 hover:scale-98 transition-transform ease-in duration-500"
               >
                 Upload Image
               </button>
@@ -155,7 +153,7 @@ export default function HomeSliderImage() {
               <div className="flex justify-center items-center py-10">
                 <div className="w-10 h-10 border-4 border-gray-700 border-t-transparent rounded-full animate-spin" />
               </div>
-            ) : (
+            ) : SliderImages.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {SliderImages.map((item) => (
                   <div
@@ -175,17 +173,21 @@ export default function HomeSliderImage() {
                       </p>
                       <button
                         onClick={() => handleRemove(item.id)}
-                        className="text-md font-bold mb-2 text-red-600 "
+                        className="text-md font-bold mb-2 text-red-600"
                       >
                         Remove
                       </button>
-                      <p className="font-semibold text-md">
-                    {item.created_at.split('T')[0]}
-                      </p>
+                      {item.created_at && (
+                        <p className="font-semibold text-md">
+                          {item.created_at.split("T")[0]}
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
+            ) : (
+              <p className="text-gray-500 text-center">No images found.</p>
             )}
           </div>
         </div>
