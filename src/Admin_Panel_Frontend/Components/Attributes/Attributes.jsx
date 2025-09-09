@@ -7,14 +7,14 @@ import axios from "axios";
 import { setAttributes } from "../../Redux/Slice";
 import toast from "react-hot-toast";
 
-
 export default function Attributes() {
    const [openSidebar, setOpenSidebar] = useState(false);
    const Attributes=useSelector((state)=>state.app.Attributes);
+   
    const dispatch=useDispatch();
 
    useEffect(()=>{
-     axios.get('../Attribute.json').then((response)=>{
+     axios.get('/Attribute.json').then((response)=>{
       dispatch(setAttributes(response.data));
     }).catch((err)=>{
       toast.error(err);
@@ -50,6 +50,22 @@ export default function Attributes() {
 
                           <div className="border-2 w-150 h-100 border-white shadow-xl mt-20 ml-82">
                             <h1 className="text-center text-xl font-semibold text-gray-700">Select Attribute</h1>
+
+                           <form action="">
+                             <select className="text-center ml-58 mt-4">
+                              <option>---Select---</option>
+                              {
+                                Attributes.map((item)=>(
+                                 
+                                    
+                                    <option key={item.id} value={item.business_category}>{item.business_category}</option>
+                                 
+                                ))
+                              }
+                            </select> <br />
+
+                            <button className="border-2 rounded-md bg-gray-600 hover:bg-gray-500 text-white font-semibold p-1 mt-3 ml-58">Add Attribute</button>
+                           </form>
 
                           </div>
                     </main>

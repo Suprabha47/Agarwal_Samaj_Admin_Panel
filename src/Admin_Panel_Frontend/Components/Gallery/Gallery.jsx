@@ -9,13 +9,13 @@ export default function Gallery() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const albumImageInputRef = useRef(null);
 
-  // Album Form State
+ 
   const [albumTitle, setAlbumTitle] = useState("");
   const [albumDescription, setAlbumDescription] = useState("");
   const [coverImage, setCoverImage] = useState(null);
   const [eventDate, setEventDate] = useState("");
 
-  // Albums Data
+
   const [albums, setAlbums] = useState([]);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
 
@@ -65,7 +65,7 @@ export default function Gallery() {
       toast.error("Please fill all fields and choose a cover image.");
       return;
     }
-
+     
     const formData = new FormData();
     formData.append("album_title", albumTitle);
     formData.append("album_description", albumDescription);
@@ -112,9 +112,8 @@ export default function Gallery() {
     }
   };
 
-  const handleDeleteAlbum = async (albumId) => {
-    if (!window.confirm("Are you sure you want to delete this album?")) return;
-
+  const handleDeleteAlbum = (albumId) => {
+  confirmToast("Are you sure you want to delete this album?", async () => {
     try {
       await axios.delete(`http://localhost:4005/api/albums/${albumId}`);
       toast.success("Album deleted successfully!");
@@ -123,7 +122,9 @@ export default function Gallery() {
     } catch (err) {
       toast.error("Failed to delete album.");
     }
-  };
+  });
+};
+
 
   const handleSelectAlbum = async (albumId) => {
     setSelectedAlbum(albumId);
@@ -307,13 +308,13 @@ export default function Gallery() {
                           setAlbumDescription(album.album_description);
                           setEventDate(album.event_date?.split("T")[0] || "");
                         }}
-                        className="text-blue-600 hover:underline"
+                        className="text-blue-600 "
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDeleteAlbum(album.album_id)}
-                        className="text-red-600 hover:underline"
+                        className="text-red-600 "
                       >
                         Delete
                       </button>
@@ -401,3 +402,29 @@ export default function Gallery() {
     </div>
   );
 }
+
+
+export const confirmToast = (message, onConfirm) => {
+  toast.custom((t) => (
+    <div className="bg-white shadow-lg rounded-lg p-4 flex flex-col gap-3 w-72  h-30">
+      <p className="text-gray-800 font-medium">{message}</p>
+      <div className="flex justify-end gap-2">
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-sm"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={async () => {
+            toast.dismiss(t.id);
+            await onConfirm();
+          }}
+          className="px-3 py-1 rounded-md bg-red-600 hover:bg-red-500 text-white text-sm"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ));
+};

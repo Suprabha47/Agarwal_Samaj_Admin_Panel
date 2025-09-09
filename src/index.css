@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 html {
   font-size: 14px; /* Adjust this value to your desired base font size */
 }

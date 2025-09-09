@@ -34,6 +34,7 @@ export default function Header({
     const matchCreateClassified = useMatch("/classified/createClassified");
     const matchViewClassified = useMatch("/classified/:id");
     const matchUpdateClassified = useMatch("/classified/updateClassified/:id");
+    
 
     // Top-level routes
     if (location.pathname === "/dashboard") return "Dashboard";
@@ -43,6 +44,10 @@ export default function Header({
     if (location.pathname === "/attributes") return "Attributes";
     if (location.pathname === "/sliderImages") return "Slider Images";
     if(location.pathname==='/gallery') return "Gallery";
+    if(location.pathname==='/blog/articles') return "All Articles";
+    if(location.pathname==='/blog/create') return "Create Article";
+    if(location.pathname==='/blog/category') return "Create Category";
+
 
     // Nested member routes
     if (matchCreateMember || matchUpdateMember || matchViewMember) {
@@ -53,12 +58,12 @@ export default function Header({
               <img src={ExitIcon} alt="Exit" className="size-10" />
             </button>
             {isCreate && (
-              <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-700">
                 Candidate Form
               </h1>
             )}
             {isUpdateform && (
-              <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-800">
+              <h1 className="text-lg sm:text-2xl md:text-2xl font-semibold md:font-bold text-gray-700">
                 Update Form
               </h1>
             )}
@@ -132,7 +137,7 @@ export default function Header({
         </button>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-3">
           {/* Heading */}
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-700">
             {HeaderHeading()}
           </h1>
 

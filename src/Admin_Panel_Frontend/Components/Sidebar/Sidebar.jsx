@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const email = useSelector((state) => state.app.email);
     const role = parseInt(localStorage.getItem("role"));
+    const [blogOpen, setBlogOpen] = useState(false);
   return (
     <div className="h-full w-64 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg flex flex-col">
       {/* Header */}
@@ -172,6 +174,95 @@ export default function Sidebar() {
           
         Gallery
         </NavLink>
+
+     <div>
+          <button
+            onClick={() => setBlogOpen(!blogOpen)}
+            className="flex items-center justify-between w-full px-4 py-3 text-base rounded-lg text-gray-200 hover:bg-gray-500 hover:text-white transition"
+          >
+            <span className="flex items-center gap-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                className="w-5 h-5"
+              >
+                <path d="M5.246 3.744a.75.75 0 0 1 .75-.75h7.125a4.875 4.875 0 0 1 3.346 8.422 5.25 5.25 0 0 1-2.97 9.58h-7.5a.75.75 0 0 1-.75-.75V3.744Zm7.125 6.75a2.625 2.625 0 0 0 0-5.25H8.246v5.25h4.125Zm-4.125 2.251v6h4.5a3 3 0 0 0 0-6h-4.5Z" />
+              </svg>
+              Blog
+            </span>
+            <span className={`transition-transform ${blogOpen ? "rotate-180" : ""}`}>
+              ▼
+            </span>
+          </button>
+
+          {blogOpen && (
+            <div className="ml-4 mt-2 flex flex-col space-y-1">
+              <NavLink
+                to="/blog/articles"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition ${
+                    isActive
+                      ? "bg-gray-700 text-white shadow-md"
+                      : "text-gray-200 hover:bg-gray-500 hover:text-white"
+                  }`
+                }
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4"
+                >
+                  <path d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                All Articles
+              </NavLink>
+
+              <NavLink
+                to="/blog/create"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition ${
+                    isActive
+                      ? "bg-gray-700 text-white shadow-md"
+                      : "text-gray-200 hover:bg-gray-500 hover:text-white"
+                  }`
+                }
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4"
+                >
+                  <path d="M12 4v16m8-8H4" />
+                </svg>
+                Create Article
+              </NavLink>
+
+              <NavLink
+                to="/blog/category"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition ${
+                    isActive
+                      ? "bg-gray-700 text-white shadow-md"
+                      : "text-gray-200 hover:bg-gray-500 hover:text-white"
+                  }`
+                }
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4"
+                >
+                  <path d="M3 6h18M3 12h18M3 18h18" />
+                </svg>
+                Category
+              </NavLink>
+            </div>
+          )}
+        </div>
       </nav>
 
       {/* Footer */}

@@ -249,24 +249,7 @@ export default function CreateClassified() {
                   <option value="Healthcare">Healthcare</option>
                 </select>
               </div>
-
-              {/* Status */}
-              {/* <div>
-                <label className="block text-gray-700 font-medium mb-1">
-                  Status
-                </label>
-                <select
-                  name="status"
-                  value={formik.values.status}
-                  onChange={formik.handleChange}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </div> */}
-
+              
               {/* Photos */}
               <div className="md:col-span-2">
                 <label className="block text-gray-700 font-medium mb-1">
@@ -302,19 +285,7 @@ export default function CreateClassified() {
                 </div>
               </div>
 
-              {/* Approval Date */}
-              {/* <div>
-                <label className="block text-gray-700 font-medium mb-1">
-                  Approval Date
-                </label>
-                <input
-                  type="date"
-                  name="approval_date"
-                  value={formik.values.approval_date}
-                  onChange={formik.handleChange}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
-                />
-              </div> */}
+            
             </div>
 
             {/* Submit Button */}

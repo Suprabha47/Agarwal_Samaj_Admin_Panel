@@ -20,6 +20,9 @@ import UpdateClassified from "../Components/Classified/UpdateClassified";
 import Attributes from "../Components/Attributes/Attributes";
 import HomeSliderImage from "../Components/Home_Slider_Img/Home_Slider_Image";
 import Gallery from "../Components/Gallery/Gallery";
+import Articles from "../Components/Blog/Articles";
+import CreateArticle from "../Components/Blog/CreateArticle";
+import Category from "../Components/Blog/Category";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -128,6 +131,30 @@ export default function Routes() {
       element:(
         <ProtectedRoute>
           <Gallery/>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path:"/blog/articles",
+      element:(
+        <ProtectedRoute>
+         <Articles/>
+        </ProtectedRoute>
+      )
+    },
+     {
+      path:"/blog/create",
+      element:(
+        <ProtectedRoute>
+       <CreateArticle/>
+        </ProtectedRoute>
+      )
+    },
+     {
+      path:"/blog/category",
+      element:(
+        <ProtectedRoute>
+        <Category/>
         </ProtectedRoute>
       )
     }

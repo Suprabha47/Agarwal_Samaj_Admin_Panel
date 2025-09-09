@@ -23,7 +23,9 @@ export const Slice = createSlice({
     id:null,
     name:"",
     SliderImages:[],
-    Attributes:[]
+    Attributes:[],
+    Atbutes:[],
+    Category:[]
   },
   reducers: {
     setUsername: (state, action) => {
@@ -59,6 +61,12 @@ export const Slice = createSlice({
     },
     setAttributes:(state,action)=>{
       state.Attributes=action.payload;
+    },
+    setAtbutes:(state,action)=>{
+      state.Atbutes=action.payload
+    },
+    setCategory:(state,action)=>{
+      state.Category=action.payload
     }
     
   },
@@ -89,6 +97,8 @@ export const {
   logout,
   setClassified,
   setSliderImages,
-  setAttributes
+  setAttributes,
+  setAtbutes,
+  setCategory
 } = Slice.actions;
 export default Slice.reducer;

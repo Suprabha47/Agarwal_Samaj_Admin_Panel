@@ -18,6 +18,7 @@ export function SidebarMobile({ openSidebar, setOpenSidebar }) {
         </button>
         <Sidebar />
       </div>
+ 
     </div>
   );
 }
