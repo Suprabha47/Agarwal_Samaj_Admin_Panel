@@ -46,7 +46,7 @@ export default function Header({
     if(location.pathname==='/gallery') return "Gallery";
     if(location.pathname==='/blog/articles') return "All Articles";
     if(location.pathname==='/blog/create') return "Create Article";
-    if(location.pathname==='/blog/category') return "Create Category";
+    if(location.pathname==='/blog/category') return " Category";
 
 
     // Nested member routes

@@ -51,10 +51,8 @@ export default function CreateArticle() {
   } catch (error) {
     toast.error("Something Went Wrong");
   }
-}
-        
-       
-     })
+} 
+     });
     
 
   return (
@@ -122,6 +120,7 @@ export default function CreateArticle() {
                             </textarea>
 <br />
                         <select name='category' value={formik.values.category} onChange={formik.handleChange}>
+                          <option value="">--Select Category--</option>
                             {
                               Category.map((item)=>(
                                 <option key={item.category_id} value={item.category_id} >
