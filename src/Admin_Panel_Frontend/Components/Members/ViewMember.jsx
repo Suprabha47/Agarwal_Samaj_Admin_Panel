@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-
 import Sidebar from "../Sidebar/Sidebar";
-
 import { XMarkIcon } from "@heroicons/react/24/outline";
-
 import Header from "../Header/Header";
 
 export default function ViewMember() {
