@@ -57,7 +57,7 @@ export default function ViewArticle() {
 
               <div className="p-6 sm:p-8">
                 {/* Title */}
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
                   {Article.title}
                 </h1>
                 <span className="border-1 p-1 rounded-md text-white bg-gray-600 sm:ml-120 md:ml-120 lg:ml-200">
@@ -66,7 +66,11 @@ export default function ViewArticle() {
 
                 {/* Author + Date + Views */}
                 <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
-                  <span className="font-medium text-xl text-gray-700">
+                  <span className="font-medium text-xl text-gray-700 flex gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+</svg>
+
                     {Article.author_name}
                   </span>
                   <span className="flex gap-1 font-medium text-md"> 
@@ -79,14 +83,14 @@ export default function ViewArticle() {
                 </div>
 
                 {/* Excerpt */}
-                <h1 className="mb-1 font-semibold text-xl">Excerpt</h1>
+                <h1 className="mb-3 font-semibold text-2xl">Excerpt</h1>
                 <div className="bg-gray-600 p-6 rounded-md mb-6 text-white text-xl border-l-red-600 border-4 border-t-transparent border-b-transparent border-r-transparent">
                   {Article.excerpt}
                 </div>
 
                 {/* Content */}
-                 <h1 className="text-2xl font-semibold">Content</h1>
-                <div className="prose max-w-none text-gray-800 leading-relaxed">
+                 <h1 className="text-2xl font-semibold mb-2">Content</h1>
+                <div className="prose max-w-none text-gray-800 leading-loose text-lg  font-normal tracking-wide leading-">
                   {Article.content}
 
                 </div>
