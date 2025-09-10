@@ -23,6 +23,8 @@ import Gallery from "../Components/Gallery/Gallery";
 import Articles from "../Components/Blog/Articles";
 import CreateArticle from "../Components/Blog/CreateArticle";
 import Category from "../Components/Blog/Category";
+import BlogOutlet from "../Components/Blog/BlogOutlet";
+import ViewArticle from "../Components/Blog/ViewArticle";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -138,9 +140,20 @@ export default function Routes() {
       path:"/blog/articles",
       element:(
         <ProtectedRoute>
-         <Articles/>
+         <BlogOutlet/>
         </ProtectedRoute>
-      )
+      ),
+      children:[
+        {
+          index:true,
+          element:<Articles/>
+
+        },
+        {
+          path:'article/:Id',
+          element:<ViewArticle/>
+        }
+      ]
     },
      {
       path:"/blog/create",

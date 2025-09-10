@@ -96,7 +96,7 @@ export default function Category() {
 
         <div className="p-6">
           {/* Top Section */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 border-1 border-gray-200 rounded-md p-2 pb-4 shadow bg-white">
             <div className="mt-5">
               <h1 className="text-3xl text-gray-700 font-bold">
                 Blog Categories

@@ -48,6 +48,7 @@ export default function CreateArticle() {
         if (response?.data) {
           toast.success(" Post Created Successfully");
           formik.resetForm();
+        
         }
       } catch (error) {
         toast.error(" Something Went Wrong");
@@ -84,13 +85,13 @@ export default function CreateArticle() {
   <Header setOpenSidebar={setOpenSidebar} />
 
   <div className="flex flex-col flex-1 rounded-2xl p-4 sm:p-6 mt-6 w-full">
-    <p className="text-gray-600 font-semibold text-lg sm:text-xl mb-6">
+    <p className=" text-lg text-gray-600 font-semibold  sm:text-xl mb-6">
       Add a new Blog Post or News Article
     </p>
 
     <form
       onSubmit={formik.handleSubmit}
-      className="grid grid-cols-1 lg:grid-cols-2 gap-6 border-2 border-gray-200 p-4 sm:p-6 rounded-md shadow"
+      className="grid grid-cols-1 bg-white lg:grid-cols-2 gap-6 border-2 border-gray-200 p-4 sm:p-6 rounded-md shadow "
     >
       {/* Title */}
       <div className="col-span-1 lg:col-span-2">
@@ -187,6 +188,9 @@ export default function CreateArticle() {
           }
           className="w-full border border-gray-300 rounded px-3 py-2"
         />
+        {formik.errors.thumbnail_url && formik.touched.thumbnail_url && (
+    <p className="text-red-500 text-md">{formik.errors.thumbnail_url}</p>
+  )}
       </div>
 
       {/* Submit Button */}

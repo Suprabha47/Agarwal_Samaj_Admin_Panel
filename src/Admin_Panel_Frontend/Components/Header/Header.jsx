@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useLocation, useNavigate } from "react-router";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router";
 import { logout } from "../../Redux/Slice";
 import toast from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -23,6 +23,11 @@ export default function Header({
   const navigate = useNavigate();
   const email = useSelector((state) => state.app.email);
   const location = useLocation();
+  let {Id}=useParams();
+  const Articles=useSelector((state)=>state.app.Articles);
+  const Article=Articles.find((item)=>item.post_id.toString()===Id);
+ 
+
 
   const HeaderHeading = () => {
     // Declare all matches at the top (hooks cannot be conditional)
@@ -34,6 +39,7 @@ export default function Header({
     const matchCreateClassified = useMatch("/classified/createClassified");
     const matchViewClassified = useMatch("/classified/:id");
     const matchUpdateClassified = useMatch("/classified/updateClassified/:id");
+    const matchViewArticle=useMatch('/blog/articles/article/:id')
     
 
     // Top-level routes
@@ -119,6 +125,23 @@ export default function Header({
           </div>
         </NavLink>
       );
+    }
+
+    if(matchViewArticle){
+      return(
+        <div className="text-3xl flex gap-10 font-bold text-gray-800 items-center">
+           <NavLink to={'/blog/articles'}>
+             <button>
+              <img src={ExitIcon} alt="Exit" className="size-10" />
+            </button>
+           </NavLink>
+            {Article && (
+              <h1 className="  sm:text-2xl md:text-4xl font-semibold md:font-semibold text-gray-800">
+                {Article.title}
+              </h1>
+            )}
+            </div>
+      )
     }
 
     // Fallback
