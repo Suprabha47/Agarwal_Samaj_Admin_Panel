@@ -178,7 +178,7 @@ export default function Category() {
 
       {/* Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-700  p-4">
           <div className="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative">
             {/* Close button */}
             <button

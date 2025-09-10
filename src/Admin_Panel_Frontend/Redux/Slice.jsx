@@ -25,7 +25,8 @@ export const Slice = createSlice({
     SliderImages:[],
     Attributes:[],
     Atbutes:[],
-    Category:[]
+    Category:[],
+    Articles:[]
   },
   reducers: {
     setUsername: (state, action) => {
@@ -67,9 +68,11 @@ export const Slice = createSlice({
     },
     setCategory:(state,action)=>{
       state.Category=action.payload
-    }
-    
-  },
+    },
+    setArticle:(state,action)=>{
+    state.Articles=action.payload
+  }
+},
   extraReducers: (boiler) => {
     boiler
       .addCase(MemberApi.pending, (state) => {
@@ -99,6 +102,7 @@ export const {
   setSliderImages,
   setAttributes,
   setAtbutes,
-  setCategory
+  setCategory,
+  setArticle
 } = Slice.actions;
 export default Slice.reducer;
