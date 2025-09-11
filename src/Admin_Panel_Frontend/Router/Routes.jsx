@@ -25,6 +25,7 @@ import CreateArticle from "../Components/Blog/CreateArticle";
 import Category from "../Components/Blog/Category";
 import BlogOutlet from "../Components/Blog/BlogOutlet";
 import ViewArticle from "../Components/Blog/ViewArticle";
+import UpdateArticle from "../Components/Blog/UpdateArticle";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -152,7 +153,11 @@ export default function Routes() {
         {
           path:'article/:Id',
           element:<ViewArticle/>
-        }
+        },
+        {
+      path:"updateArticle/:Id",
+      element:<UpdateArticle/>
+    }
       ]
     },
      {
@@ -170,7 +175,7 @@ export default function Routes() {
         <Category/>
         </ProtectedRoute>
       )
-    }
+    },
   ]);
 
   return <RouterProvider router={router} />;
