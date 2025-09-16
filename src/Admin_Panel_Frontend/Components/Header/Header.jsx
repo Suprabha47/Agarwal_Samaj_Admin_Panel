@@ -48,6 +48,7 @@ export default function Header({
     if (location.pathname === "/members") return "Matrimonial";
     if (location.pathname === "/donations") return "Donations";
     if (location.pathname === "/classified") return "Classified";
+    if (location.pathname === "/membership") return "Membership Form";
     if (location.pathname === "/attributes") return "Attributes";
     if (location.pathname === "/sliderImages") return "Slider Images";
     if(location.pathname==='/gallery') return "Gallery";

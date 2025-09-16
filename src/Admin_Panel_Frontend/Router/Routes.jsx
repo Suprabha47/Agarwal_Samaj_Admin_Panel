@@ -26,6 +26,8 @@ import Category from "../Components/Blog/Category";
 import BlogOutlet from "../Components/Blog/BlogOutlet";
 import ViewArticle from "../Components/Blog/ViewArticle";
 import UpdateArticle from "../Components/Blog/UpdateArticle";
+import MembershipOutlet from "../Components/Membership/MembershipOutlet";
+import Membership from "../Components/Membership/Membership";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -180,6 +182,21 @@ export default function Routes() {
         </ProtectedRoute>
       )
     },
+
+    {
+      path:"/membership",
+      element:(
+   <ProtectedRoute>
+       <MembershipOutlet/>
+   </ProtectedRoute>
+    ),
+      children:[
+        {
+          index:true,
+          element:<Membership/>
+        }
+      ]
+    }
   ]);
 
   return <RouterProvider router={router} />;

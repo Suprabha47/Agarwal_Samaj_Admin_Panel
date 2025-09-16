@@ -68,6 +68,7 @@ export default function Sidebar() {
           Matrimonial
         </NavLink>
 
+
         <NavLink
           to="/classified"
           className={({ isActive }) =>
@@ -92,6 +93,19 @@ export default function Sidebar() {
             <path d="M18.75 6.75h1.875c.621 0 1.125.504 1.125 1.125V18a1.5 1.5 0 0 1-3 0V6.75Z" />
           </svg>
           Classified
+        </NavLink>
+                   <NavLink
+          to="/membership"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-3 rounded-lg text-base transition ${
+              isActive
+                ? "bg-gray-700 text-white shadow-md"
+                : "text-gray-200 hover:bg-gray-500 hover:text-white"
+            }`
+          }
+        >
+         <img src="https://img.icons8.com/?size=100&id=47269&format=png&color=000000" alt="" className="size-6 bg-gray-200 border-0 rounded-md fit-content" />
+          Membership
         </NavLink>
 
         <NavLink

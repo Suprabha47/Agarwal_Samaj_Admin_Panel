@@ -22,9 +22,8 @@ export default function Articles() {
 
      const filterSearch=filterData.filter((item)=>{
       return item.author_name.toLowerCase().replace(/\s+/g, "").includes(search.toLowerCase().replace(/\s+/g, ""))
-     })
+     });
      
-
     useEffect(()=>{
       setLoading(true)
       const timer=setTimeout(() => {
