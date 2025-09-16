@@ -154,10 +154,6 @@ export default function Routes() {
           path:'article/:Id',
           element:<ViewArticle/>
         },
-        {
-      path:"updateArticle/:Id",
-      element:<UpdateArticle/>
-    }
       ]
     },
      {
@@ -165,6 +161,14 @@ export default function Routes() {
       element:(
         <ProtectedRoute>
        <CreateArticle/>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path:"/blog/update/article/:Id",
+      element:(
+        <ProtectedRoute>
+       <UpdateArticle/>
         </ProtectedRoute>
       )
     },

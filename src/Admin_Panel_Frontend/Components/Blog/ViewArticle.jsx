@@ -84,7 +84,7 @@ export default function ViewArticle() {
                     <button className="bg-gray-600 text-white font-semibold text-xl p-1 px-3 rounded-sm"
                     
                     >
-                      <NavLink to={`updateArticle/${Article.post_id}`}>
+                      <NavLink to={`/blog/update/article/${Article.post_id}`}>
                         Update
                       </NavLink>
                     </button>

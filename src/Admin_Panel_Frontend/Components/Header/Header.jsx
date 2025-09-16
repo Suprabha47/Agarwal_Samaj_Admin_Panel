@@ -40,6 +40,7 @@ export default function Header({
     const matchViewClassified = useMatch("/classified/:id");
     const matchUpdateClassified = useMatch("/classified/updateClassified/:id");
     const matchViewArticle=useMatch('/blog/articles/article/:id')
+    const matchUpdateArticle=useMatch('/blog/update/article/:Id');
     
 
     // Top-level routes
@@ -98,6 +99,7 @@ export default function Header({
         </NavLink>
       );
     }
+    
     if (matchViewClassified) {
       return (
         <NavLink to="/classified">
@@ -143,6 +145,23 @@ export default function Header({
             </div>
       )
     }
+     if(matchUpdateArticle){
+      return(
+        <div className="text-3xl flex gap-10 font-bold text-gray-800 items-center">
+           <NavLink to={'/blog/articles'}>
+             <button>
+              <img src={ExitIcon} alt="Exit" className="size-10" />
+            </button>
+           </NavLink>
+            {Article && (
+              <h1 className="  sm:text-2xl md:text-4xl font-semibold md:font-semibold text-gray-800">
+                Update Article Form
+              </h1>
+            )}
+            </div>
+      )
+    }
+
 
     // Fallback
     return "Page";
