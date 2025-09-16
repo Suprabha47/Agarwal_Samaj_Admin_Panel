@@ -193,7 +193,8 @@ const handleDelete = (post_id) => {
               <td className="px-6 py-3 text-lg">{item.publish_date.split('T')[0]}</td>
               <td className="px-6 py-3 text-lg">{item.excerpt}</td>
               <td className="px-6 py-3 text-center space-x-2">
-                <button className="px-3 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-md text-lg">
+                <div className='inline-flex gap-3'>
+                  <button className="px-3 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-md text-lg">
                <NavLink to={`article/${item.post_id}`}>
                   View
 
@@ -205,6 +206,7 @@ const handleDelete = (post_id) => {
                 >
                   Delete
                 </button>
+                </div>
               </td>
             </tr>
           ))
