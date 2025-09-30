@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setClassified } from "../../Redux/Slice";
 import toast from "react-hot-toast";
+import Layout from "../Layout/Layout";
 
 export default function Classified() {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -26,12 +27,11 @@ export default function Classified() {
     const timer = setTimeout(async () => {
       setLoading(false);
       try {
-           // console.log(`${process.env.REACT_APP_BACKEND_URL}/api/classifieds`)
+        // console.log(`${process.env.REACT_APP_BACKEND_URL}/api/classifieds`)
         const response = await axios.get(
           `http://localhost:4005/api/classifieds`
-          
         );
-     
+
         dispatch(setClassified(response.data));
       } catch (err) {
         setError(err);
@@ -57,7 +57,6 @@ export default function Classified() {
     try {
       const response = await axios.delete(
         `http://localhost:4005/api/classifieds/${id}`
-
       );
       if (response.data) {
         toast.success("Deleted successfully");
@@ -71,35 +70,10 @@ export default function Classified() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      {/* Sidebar - Desktop */}
-      <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-white shadow-md">
-        <Sidebar />
-      </div>
-
-      {/* Sidebar - Mobile */}
-      <div
-        className={`fixed inset-0 left-0 z-40 transform ${
-          openSidebar ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out md:hidden`}
-      >
-        <div className="h-full w-64 bg-white shadow-lg relative">
-          <button
-            onClick={() => setOpenSidebar(false)}
-            className="absolute top-4 right-4 text-gray-700"
-          >
-            <XMarkIcon className="h-7 w-7" />
-          </button>
-          <Sidebar />
-        </div>
-      </div>
-
+    <>
+      <Layout PageName="Classified" />
       {/* Main content */}
       <main className="flex-1 flex flex-col md:ml-64 overflow-y-auto max-h-screen  ">
-       
-          <Header setOpenSidebar={setOpenSidebar} />
-       
-
         <div className="px-4 sm:px-6 lg:px-8 mt-15 mb-6 text-center sm:text-left">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
             Classified Ads Management
@@ -151,14 +125,12 @@ export default function Classified() {
                   className="flex-1 border-none px-2 py-1 rounded-lg text-sm sm:text-base focus:outline-none"
                 />
               </div>
-             
-                 <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600 lg: ml-130 md:ml-50 sm:ml-10">
-  <NavLink to={"createClassified"} className="inline" >
-    Add Classified
-  </NavLink>
-</button>
 
-            
+              <button className="flex items-center gap-2 bg-gray-700 text-white font-semibold px-3 py-2 rounded-lg text-base hover:bg-gray-600 lg: ml-130 md:ml-50 sm:ml-10">
+                <NavLink to={"createClassified"} className="inline">
+                  Add Classified
+                </NavLink>
+              </button>
             </div>
 
             {/* Table - Desktop */}
@@ -304,7 +276,7 @@ export default function Classified() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

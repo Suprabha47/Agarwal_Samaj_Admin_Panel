@@ -1,25 +1,27 @@
-// membershipInitialState.js
-const membershipInitialState = {
-  name: "",
+export const initialValues = {
+  applicantName: "",
   wifeName: "",
-  dob: "",
-  dom: "",
-  dobWife: "",
+  husbandIdCard: null,
+  wifeIdCard: null,
+  applicantDob: "",
+  marriageDate: "",
+  wifeDob: "",
   fatherHusbandName: "",
   gotra: "",
-  address: "",
-  village: "",
+  resAddress: "",
+  villageCity: "",
   district: "",
   state: "",
   pincode: "",
+  telephone: "",
   mobileSelf: "",
   mobileWife: "",
-  email: "",
+  faxEmail: "",
   occupation: "",
   origin: "",
-  proposerName: "",
-  contactNo: "",
-  profilePhoto: null, // for file upload
+  corpusFund: "",
+  lifeMagazineFee: "",
+  membershipFee: "",
+  husbandPhoto: null,
+  wifePhoto: null,
 };
-
-export default membershipInitialState;

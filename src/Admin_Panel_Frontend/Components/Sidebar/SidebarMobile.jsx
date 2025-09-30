@@ -18,19 +18,18 @@ export function SidebarMobile({ openSidebar, setOpenSidebar }) {
         </button>
         <Sidebar />
       </div>
- 
     </div>
   );
 }
 
-export function SidebarMobileButton({ setOpenSidebar }) {
+export function SidebarMobileButton({ setOpenSidebar, PageName }) {
   return (
     <div className="flex items-center gap-3">
       {/* Mobile Sidebar Button */}
       <button className="md:hidden" onClick={() => setOpenSidebar(true)}>
         <Bars3Icon className="h-8 w-8 text-gray-700" />
       </button>
-      <h1 className="text-3xl font-bold text-gray-800">Matrimonial</h1>
+      <h1 className="text-3xl font-bold text-gray-800">{PageName}</h1>
     </div>
   );
 }

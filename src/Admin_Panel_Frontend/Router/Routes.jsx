@@ -28,6 +28,7 @@ import ViewArticle from "../Components/Blog/ViewArticle";
 import UpdateArticle from "../Components/Blog/UpdateArticle";
 import MembershipOutlet from "../Components/Membership/MembershipOutlet";
 import Membership from "../Components/Membership/Membership";
+import CreateMembership from "../Components/Membership/MembershipForm";
 
 export default function Routes() {
   const router = createBrowserRouter([
@@ -119,84 +120,87 @@ export default function Routes() {
       path: "/attributes",
       element: (
         <ProtectedRoute>
-      <Attributes/>
+          <Attributes />
         </ProtectedRoute>
       ),
     },
     {
-      path:'/sliderImages',
-      element:(
+      path: "/sliderImages",
+      element: (
         <ProtectedRoute>
-          <HomeSliderImage/>
-        </ProtectedRoute>
-      )
-    },
-    {
-      path:"/gallery",
-      element:(
-        <ProtectedRoute>
-          <Gallery/>
-        </ProtectedRoute>
-      )
-    },
-    {
-      path:"/blog/articles",
-      element:(
-        <ProtectedRoute>
-         <BlogOutlet/>
+          <HomeSliderImage />
         </ProtectedRoute>
       ),
-      children:[
-        {
-          index:true,
-          element:<Articles/>
-
-        },
-        {
-          path:'article/:Id',
-          element:<ViewArticle/>
-        },
-      ]
-    },
-     {
-      path:"/blog/create",
-      element:(
-        <ProtectedRoute>
-       <CreateArticle/>
-        </ProtectedRoute>
-      )
     },
     {
-      path:"/blog/update/article/:Id",
-      element:(
+      path: "/gallery",
+      element: (
         <ProtectedRoute>
-       <UpdateArticle/>
+          <Gallery />
         </ProtectedRoute>
-      )
+      ),
     },
-     {
-      path:"/blog/category",
-      element:(
+    {
+      path: "/blog/articles",
+      element: (
         <ProtectedRoute>
-        <Category/>
+          <BlogOutlet />
         </ProtectedRoute>
-      )
+      ),
+      children: [
+        {
+          index: true,
+          element: <Articles />,
+        },
+        {
+          path: "article/:Id",
+          element: <ViewArticle />,
+        },
+      ],
+    },
+    {
+      path: "/blog/create",
+      element: (
+        <ProtectedRoute>
+          <CreateArticle />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/blog/update/article/:Id",
+      element: (
+        <ProtectedRoute>
+          <UpdateArticle />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/blog/category",
+      element: (
+        <ProtectedRoute>
+          <Category />
+        </ProtectedRoute>
+      ),
     },
 
     {
-      path:"/membership",
-      element:(
-   <ProtectedRoute>
-       <MembershipOutlet/>
-   </ProtectedRoute>
-    ),
-      children:[
+      path: "/membership",
+      element: (
+        <ProtectedRoute>
+          <MembershipOutlet />
+        </ProtectedRoute>
+      ),
+      children: [
         {
-          index:true,
-          element:<Membership/>
-        }
-      ]
-    }
+          index: true,
+          element: <Membership />,
+        },
+        {
+          path: "form",
+          element: <CreateMembership />,
+        },
+      ],
+    },
   ]);
 
   return <RouterProvider router={router} />;
