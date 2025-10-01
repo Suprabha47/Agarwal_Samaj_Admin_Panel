@@ -1,11 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const MemberApi = createAsyncThunk("api", async () => {
-  let response = await axios.get("http://localhost:4005/api/candidates");
+export const MemberApi = createAsyncThunk("members/fetchAll", async () => {
+  let response = await axios.get(
+    `${process.env.REACT_APP_BACKEND_URL}/api/candidates`
+  );
   return response.data;
 });
 
+export const MembershipApi = createAsyncThunk(
+  "memberships/fetchAll",
+  async () => {
+    let response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/api/membership`
+    );
+    return response.data;
+  }
+);
 
 export const Slice = createSlice({
   name: "app",
@@ -18,15 +29,16 @@ export const Slice = createSlice({
     loading: false,
     Members: [],
     error: null,
-    role:null,
-    classified:[],
-    id:null,
-    name:"",
-    SliderImages:[],
-    Attributes:[],
-    Atbutes:[],
-    Category:[],
-    Articles:[]
+    role: null,
+    classified: [],
+    id: null,
+    name: "",
+    SliderImages: [],
+    Attributes: [],
+    Atbutes: [],
+    Category: [],
+    Articles: [],
+    Memberships: [],
   },
   reducers: {
     setUsername: (state, action) => {
@@ -41,38 +53,37 @@ export const Slice = createSlice({
     setConfirmPassword: (state, action) => {
       state.confirm_password = action.payload;
     },
-    login: (state,action) => {
+    login: (state, action) => {
       state.isLoggedIn = true;
-      state.role=action.payload.role
-      state.password=""
-      state.id=action.payload.id
-      state.name=action.payload.name
+      state.role = action.payload.role;
+      state.password = "";
+      state.id = action.payload.id;
+      state.name = action.payload.name;
       localStorage.setItem("auth", JSON.stringify(state));
     },
     logout: (state) => {
       state.isLoggedIn = false;
       localStorage.setItem("auth", JSON.stringify(state));
     },
-    setClassified:(state,action)=>{
-      state.classified=action.payload
-
+    setClassified: (state, action) => {
+      state.classified = action.payload;
     },
-    setSliderImages:(state,action)=>{
-      state.SliderImages=action.payload
+    setSliderImages: (state, action) => {
+      state.SliderImages = action.payload;
     },
-    setAttributes:(state,action)=>{
-      state.Attributes=action.payload;
+    setAttributes: (state, action) => {
+      state.Attributes = action.payload;
     },
-    setAtbutes:(state,action)=>{
-      state.Atbutes=action.payload
+    setAtbutes: (state, action) => {
+      state.Atbutes = action.payload;
     },
-    setCategory:(state,action)=>{
-      state.Category=action.payload
+    setCategory: (state, action) => {
+      state.Category = action.payload;
     },
-    setArticle:(state,action)=>{
-    state.Articles=action.payload
-  }
-},
+    setArticle: (state, action) => {
+      state.Articles = action.payload;
+    },
+  },
   extraReducers: (boiler) => {
     boiler
       .addCase(MemberApi.pending, (state) => {
@@ -86,9 +97,18 @@ export const Slice = createSlice({
         state.loading = false;
         state.error = action.payload.error;
       })
-      
+      .addCase(MembershipApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(MembershipApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.Memberships = action.payload;
+      })
+      .addCase(MembershipApi.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
   },
-
 });
 
 export const {
@@ -103,6 +123,6 @@ export const {
   setAttributes,
   setAtbutes,
   setCategory,
-  setArticle
+  setArticle,
 } = Slice.actions;
 export default Slice.reducer;
