@@ -27,7 +27,10 @@ export default function CreateMember() {
     initialValues,
     validationSchema: YUP_VALIDATION,
     onSubmit: async (values) => {
-      console.log("Final submit:", values);
+      // Form submission logged in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log("Final submit:", values);
+      }
       try {
         try {
           const formData = new FormData();
@@ -61,7 +64,7 @@ export default function CreateMember() {
             }, 500);
           }
         } catch (error) {
-          toast.error(error.response?.data?.error);
+          toast.error(error.response?.data?.error || "Something went wrong");
         }
       } catch (error) {
         toast.error("Something Went Wrong");

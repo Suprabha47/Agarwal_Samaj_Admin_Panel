@@ -1,11 +1,14 @@
 import './App.css';
 import Routes from './Admin_Panel_Frontend/Router/Routes';
+import ErrorBoundary from './Admin_Panel_Frontend/Components/ErrorBoundary/ErrorBoundary';
 
 function App() {
   return (
-    <div className="App">
-      <Routes/>
-    </div>
+    <ErrorBoundary>
+      <div className="App">
+        <Routes/>
+      </div>
+    </ErrorBoundary>
   );
 }
 

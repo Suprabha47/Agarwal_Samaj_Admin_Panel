@@ -13,25 +13,30 @@ export default function HomeSliderImage() {
   const [altText, setAltText] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ✅ Provide fallback empty array
   const SliderImages = useSelector((state) => state.app.SliderImages || []);
   const dispatch = useDispatch();
+  const [loadingImages, setLoadingImages] = useState({});
+
+  const fetchImages = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/sliders`
+      );
+      if (response.data) {
+        dispatch(setSliderImages(response.data));
+      }
+    } catch (err) {
+      toast.error("Failed to fetch images.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(async () => {
-      try {
-        const response = await axios.get("http://localhost:4005/api/sliders");
-        if (response.data) {
-          dispatch(setSliderImages(response.data));
-        }
-      } catch (err) {
-        toast.error("Failed to fetch images.");
-      } finally {
-        setLoading(false);
-      }
+    const timer = setTimeout(() => {
+      fetchImages();
     }, 300);
-
     return () => clearTimeout(timer);
   }, [dispatch]);
 
@@ -50,20 +55,18 @@ export default function HomeSliderImage() {
     formData.append("alt_text", altText);
 
     try {
-      const response = await axios.post(
-        "http://localhost:4005/api/sliders",
+      await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/sliders`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      if (response.data) {
-        toast.success("Image uploaded successfully!");
-        setImage(null);
-        setAltText("");
-        window.location.href = "/sliderImages";
-      }
+      toast.success("Image uploaded successfully!");
+      setImage(null);
+      setAltText("");
+      await fetchImages();
     } catch (err) {
       toast.error("Upload failed.");
     }
@@ -71,13 +74,17 @@ export default function HomeSliderImage() {
 
   const handleRemove = async (id) => {
     try {
-      await axios.delete(`http://localhost:4005/api/sliders/${id}`);
+      await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/api/sliders/${id}`
+      );
       toast.success("Deleted successfully!");
-      window.location.href = "/sliderImages";
+      await fetchImages();
     } catch (error) {
       toast.error("Failed to delete image.");
     }
   };
+
+  const getSliderId = (item) => item?.id ?? item?.slider_id ?? item?.image_id ?? item?._id;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -126,30 +133,35 @@ export default function HomeSliderImage() {
               </div>
 
               <div className="mb-4">
-   <input
-    id="file-upload"
-    name="image_path"
-    type="file"
-    accept="image/png, image/jpeg, image/jpg"
-    onChange={handleImageChange}
-    className="hidden"
-    required
-  />
+                <input
+                  id="file-upload"
+                  name="image_path"
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  required
+                />
 
-  <label
-    htmlFor="file-upload"
-    className="inline-flex items-center justify-between gap-2 bg-gray-200 border border-gray-300 text-gray-400 px-4 py-2 rounded cursor-pointer hover:bg-gray-200 transition w-full sm:w-2/3"
-  >
-    <span className="truncate text-gray-700">
-      {image ? image.name : "No file chosen"}
-    </span>
-    <span className="text-md text-gray-500 font-semibold">Choose File</span>
-  </label>
-  
-  <p className="mt-2 text-sm text-gray-500">
-    Allowed formats: <span className="font-medium text-gray-700">.jpg, .jpeg, .png</span>
-  </p>
-</div>
+                <label
+                  htmlFor="file-upload"
+                  className="inline-flex items-center justify-between gap-2 bg-gray-200 border border-gray-300 text-gray-400 px-4 py-2 rounded cursor-pointer hover:bg-gray-200 transition w-full sm:w-2/3"
+                >
+                  <span className="truncate text-gray-700">
+                    {image ? image.name : "No file chosen"}
+                  </span>
+                  <span className="text-md text-gray-500 font-semibold">
+                    Choose File
+                  </span>
+                </label>
+
+                <p className="mt-2 text-sm text-gray-500">
+                  Allowed formats:{" "}
+                  <span className="font-medium text-gray-700">
+                    .jpg, .jpeg, .png
+                  </span>
+                </p>
+              </div>
 
               <button
                 type="submit"
@@ -170,36 +182,61 @@ export default function HomeSliderImage() {
               </div>
             ) : SliderImages.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {SliderImages.map((item) => (
-                  <div
-                    key={item.id}
-                    className="bg-white rounded-lg shadow-md overflow-hidden"
-                  >
-                    <img
-                      src={`${
-                        process.env.REACT_APP_BACKEND_URL
-                      }${item.image_path.replace(/\\/g, "/")}`}
-                      alt={item.alt_text}
-                      className="w-full h-70 object-cover"
-                    />
-                    <div className="p-3 flex gap-22">
-                      <p className="font-medium text-gray-700 mb-2">
-                        Title: {item.alt_text}
-                      </p>
-                      <button
-                        onClick={() => handleRemove(item.id)}
-                        className="text-md font-bold mb-2 text-red-600"
-                      >
-                        Remove
-                      </button>
-                      {item.created_at && (
-                        <p className="font-semibold text-md">
-                          {item.created_at.split("T")[0]}
+                {SliderImages.map((item, index) => {
+                  const keyId = getSliderId(item) ?? `${item.alt_text || 'slider'}-${index}`;
+                  const isLoading = loadingImages[keyId] !== false;
+                  return (
+                    <div
+                      key={keyId}
+                      className="bg-white rounded-lg shadow-md overflow-hidden"
+                    >
+                      <div className="relative">
+                        {isLoading && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/5">
+                            <div className="w-10 h-10 border-4 border-gray-700 border-t-transparent rounded-full animate-spin" />
+                          </div>
+                        )}
+                        {item.image_path ? (
+                          <img
+                            src={`${
+                              process.env.REACT_APP_BACKEND_URL
+                            }${item.image_path?.replace(/\\/g, "/") || '/default-image.jpg'}`}
+                            alt={item.alt_text}
+                            className="w-full h-70 object-cover"
+                            onLoad={() => setLoadingImages((prev) => ({ ...prev, [keyId]: false }))}
+                            onError={(e) => {
+                              e.currentTarget.src = "fallback-image-url.jpg";
+                              setLoadingImages((prev) => ({ ...prev, [keyId]: false }));
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src="fallback-image-url.jpg"
+                            alt="Fallback "
+                            className="w-full h-70 object-cover"
+                            onLoad={() => setLoadingImages((prev) => ({ ...prev, [keyId]: false }))}
+                          />
+                        )}
+                      </div>
+                      <div className="p-3 flex gap-22">
+                        <p className="font-medium text-gray-700 mb-2">
+                          Title: {item.alt_text}
                         </p>
-                      )}
+                        <button
+                          onClick={() => handleRemove(getSliderId(item))}
+                          className="text-md font-bold mb-2 text-red-600"
+                        >
+                          Remove
+                        </button>
+                        {item.created_at && (
+                          <p className="font-semibold text-md">
+                            {item.created_at ? item.created_at.split("T")[0] : 'N/A'}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <p className="text-gray-500 text-center">No images found.</p>

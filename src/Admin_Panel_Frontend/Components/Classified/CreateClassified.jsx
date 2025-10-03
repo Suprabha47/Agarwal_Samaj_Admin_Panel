@@ -38,7 +38,7 @@ export default function CreateClassified() {
         }
 
         const response = await axios.post(
-          `http://localhost:4005/api/classifieds/register`,
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/register`,
           formData,
           {
             headers: {
@@ -52,11 +52,11 @@ export default function CreateClassified() {
           resetForm();
           setPreviewImages([]);
           setTimeout(() => {
-            window.location.href='/classified';
+            window.location.href = "/classified";
           }, 500);
         }
       } catch (error) {
-        toast.error(error.response?.data?.error);
+        toast.error(error.response?.data?.error || "Failed to create classified");
       }
     },
   });
@@ -249,7 +249,7 @@ export default function CreateClassified() {
                   <option value="Healthcare">Healthcare</option>
                 </select>
               </div>
-              
+
               {/* Photos */}
               <div className="md:col-span-2">
                 <label className="block text-gray-700 font-medium mb-1">
@@ -284,8 +284,6 @@ export default function CreateClassified() {
                   ))}
                 </div>
               </div>
-
-            
             </div>
 
             {/* Submit Button */}

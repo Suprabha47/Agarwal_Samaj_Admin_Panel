@@ -31,9 +31,9 @@ export default function ViewClassified() {
       let endpoint = "";
 
       if (status === "approve") {
-        endpoint = `http://localhost:4005/api/classifieds/${id}/approve`;
+        endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}/approve`;
       } else if (status === "disapprove") {
-        endpoint = `http://localhost:4005/api/classifieds/${id}/disapprove`;
+        endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}/disapprove`;
       } else {
         toast.error("Invalid action");
         return;
@@ -49,7 +49,7 @@ export default function ViewClassified() {
         }
       );
       toast.success(res?.data?.message); // ✅ Now you have the real response data
-      window.location.href='/classified'
+      window.location.href = "/classified";
     } catch (err) {
       console.error("Error: ", err);
       toast.error(err.response?.data?.message || err.message);
@@ -123,18 +123,21 @@ export default function ViewClassified() {
                 {ClassifiedMember?.photos?.length > 0
                   ? photos?.map((photo, index) => (
                       <img
-                        key={index}
+                        key={`photo-${photo}-${index}`}
                         src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${photo}`}
                         alt={`thumbnail-${index}`}
                         className={`w-full h-24 object-cover rounded-lg ${
                           index === 0 ? "border-2 border-blue-500" : ""
                         }`}
+                        onError={(e) => {
+                          e.target.src = "https://via.placeholder.com/150";
+                        }}
                       />
                     ))
                   : // Fallback thumbnails if no photos exist
                     Array.from({ length: 4 }).map((_, index) => (
                       <img
-                        key={index}
+                        key={`placeholder-${index}`}
                         src="https://via.placeholder.com/150"
                         alt={`placeholder-${index}`}
                         className="w-full h-24 object-cover rounded-lg"
@@ -149,26 +152,26 @@ export default function ViewClassified() {
               <div className="bg-gray-700 text-white p-5 rounded-xl shadow-lg">
                 <h2 className="font-semibold text-lg mb-4">Moderation</h2>
                 <div className="flex flex-col gap-3">
-                  {
-                    ClassifiedMember.status==="approved"?"":
+                  {ClassifiedMember.status === "approved" ? (
+                    ""
+                  ) : (
                     <button
-                    className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition"
-                    onClick={() => handleClick("approve")}
-                  
-                  >
-                    Approve
-                  </button>
-                  }
-                  {
-                    ClassifiedMember.status==='disapproved'?"":
+                      className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition"
+                      onClick={() => handleClick("approve")}
+                    >
+                      Approve
+                    </button>
+                  )}
+                  {ClassifiedMember.status === "disapproved" ? (
+                    ""
+                  ) : (
                     <button
-                    className="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 transition"
-                    onClick={() => handleClick("disapprove")}
-                  >
-                    Reject
-                  </button>
-                  }
-                  
+                      className="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 transition"
+                      onClick={() => handleClick("disapprove")}
+                    >
+                      Reject
+                    </button>
+                  )}
                 </div>
                 <p className="text-sm text-gray-300 mt-3">
                   Note: Review reports before approval.

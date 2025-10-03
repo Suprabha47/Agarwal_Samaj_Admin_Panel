@@ -31,177 +31,182 @@ import Membership from "../Components/Membership/Membership";
 import CreateMembership from "../Components/Membership/MembershipForm";
 
 export default function Routes() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <PublicRoute>
-          <SignIn />
-        </PublicRoute>
-      ),
-    },
-    {
-      path: "/signup",
-      element: (
-        <PublicRoute>
-          <SignUp />
-        </PublicRoute>
-      ),
-    },
-    {
-      path: "/dashboard",
-      element: (
-        <ProtectedRoute>
-          <Home />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/members",
-      element: (
-        <ProtectedRoute>
-          <MemberOutlet />
-        </ProtectedRoute>
-      ),
-      children: [
-        {
-          path: "createMember",
-          element: <CreateMember />,
-        },
-        {
-          index: true,
-          element: <Member />,
-        },
-        {
-          path: "member/:id",
-          element: <ViewMember />,
-        },
-        {
-          path: "updateMember/:id",
-          element: <UpdateMember />,
-        },
-      ],
-    },
-    {
-      path: "/classified",
-      element: (
-        <ProtectedRoute>
-          <ClassifiedOutlet />
-        </ProtectedRoute>
-      ),
-      children: [
-        {
-          index: true,
-          element: <Classified />,
-        },
-        {
-          path: "createClassified",
-          element: <CreateClassified />,
-        },
-        {
-          path: ":id",
-          element: <ViewClassified />,
-        },
-        {
-          path: "updateClassified/:id",
-          element: <UpdateClassified />,
-        },
-      ],
-    },
-    {
-      path: "/donations",
-      element: (
-        <ProtectedRoute>
-          <Donation />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/attributes",
-      element: (
-        <ProtectedRoute>
-          <Attributes />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/sliderImages",
-      element: (
-        <ProtectedRoute>
-          <HomeSliderImage />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/gallery",
-      element: (
-        <ProtectedRoute>
-          <Gallery />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/blog/articles",
-      element: (
-        <ProtectedRoute>
-          <BlogOutlet />
-        </ProtectedRoute>
-      ),
-      children: [
-        {
-          index: true,
-          element: <Articles />,
-        },
-        {
-          path: "article/:Id",
-          element: <ViewArticle />,
-        },
-      ],
-    },
-    {
-      path: "/blog/create",
-      element: (
-        <ProtectedRoute>
-          <CreateArticle />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/blog/update/article/:Id",
-      element: (
-        <ProtectedRoute>
-          <UpdateArticle />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/blog/category",
-      element: (
-        <ProtectedRoute>
-          <Category />
-        </ProtectedRoute>
-      ),
-    },
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <PublicRoute>
+            <SignIn />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <PublicRoute>
+            <SignUp />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/members",
+        element: (
+          <ProtectedRoute>
+            <MemberOutlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: "createMember",
+            element: <CreateMember />,
+          },
+          {
+            index: true,
+            element: <Member />,
+          },
+          {
+            path: "member/:id",
+            element: <ViewMember />,
+          },
+          {
+            path: "updateMember/:id",
+            element: <UpdateMember />,
+          },
+        ],
+      },
+      {
+        path: "/classified",
+        element: (
+          <ProtectedRoute>
+            <ClassifiedOutlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Classified />,
+          },
+          {
+            path: "createClassified",
+            element: <CreateClassified />,
+          },
+          {
+            path: ":id",
+            element: <ViewClassified />,
+          },
+          {
+            path: "updateClassified/:id",
+            element: <UpdateClassified />,
+          },
+        ],
+      },
+      {
+        path: "/donations",
+        element: (
+          <ProtectedRoute>
+            <Donation />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/attributes",
+        element: (
+          <ProtectedRoute>
+            <Attributes />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/sliderImages",
+        element: (
+          <ProtectedRoute>
+            <HomeSliderImage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/gallery",
+        element: (
+          <ProtectedRoute>
+            <Gallery />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/blog/articles",
+        element: (
+          <ProtectedRoute>
+            <BlogOutlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Articles />,
+          },
+          {
+            path: "article/:Id",
+            element: <ViewArticle />,
+          },
+        ],
+      },
+      {
+        path: "/blog/create",
+        element: (
+          <ProtectedRoute>
+            <CreateArticle />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/blog/update/article/:Id",
+        element: (
+          <ProtectedRoute>
+            <UpdateArticle />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/blog/category",
+        element: (
+          <ProtectedRoute>
+            <Category />
+          </ProtectedRoute>
+        ),
+      },
 
+      {
+        path: "/membership",
+        element: (
+          <ProtectedRoute>
+            <MembershipOutlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Membership />,
+          },
+          {
+            path: "form",
+            element: <CreateMembership />,
+          },
+        ],
+      },
+    ],
     {
-      path: "/membership",
-      element: (
-        <ProtectedRoute>
-          <MembershipOutlet />
-        </ProtectedRoute>
-      ),
-      children: [
-        {
-          index: true,
-          element: <Membership />,
-        },
-        {
-          path: "form",
-          element: <CreateMembership />,
-        },
-      ],
-    },
-  ]);
+      basename: "/admin",
+    }
+  );
 
   return <RouterProvider router={router} />;
 }

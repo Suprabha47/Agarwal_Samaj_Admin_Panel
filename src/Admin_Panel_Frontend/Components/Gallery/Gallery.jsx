@@ -9,12 +9,10 @@ export default function Gallery() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const albumImageInputRef = useRef(null);
 
- 
   const [albumTitle, setAlbumTitle] = useState("");
   const [albumDescription, setAlbumDescription] = useState("");
   const [coverImage, setCoverImage] = useState(null);
   const [eventDate, setEventDate] = useState("");
-
 
   const [albums, setAlbums] = useState([]);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
@@ -37,7 +35,9 @@ export default function Gallery() {
   const fetchAlbums = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:4005/api/albums");
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/albums`
+      );
       setAlbums(res.data || []);
     } catch (err) {
       toast.error("Failed to load albums.");
@@ -65,7 +65,7 @@ export default function Gallery() {
       toast.error("Please fill all fields and choose a cover image.");
       return;
     }
-     
+
     const formData = new FormData();
     formData.append("album_title", albumTitle);
     formData.append("album_description", albumDescription);
@@ -73,9 +73,13 @@ export default function Gallery() {
     formData.append("event_date", eventDate);
 
     try {
-      await axios.post("http://localhost:4005/api/albums", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/albums`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       toast.success("Album created successfully!");
       resetForm();
@@ -97,7 +101,7 @@ export default function Gallery() {
 
     try {
       await axios.put(
-        `http://localhost:4005/api/albums/${editAlbumId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/albums/${editAlbumId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -113,24 +117,25 @@ export default function Gallery() {
   };
 
   const handleDeleteAlbum = (albumId) => {
-  confirmToast("Are you sure you want to delete this album?", async () => {
-    try {
-      await axios.delete(`http://localhost:4005/api/albums/${albumId}`);
-      toast.success("Album deleted successfully!");
-      fetchAlbums();
-      if (selectedAlbum === albumId) setSelectedAlbum(null);
-    } catch (err) {
-      toast.error("Failed to delete album.");
-    }
-  });
-};
-
+    confirmToast("Are you sure you want to delete this album?", async () => {
+      try {
+        await axios.delete(
+          `${process.env.REACT_APP_BACKEND_URL}/api/albums/${albumId}`
+        );
+        toast.success("Album deleted successfully!");
+        fetchAlbums();
+        if (selectedAlbum === albumId) setSelectedAlbum(null);
+      } catch (err) {
+        toast.error("Failed to delete album.");
+      }
+    });
+  };
 
   const handleSelectAlbum = async (albumId) => {
     setSelectedAlbum(albumId);
     try {
       const res = await axios.get(
-        `http://localhost:4005/api/albums/${albumId}/images`
+        `${process.env.REACT_APP_BACKEND_URL}/api/albums/${albumId}/images`
       );
       setAlbumImages(res.data || []);
     } catch (err) {
@@ -154,7 +159,7 @@ export default function Gallery() {
 
     try {
       await axios.post(
-        `http://localhost:4005/api/albums/${selectedAlbum}/images`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/albums/${selectedAlbum}/images`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -169,7 +174,9 @@ export default function Gallery() {
   };
   const handleDeleteImage = async (imageId) => {
     try {
-      await axios.delete(`http://localhost:4005/api/images/${imageId}`);
+      await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/api/images/${imageId}`
+      );
       toast.success("Image deleted successfully!");
       handleSelectAlbum(selectedAlbum); // refresh images
     } catch (err) {
@@ -384,6 +391,9 @@ export default function Gallery() {
                         src={`${process.env.REACT_APP_BACKEND_URL}/${img.image_url}`}
                         alt={img.alt_text || "Album Image"}
                         className="w-full h-40 object-cover"
+                        onError={(e) => {
+                          e.target.src = "https://via.placeholder.com/300x200";
+                        }}
                       />
                     </div>
                   ))
@@ -402,7 +412,6 @@ export default function Gallery() {
     </div>
   );
 }
-
 
 export const confirmToast = (message, onConfirm) => {
   toast.custom((t) => (

@@ -88,7 +88,10 @@ export default function Member() {
         })
         .catch((err) => toast.error("Something Went Wrong", err));
     } catch (error) {
-      console.log(error);
+      // Error logged in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log(error);
+      }
     } finally {
       setConfirmDelete(null); // close modal
     }

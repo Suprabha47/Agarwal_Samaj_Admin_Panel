@@ -47,12 +47,15 @@ export default function ViewArticle() {
             <article className="bg-white shadow-xl rounded-lg overflow-hidden">
               {/* Thumbnail */}
               <img
-                src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${Article.thumbnail_url.replace(
+                src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${Article.thumbnail_url?.replace(
                   /\\/g,
                   "/"
-                )}`}
+                ) || 'default-thumbnail.jpg'}`}
                 alt={Article.title}
                 className="w-[96%] m-5 rounded-md h-64 object-cover sm:h-80"
+                onError={(e) => {
+                  e.target.src = "https://via.placeholder.com/600x400";
+                }}
               />
 
               <div className="p-6 sm:p-8">
@@ -71,7 +74,7 @@ export default function ViewArticle() {
   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
 </svg>
 
-                    {Article.author_name}
+                    {Article.author_name || 'Unknown Author'}
                   </span>
                   <span className="flex gap-1 font-medium text-md"> 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">

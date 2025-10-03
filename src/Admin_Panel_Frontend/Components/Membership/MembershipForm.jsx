@@ -13,10 +13,16 @@ export default function CreateMembership() {
     initialValues,
     validationSchema: ValidationSchema,
     onSubmit: async (values, { resetForm }) => {
-      console.log("Submitting values:", values);
+      // Form submission logged in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log("Submitting values:", values);
+      }
       try {
         setSubmitting(true);
-        console.log("set submitting");
+        // Form state logged in development only
+        if (process.env.NODE_ENV === 'development') {
+          console.log("set submitting");
+        }
         const formData = new FormData();
 
         Object.keys(values).forEach((key) => {
@@ -28,10 +34,13 @@ export default function CreateMembership() {
           }
         });
 
-        console.log("set form data");
+        // Form data logged in development only
+        if (process.env.NODE_ENV === 'development') {
+          console.log("set form data");
+        }
 
         const response = await axios.post(
-          "http://localhost:4005/api/membership",
+          `${process.env.REACT_APP_BACKEND_URL}/api/membership`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

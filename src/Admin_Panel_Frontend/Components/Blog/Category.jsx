@@ -18,7 +18,7 @@ export default function Category() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4005/api/blogs/categories")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/blogs/categories`)
       .then((response) => {
         dispatch(setCategory(response.data));
       })
@@ -38,7 +38,7 @@ export default function Category() {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:4005/api/blogs/category",
+          `${process.env.REACT_APP_BACKEND_URL}/api/blogs/category`,
           items
         );
         if (response?.data) {
@@ -46,7 +46,10 @@ export default function Category() {
           setCatDescription("");
           setCategoryName("");
           setIsOpen(false);
-          window.location.href = "/blog/category";
+          const updatedCategories = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}/api/blogs/categories`
+          );
+          dispatch(setCategory(updatedCategories.data));
         }
       } catch (error) {
         toast.error("Something Went Wrong");
@@ -56,10 +59,14 @@ export default function Category() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:4005/api/blogs/category/${id}`);
+      await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/api/blogs/category/${id}`
+      );
       toast.success("Category Deleted Successfully");
       // Refresh categories
-      const response = await axios.get("http://localhost:4005/api/blogs/categories");
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/blogs/categories`
+      );
       dispatch(setCategory(response.data));
     } catch (error) {
       toast.error("Failed to Delete Category");

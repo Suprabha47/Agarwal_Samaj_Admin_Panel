@@ -29,13 +29,16 @@ export default function Classified() {
       try {
         // console.log(`${process.env.REACT_APP_BACKEND_URL}/api/classifieds`)
         const response = await axios.get(
-          `http://localhost:4005/api/classifieds`
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds`
         );
 
         dispatch(setClassified(response.data));
       } catch (err) {
         setError(err);
-        console.log("listing error: ", err);
+        // Error logged in development only
+        if (process.env.NODE_ENV === 'development') {
+          console.log("listing error: ", err);
+        }
       }
     }, 500);
     return () => clearTimeout(timer);
@@ -56,7 +59,7 @@ export default function Classified() {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4005/api/classifieds/${id}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}`
       );
       if (response.data) {
         toast.success("Deleted successfully");
@@ -64,7 +67,7 @@ export default function Classified() {
         setConfirmDelete(null);
       }
     } catch (error) {
-      toast.error(error.response?.data?.error);
+      toast.error(error.response?.data?.error || "Failed to delete item");
       setConfirmDelete(null);
     }
   };

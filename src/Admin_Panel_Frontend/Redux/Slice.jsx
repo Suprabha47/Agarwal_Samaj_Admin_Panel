@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { createSafeError } from "../../utils/errorUtils";
 
 export const MemberApi = createAsyncThunk("members/fetchAll", async () => {
   let response = await axios.get(
@@ -95,7 +96,7 @@ export const Slice = createSlice({
       })
       .addCase(MemberApi.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.error;
+        state.error = createSafeError(action.error);
       })
       .addCase(MembershipApi.pending, (state) => {
         state.loading = true;
@@ -106,7 +107,7 @@ export const Slice = createSlice({
       })
       .addCase(MembershipApi.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = createSafeError(action.error);
       });
   },
 });

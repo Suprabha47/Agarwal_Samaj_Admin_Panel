@@ -43,26 +43,33 @@ export default function SignIn() {
         setLoading(true);
 
         const response = await axios.post(
-          "http://localhost:4005/api/auth/sign-in",
+          `${process.env.REACT_APP_BACKEND_URL}/api/auth/sign-in`,
           { email, password },
           { headers: { "Content-Type": "application/json" } }
         );
 
-        console.log("✅ Login success:", response.data);
-
+        // Login success logged in development only
+        if (process.env.NODE_ENV === 'development') {
+          console.log("✅ Login success:", response.data);
+        }
 
         // 🔑 Store token
         if (response.data.token) {
-          toast.success("Login Successfully")
+          toast.success("Login Successfully");
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
-          localStorage.setItem("id",response.data.id);  
-          localStorage.setItem("name",response.data.name)
-          
+          localStorage.setItem("id", response.data.id);
+          localStorage.setItem("name", response.data.name);
         }
 
         // Update redux login state
-        dispatch(login({ role: response?.data?.role,id:response?.data?.id,name:response?.data.name }));
+        dispatch(
+          login({
+            role: response?.data?.role,
+            id: response?.data?.id,
+            name: response?.data.name,
+          })
+        );
 
         // Navigate to dashboard
         Navigate("/dashboard");

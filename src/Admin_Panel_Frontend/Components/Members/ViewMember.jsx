@@ -58,18 +58,18 @@ export default function ViewMember() {
               <img
                 src={`${
                   process.env.REACT_APP_BACKEND_URL
-                }/uploads/${Member.image_path.replace(/\\/g, "/")}`}
+                }/uploads/${Member.image_path?.replace(/\\/g, "/") || 'default-avatar.jpg'}`}
                 alt={Member.name}
                 className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-700 shadow-md hover:scale-110 transition-transform duration-500"
               />
               {/* Info */}
               <div className="flex-1 mt-4 md:mt-0 md:ml-6">
-                <h1 className="text-2xl font-bold">{Member.name}</h1>
+                <h1 className="text-2xl font-bold">{Member.name || 'Unknown Member'}</h1>
                 <p className="text-gray-300">
-                  {Member.district}, {Member.state}
+                  {Member.district || 'N/A'}, {Member.state || 'N/A'}
                 </p>
                 <p className="text-gray-300">
-                  {Member.height} • {Member.education} • {Member.occupation}
+                  {Member.height || 'N/A'} • {Member.education || 'N/A'} • {Member.occupation || 'N/A'}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-2">
                   <span className="px-3 py-1 text-sm bg-gray-700 rounded-full">

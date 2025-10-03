@@ -21,48 +21,47 @@ export default function UpdateClassified() {
     validationSchema: Create_Validation_Schema,
     onSubmit: async (values) => {
       try {
-    const formData = new FormData();
+        const formData = new FormData();
 
-    // Append normal fields
-    formData.append("person_name", values.person_name);
-    formData.append("firm_name", values.firm_name);
-    formData.append("firm_address", values.firm_address);
-    formData.append("phone", values.phone);
-    formData.append("email", values.email);
-    formData.append("website", values.website);
-    formData.append("business_category", values.business_category);
+        // Append normal fields
+        formData.append("person_name", values.person_name);
+        formData.append("firm_name", values.firm_name);
+        formData.append("firm_address", values.firm_address);
+        formData.append("phone", values.phone);
+        formData.append("email", values.email);
+        formData.append("website", values.website);
+        formData.append("business_category", values.business_category);
 
-    // Append new photos
-    if (values.photos && values.photos.length > 0) {
-      values.photos.forEach((file) => {
-        formData.append("photos", file);
-      });
-    }
+        // Append new photos
+        if (values.photos && values.photos.length > 0) {
+          values.photos.forEach((file) => {
+            formData.append("photos", file);
+          });
+        }
 
-    // Append deleted photos
-    if (deletedImages.length > 0) {
-      formData.append("deletedPhotos", JSON.stringify(deletedImages));
-    }
+        // Append deleted photos
+        if (deletedImages.length > 0) {
+          formData.append("deletedPhotos", JSON.stringify(deletedImages));
+        }
 
-    const response = await axios.put(
-      `http://localhost:4005/api/classifieds/${id}`,
-      formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
+        const response = await axios.put(
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
 
-    if (response.data) {
-      toast.success("Classified Updated Successfully");
+        if (response.data) {
+          toast.success("Classified Updated Successfully");
 
-      setTimeout(() => {
-        setDeletedImages([]); // Reset deleted images
-        window.location.href = "/classified";
-      }, 500);
-    }
-  } catch (error) {
-    toast.error(error.response?.data?.error || "Update failed");
-  }
-    }
-
+          setTimeout(() => {
+            setDeletedImages([]); // Reset deleted images
+            window.location.href = "/classified";
+          }, 500);
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.error || "Update failed");
+      }
+    },
   });
 
   // Fetch existing classified data
@@ -70,7 +69,7 @@ export default function UpdateClassified() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4005/api/classifieds/${id}`
+          `${process.env.REACT_APP_BACKEND_URL}/api/classifieds/${id}`
         );
         const data = response.data;
 
